@@ -1,0 +1,36 @@
+<?page title="${c:l('system.title')}" contentType="text/html;charset=UTF-8"?>
+<?link rel="shortcut icon" href="../images/favicon.ico" ?>
+<zk>
+<div width="100%" height="400px">
+	<div width="100%" align="right"
+		style="padding-top:10px;padding-bottom:10px;padding-right:10px;">
+		<button image="../images/table_add.png" label="${c:l('add.line')}"
+			sclass="link" onClick="@command('addLineWorkExp')">
+		</button>
+	</div>
+	<grid hflex="max" model="@load(vm.workExps)" mold="paging" pageSize="7">
+		<columns height="22px">
+			<column width="150px" label="${c:l('applicationform.workexp.company')}" align="center"></column>
+			<column width="75px" label="${c:l('applicationform.workexp.startdate')}" align="center"></column>
+			<column width="75px" label="${c:l('applicationform.workexp.enddate')}" align="center"></column>
+			<column width="100px" label="${c:l('applicationform.workexp.position')}" align="center"></column>
+			<column width="200px" label="${c:l('applicationform.workexp.jobdescription')}" align="center"></column>
+			<column width="75px" label="${c:l('applicationform.workexp.salary')}" align="center"></column>
+			<column width="200px" label="${c:l('applicationform.workexp.reasonresign')}" align="center"></column>
+			<column width="150px" label="${c:l('applicationform.workexp.tel')}" align="center"></column>
+		</columns>
+		<template name="model">
+			<row>
+				<textbox value="@bind(each.companyName)" width="99%" />
+				<textbox value="@bind(each.startDate)" width="99%" />
+				<textbox value="@bind(each.endDate)" width="99%" />
+				<textbox value="@bind(each.position)" width="99%" />
+				<textbox value="@bind(each.jobDescription)" width="99%" />
+				<textbox value="@bind(each.salary)" width="99%" />
+				<textbox value="@bind(each.reasonResign)" width="99%" />
+				<textbox value="@bind(each.tel)" width="99%" />
+			</row>
+		</template>
+	</grid>
+</div>	
+</zk>

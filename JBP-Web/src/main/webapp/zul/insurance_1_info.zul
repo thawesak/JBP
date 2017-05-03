@@ -1,0 +1,101 @@
+<?page title="${c:l('system.title')}" contentType="text/html;charset=UTF-8"?>
+<?link rel="shortcut icon" href="../images/favicon.ico" ?>
+<zk>
+<div width="100%" height="400px">
+	<grid width="100%" style="border:0px;">
+		<rows>
+			<row>
+				<cell width="160px" align="right">
+					<label value="${c:l('insurance.1.company.name')}"></label>
+				</cell>
+				<cell width="10px">
+					<label value=":"></label>
+				</cell>
+				<cell align="left">
+					<textbox value="@bind(vm.insurancePartsM.companyName)"
+						width="400px">
+					</textbox>
+				</cell>
+			</row>
+			<row>
+				<cell width="160px" align="right">
+					<label value="${c:l('insurance.1.reference.code')}"></label>
+				</cell>
+				<cell width="10px">
+					<label value=":"></label>
+				</cell>
+				<cell align="left">
+					<textbox value="@bind(vm.insurancePartsM.referenceCode)"
+						width="140px">
+					</textbox>
+				</cell>
+			</row>
+			<row>
+				<cell width="160px" align="right">
+					<label value="${c:l('insurance.1.company.tel')}"></label>
+				</cell>
+				<cell width="10px">
+					<label value=":"></label>
+				</cell>
+				<cell align="left">
+					<textbox value="@bind(vm.insurancePartsM.companyTel)"
+						width="400px">
+					</textbox>
+				</cell>
+			</row>
+			<row>
+				<cell width="160px" align="right">
+					<label value="${c:l('insurance.1.description')}"></label>
+				</cell>
+				<cell width="10px">
+					<label value=":"></label>
+				</cell>
+				<cell align="left">
+					<textbox value="@bind(vm.insurancePartsM.description)" rows="5"
+						width="400px">
+					</textbox>
+				</cell>
+			</row>
+			<row>
+				<cell width="160px" align="right">
+					<label value="${c:l('insurance.1.remark')}"></label>
+				</cell>
+				<cell width="10px">
+					<label value=":"></label>
+				</cell>
+				<cell align="left">
+					<textbox value="@bind(vm.insurancePartsM.remark)" rows="5"
+						width="400px">
+					</textbox>
+				</cell>
+			</row>
+			<row visible="@bind(vm.mode ne 'ADD')">
+				<cell width="120px" align="right">
+					<label value="${c:l('update.by')}"></label>
+				</cell>
+				<cell width="10px">
+					<label value=":"></label>
+				</cell>
+				<cell align="left">
+					<textbox readonly="true"
+						value="@bind(vm.insurancePartsM.updateBy) @converter(vm.memberConverter)">
+					</textbox>
+				</cell>
+			</row>
+			<row visible="@bind(vm.mode ne 'ADD')">
+				<cell width="120px" align="right">
+					<label value="${c:l('update.date')}"></label>
+				</cell>
+				<cell width="10px">
+					<label value=":"></label>
+				</cell>
+				<cell align="left">
+					<textbox readonly="true"
+						value="@bind(vm.insurancePartsM.updateDate) @converter('formatedDate',format='dd/MM/yyyy hh:mm:ss')">
+					</textbox>
+				</cell>
+			</row>
+		</rows>
+	</grid>
+</div>	
+</zk>

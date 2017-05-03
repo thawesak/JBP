@@ -1,0 +1,92 @@
+.z-messagebox .z-label, .z-panel-header {
+	font-family: Verdana;
+	font-size: 12px;
+}
+
+.z-window-header {
+	color: white;
+	font-family: Verdana;
+	font-size: 12px;
+}
+
+.z-window-modal.z-window-shadow, .z-window-highlighted.z-window-shadow {
+	border-radius: 3px;
+	box-shadow: none;
+}
+
+.z-messagebox-window {
+	background-image: none;
+	background: transparent repeat-x 0 0;
+	background: #6B6B6B; /* Old browsers */
+	background-image: -ms-linear-gradient(top, #6B6B6B 0%, #6B6B6B 100%);
+	/* IE10+ */
+	background-image: -moz-linear-gradient(top, #6B6B6B 0%, #6B6B6B 100%);
+	/* Firefox 3.6+ */
+	background-image: -o-linear-gradient(top, #6B6B6B 0%, #6B6B6B 100%);
+	/* Opera 11.10+ */
+	background-image: -webkit-gradient(linear, top, bottom, color-stop(0%, #6B6B6B),
+		color-stop(100%,, #6B6B6B)); /* Chrome,Safari4+ */
+	background-image: -webkit-linear-gradient(top, #6B6B6B 0%, #6B6B6B 100%);
+	/* Chrome10+,Safari5.1+ */
+	background-image: linear-gradient(to bottom, #6B6B6B 0%, #6B6B6B 100%);
+	/* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient(
+		                     startColorstr='#6B6B6B', endColorstr='#6B6B6B',
+		GradientType=0); /* IE6-9 */
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	border-radius: 2px;
+} /* IE6-9 */
+
+/* ----------------------------------------------------------------------------------------------- */
+/*  Button			  		   													   	   			   */
+/* ----------------------------------------------------------------------------------------------- */
+.myMessagebox .z-button {
+	-moz-box-shadow: 0px 10px 14px -7px #000;
+	-webkit-box-shadow: 0px 10px 14px -7px #000;
+	box-shadow: 0px 10px 14px -7px #000;
+	background: #6B6B6B;
+	background: -webkit-gradient(linear, left top, left bottom, from(#6B6B6B),
+		to(#6B6B6B));
+	background: -moz-linear-gradient(top, #6B6B6B, #6B6B6B);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#6B6B6B',
+		endColorstr='#6B6B6B');
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	border-radius: 2px;
+	display: inline-block;
+	cursor: pointer;
+	color: #ffffff;
+	font-size: 11px;
+	padding: 5px 5px 5px 5px;
+	text-decoration: none;
+	text-shadow: 0px 1px 0px #C3C3C3;
+	border: medium none;
+	min-width: 65px;
+}
+
+.myMessagebox .z-button:hover {
+	background: #6B6B6B;
+	background: -webkit-gradient(linear, left top, left bottom, from(#C3C3C3),
+		to(#6B6B6B));
+	background: -moz-linear-gradient(top, #2b7701, #C3C3C3);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#C3C3C3',
+		endColorstr='#6B6B6B');
+	padding: 5px 5px 5px 5px;
+	font-weight: bold;
+}
+
+.myMessagebox .z-window-close, .z-window-icon:hover {
+	background: url('../images/dialog_close.png') transparent no-repeat 0 0;
+}
+
+.myMessagebox .z-window-icon {
+	border: medium none;
+	height: 24px;
+	padding-top: 10px;
+	width: 24px;
+}
+
+.myMessagebox .z-window-icon .z-icon-times:before {
+	content: none;
+}

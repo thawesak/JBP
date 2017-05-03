@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk>
+	<device-config>
+		<device-type>ajax</device-type>
+		<timeout-uri>/timeout.zul</timeout-uri><!-- An empty URL can cause the 
+			browser to reload the same URL -->
+		<embed>
+         <![CDATA[
+            <script type="text/javascript">
+                zUtl.progressbox = function(id, msg, mask, icon) {
+                msg = 'Please wait while the system is processing your request.' ; //
+                mask=true; //Ponemos este booleano a true para que el progressbox siempre aparezca como
+                			//una ventana modal (con todos los componentes de abajo deshabilitados)
+                    if (mask && zk.Page.contained.length) {
+                        for (var c = zk.Page.contained.length, e = zk.Page.contained[--c];                   
+                        e; e = zk.Page.contained[--c]) {
+                            if (!e._applyMask)
+                                e._applyMask = new zk.eff.Mask({
+                                    id: e.uuid + "-mask",
+                                    message: msg,
+                                    anchor: e.$n()
+                                });
+                        }
+                        return;
+                    }
+
+                    if (mask)
+                        zk.isBusy++;
+
+                    var x = jq.innerX(), y = jq.innerY(),
+                        style = ' style="left:'+x+'px;top:'+y+'px"',
+                        idtxt = id + '-t',
+                        idmsk = id + '-m',
+                        html = '<div id="'+id+'"';
+                    if (mask)
+                        html += '><div id="' + idmsk + '" class="z-modal-mask"'+style+'></div';
+                    html += '><div id="'+idtxt+'" class="z-loading"'+style
+                        +'><div class="z-loading-indicator"><span class="z-loading-icon"></span> '
+                        +msg+'</div></div>';
+                    if (icon)
+                        html += '<div class="' + icon + '"></div>';
+                    jq(document.body).append(html + '</div>');
+                    var $n = jq(id, zk),
+                        n = $n[0],
+                        $txt = jq(idtxt, zk);
+                    if (mask)
+                        n.z_mask = new zk.eff.FullMask({
+                            mask: jq(idmsk, zk)[0],
+                            zIndex: $txt.css('z-index') - 1
+                        });
+
+                    //center
+                    var txt = $txt[0],
+                        st = txt.style;
+                    st.left = jq.px((jq.innerWidth() - txt.offsetWidth) / 2 + x);
+                    st.top = jq.px((jq.innerHeight() - txt.offsetHeight) / 2 + y);
+
+                    $n.zk.cleanVisibility();
+                }                       
+            </script>]]>
+		</embed>
+	</device-config>
+	
+	<library-property>
+		<name>org.zkoss.zul.theme.fontSizeM</name>
+		<value>12px</value>
+	</library-property>
+
+	<library-property>
+		<name>org.zkoss.zul.theme.fontSizeMS</name>
+		<value>12px</value>
+	</library-property>
+
+	<library-property>
+		<name>org.zkoss.zul.theme.fontSizeS</name>
+		<value>12px</value>
+	</library-property>
+
+	<library-property>
+		<name>org.zkoss.zul.theme.fontSizeXS</name>
+		<value>12px</value>
+	</library-property>
+
+	<library-property>
+		<name>org.zkoss.zul.theme.fontFamilyC</name>
+		<value>sans-serif, Tahoma, Arial, Verdana, Helvetica</value>
+	</library-property>
+
+	<library-property>
+		<name>org.zkoss.zul.theme.fontFamilyT</name>
+		<value>sans-serif, Tahoma, Arial, Verdana, Helvetica</value>
+	</library-property>
+
+	<library-property>
+		<name>org.zkoss.util.label.classpath.charset</name>
+		<value>UTF-8</value>
+	</library-property>
+
+	<library-property>
+		<name>org.zkoss.util.label.web.charset</name>
+		<value>UTF-8</value>
+	</library-property>
+
+<!-- 	<library-property>
+		<name>org.zkoss.theme.preferred</name>
+		<value>breeze</value>
+	</library-property> -->
+
+	<library-property>
+		<name>org.zkoss.util.logging.config.file</name>
+		<value>/zk-log.properties</value>
+	</library-property>
+	
+	<!-- <listener> <listener-class>com.th.jbp.interceptor.WebEventInterceptor 
+		</listener-class> </listener> -->
+		
+	<library-property>
+		<name>org.zkoss.zul.progressbox.position</name>
+		<value>center</value>
+	</library-property>
+
+	<library-property>
+		<name>org.zkoss.zul.progressbox.mask</name>
+		<value>TRUE</value>
+	</library-property>
+	
+	<library-property>
+	    <name>org.zkoss.web.preferred.locale</name>
+	    <value>th_TH</value>
+	</library-property>
+
+	<client-config>
+		<processing-prompt-delay>1</processing-prompt-delay>
+	</client-config>
+ 
+  <system-config>
+    <upload-charset-finder-class>com.th.jbp.web.utils.TikaCharsetFinder</upload-charset-finder-class>
+  </system-config>
+ 
+	<client-config>
+	<data-handler>
+		<name>mask</name><!-- the attribute name, i.e. data-mask -->
+		<script>
+				function (wgt, dataValue) {
+					jq2(wgt.$n()).mask(dataValue);
+					// unformat after onChange event.
+					wgt.listen({onChange: function (event) {
+						event.data.value = jq2(this.$n()).cleanVal();
+					}});
+				}
+		</script>
+	</data-handler>
+	<data-handler>
+		<name>mask-time</name><!-- the attribute name, i.e. data-mask -->
+		<script>
+				function (wgt, dataValue) {
+					jq2(wgt.$n()).mask(dataValue, {'translation': {
+                                        H: {pattern: /^(0[0-9]|1[0-9]|2[0-3])/},  
+                                        m: {pattern: /[0-5]/},
+                                        M: {pattern: /[0-9]/}
+                                      }
+                                });
+					// unformat after onChange event.
+					wgt.listen({onChange: function (event) {
+						event.data.value = jq2(this.$n()).cleanVal();
+					}});
+				}
+		</script>
+	</data-handler>
+</client-config>
+
+	
+
+</zk>

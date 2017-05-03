@@ -1,0 +1,41 @@
+<?page title="new page title" contentType="text/html;charset=UTF-8"?><?page title="${c:l('system.title')}" contentType="text/html;charset=UTF-8"?>
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/layout/layout.zul"?>
+<?link rel="shortcut icon" href="../images/favicon.ico" ?>
+<zk xmlns:h="xhtml">
+    <label self="@define(pageInfo)">ตั้งค่าระบบ</label>
+	<div apply="org.zkoss.bind.BindComposer" self="@define(content)"
+		viewModel="@id('vm') @init('com.th.jbp.web.vm.SystemSettingVM')" width="1024px">
+		<div width="900px" sclass="block" style="color:#F7F7F7;border-style:solid">
+			
+			<separator width="15px"></separator>
+			<grid hflex="max"
+				model="@load(vm.systemConfigs) @template((vm.displayEdit and each.editingStatus) ? 'editable' : 'noneditable')">
+				<columns height="22px">
+					<column width="608px" label="Description" align="left"></column>
+					<column width="100px" label="Value" align="center"></column>
+					<column width="150px" visible="@load(vm.displayEdit)" align="center"></column>
+				</columns>
+				<template name="editable">
+					<row>
+						<label value="@load(each.description)" width="99%" />
+						<textbox value="@load(each.systemValue) @save(each.systemValue, before='confirm')" width="99%" />
+						<div>
+							<button image="../images/tick_circle.png" height="30px"
+								onClick="@command('confirm', systemConfig=each)" />
+							<button image="../images/cross_circle.png" height="30px"
+								onClick="@command('changeEditableStatus', systemConfig=each)" />
+						</div>
+					</row>
+				</template>
+				<template name="noneditable">
+					<row>
+						<label value="@load(each.description)" width="99%" />
+						<label value="@load(each.systemValue)" width="99%" />
+						<button image="../images/pencil2.png" 
+							onClick="@command('changeEditableStatus', systemConfig=each)" />
+					</row>
+				</template>
+			</grid>
+		</div>
+	</div>
+</zk>

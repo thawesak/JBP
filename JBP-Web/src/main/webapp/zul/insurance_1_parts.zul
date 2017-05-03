@@ -1,0 +1,30 @@
+<?page title="${c:l('system.title')}" contentType="text/html;charset=UTF-8"?>
+<?link rel="shortcut icon" href="../images/favicon.ico" ?>
+<zk>
+<div width="100%" height="400px">
+	<div width="100%" align="right"
+		style="padding-top:10px;padding-bottom:10px;padding-right:10px;">
+		<button image="../images/table_add.png" label="${c:l('add.line')}"
+			sclass="link" onClick="@command('addLineParts')">
+		</button>
+	</div>
+	<grid hflex="max" model="@load(vm.parts)" mold="paging" pageSize="10">
+		<columns height="22px">
+			<column width="350px" label="${c:l('insurance.1.parts')}" align="center"></column>
+			<column width="200px" label="${c:l('insurance.1.warranty.year')}" align="center"></column>
+		</columns>
+		<template name="model">
+			<row>
+				<combobox autodrop="true" width="200px" 
+					model="@load(vm.partsItems)" value="@bind(each.partsItemName)"
+					selectedItem="@bind(each.partsItemName)">
+					<template name="model" var="item">
+						<comboitem label="@load(item.name)" value="@load(item.name)"></comboitem>
+					</template>
+				</combobox>
+				<decimalbox value="@bind(each.warrantyYear)" format="#0.0#" width="99%" maxlength="5"/>
+			</row>
+		</template>
+	</grid>
+</div>	
+</zk>

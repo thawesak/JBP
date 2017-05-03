@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/security
+                           http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+	<security:global-method-security secured-annotations="enabled" />
+
+	<security:http auto-config="true" use-expressions="true">
+		<security:access-denied-handler error-page="/zul/home.zul?error=403" />
+		<security:intercept-url pattern="/zul/home.zul" access="isAuthenticated()" />
+		<security:intercept-url pattern="/login.zul" access="permitAll()" />
+		<security:intercept-url pattern="/layout/**" access="permitAll()" />
+		<security:intercept-url pattern="/style/style.css" access="permitAll()" />
+		<security:intercept-url pattern="/images/**" access="permitAll()" />
+		<security:intercept-url pattern="/js/**" access="permitAll()" />
+		<security:intercept-url pattern="/zul/application_form**" access="hasAnyRole('MD, SENIOR_MANAGER, MANAGER, SENIOR_OFFICER, OFFICER_HEAD_OFFICE, OFFICER_BANGSAI, TECHNICIAN, DRIVER')" />
+		<security:intercept-url pattern="/zul/inventory**" access="hasAnyRole('MD, SENIOR_MANAGER, MANAGER, SENIOR_OFFICER, OFFICER_HEAD_OFFICE, OFFICER_BANGSAI, TECHNICIAN, DRIVER')" />
+		<security:intercept-url pattern="/zul/user_management**" access="hasAnyRole('MD, SENIOR_MANAGER, MANAGER, SENIOR_OFFICER')" />
+		<security:intercept-url pattern="/zul/insurance**" access="hasAnyRole('MD, SENIOR_MANAGER, MANAGER, SENIOR_OFFICER')" />
+		<security:intercept-url pattern="/zul/trailer**" access="hasAnyRole('MD, SENIOR_MANAGER, MANAGER, SENIOR_OFFICER')" />
+		<security:intercept-url pattern="/zul/reset_password**" access="hasAnyRole('MD, SENIOR_MANAGER')" />
+		<security:form-login login-page="/login.zul" authentication-failure-url="/login.zul?login_error=1"
+			default-target-url="/zul/home.zul" />
+		<security:logout logout-url="/logout" logout-success-url="/login.zul?logout_status=1" />
+	</security:http>
+
+	<bean id="securityPasswordEncoder" class="com.th.jbp.security.CustomPasswordEncoder" />
+	<bean id="userDetailService" class="com.th.jbp.security.UserDetailService" />
+	<security:authentication-manager>
+		<security:authentication-provider user-service-ref="userDetailService">
+			<security:password-encoder ref="securityPasswordEncoder"></security:password-encoder>
+		</security:authentication-provider>
+	</security:authentication-manager>
+
+</beans>

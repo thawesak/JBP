@@ -1,0 +1,32 @@
+<?page title="${c:l('system.title')}" contentType="text/html;charset=UTF-8"?>
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/layout/layout.zul"?>
+<?link rel="shortcut icon" href="../images/favicon.ico" ?>
+<zk>
+
+	<label self="@define(pageInfo)">${c:l('menu.home')}</label>
+
+	<div apply="org.zkoss.bind.BindComposer" self="@define(content)"
+		width="1000px" height="400px"
+		viewModel="@id('vm') @init('com.th.jbp.web.vm.HomeVM')">
+
+		<div width="100%" style="">
+
+			<label value="@load(vm.message)"
+				visible="@bind(vm.mode eq 'ERROR')" style="color: red;">
+			</label>
+
+			<zk if="${sec:isAnyGranted(' MD, ASSISTANT, OFFICER1, OFFICER2, OFFICER3, HR ')}">
+				 
+				
+				
+			</zk>
+			
+		</div>
+		<separator height="15px"></separator>
+
+	</div>
+
+</zk>
+
+
+

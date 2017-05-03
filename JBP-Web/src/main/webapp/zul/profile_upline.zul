@@ -1,0 +1,147 @@
+<?page title="${c:l('system.title')}" contentType="text/html;charset=UTF-8"?>
+<?link rel="shortcut icon" href="../images/favicon.ico" ?>
+<zk>
+
+	<div apply="org.zkoss.bind.BindComposer" width="100%"
+		viewModel="@id('vm') @init('co.th.tobeone.beyond.web.vm.ProfileUplineVM')">
+		<grid width="100%" style="border:1px;padding-left:20px;padding-right:20px;" sclass="">
+			<rows>
+
+				<row>
+					<cell width="180px" sclass="text-header" align="right">
+						<label value="รหัสอัพไลน์ "></label>
+					</cell>
+					<cell width="10px">
+						<label value=":"></label>
+					</cell>
+					<cell align="left">
+						<textbox value="@load(vm.userUpline.memberId)" readonly="true" width="110px"></textbox>
+					</cell>
+				</row>
+				<row>
+					<cell width="120px" sclass="text-header" align="right">
+						<label value="ชื่อ-นามสกุล อัพไลน์"></label>
+					</cell>
+					<cell width="10px">
+						<label value=":"></label>
+					</cell>
+					<cell align="left">
+						<textbox value="@load(vm.userUpline.name)" readonly="true" width="110px"></textbox>
+						<separator orient="vertical" width="5px"></separator>
+						<label>-</label>
+						<separator orient="vertical" width="5px"></separator>
+						<textbox value="@load(vm.userUpline.surname)" readonly="true" width="110px"></textbox>
+					</cell>
+				</row>
+				<row>
+					<cell width="120px" sclass="text-header" align="right">
+						<label value="เบอร์โทรอัพไลน์ "></label>
+					</cell>
+					<cell width="10px">
+						<label value=":"></label>
+					</cell>
+					<cell align="left">
+						<textbox value="@load(vm.userUpline.mobileNo)" readonly="true" width="110px"></textbox>
+					</cell>
+				</row>
+				<row>
+					<cell colspan="3">
+						<separator width="100%" bar="true" height="5px"></separator>
+					</cell>
+				</row>
+				<row>
+					<cell width="120px" sclass="text-header" align="right">
+						<label value="รหัสผู้แนะนำ"></label>
+					</cell>
+					<cell width="10px">
+						<label value=":"></label>
+					</cell>
+					<cell align="left">
+						<textbox readonly="@load(vm.mode eq 'INFO')"
+							value="@load(vm.userReferrence.memberId) @save(vm.userReferrence.memberId, before='findMember')" width="110px">
+						</textbox>
+						<separator orient="vertical" width="5px"></separator>
+						<button visible="@load(vm.mode ne 'INFO')" image="../images/find.png" label="ตรวจสอยรายชื่อ"
+							onClick="@command('findMember')" sclass="link">
+						</button>
+						<separator orient="vertical" width="5px"></separator>
+						<label sclass="req" value="@load(vm.findMemberErrorMessage)"></label>
+					</cell>
+				</row>
+				<row>
+					<cell width="120px" sclass="text-header" align="right">
+						<label value="ชื่อ-นามสกุล ผู้แนะนำ"></label>
+					</cell>
+					<cell width="10px">
+						<label value=":"></label>
+					</cell>
+					<cell align="left">
+						<textbox readonly="true" value="@load(vm.userReferrence.name)" width="110px"></textbox>
+						<separator orient="vertical" width="5px"></separator>
+						<label>-</label>
+						<separator orient="vertical" width="5px"></separator>
+						<textbox readonly="true" value="@load(vm.userReferrence.surname)" width="110px"></textbox>
+					</cell>
+				</row>
+				<row>
+					<cell width="120px" sclass="text-header" align="right">
+						<label value="เบอร์โทรผู้แนะนำ"></label>
+					</cell>
+					<cell width="10px">
+						<label value=":"></label>
+					</cell>
+					<cell align="left">
+						<textbox readonly="true" value="@load(vm.userReferrence.mobileNo)" width="110px"></textbox>
+					</cell>
+				</row>
+				<row>
+					<cell colspan="3">
+						<separator width="100%" bar="true" height="5px"></separator>
+					</cell>
+				</row>
+
+				<row>
+					<cell width="120px" sclass="text-header" align="right">
+						<label value="รหัสผู้แนะนำพิเศษ"></label>
+					</cell>
+					<cell width="10px">
+						<label value=":"></label>
+					</cell>
+					<cell align="left">
+						<textbox readonly="true" value="" width="110px"></textbox>
+					</cell>
+				</row>
+				<row>
+					<cell width="120px" sclass="text-header" align="right">
+						<label value="ชื่อผู้แนะนำพิเศษ"></label>
+					</cell>
+					<cell width="10px">
+						<label value=":"></label>
+					</cell>
+					<cell align="left">
+						<textbox readonly="true" value="" width="110px"></textbox>
+						<separator orient="vertical" width="5px"></separator>
+						<label>-</label>
+						<separator orient="vertical" width="5px"></separator>
+						<textbox readonly="true" value="" width="110px"></textbox>
+					</cell>
+				</row>
+				<row>
+					<cell width="120px" sclass="text-header" align="right">
+						<label value="เบอร์โทรผู้แนะนำพิเศษ"></label>
+					</cell>
+					<cell width="10px">
+						<label value=":"></label>
+					</cell>
+					<cell align="left">
+						<textbox readonly="true" value="" width="110px"></textbox>
+					</cell>
+				</row>
+			</rows>
+		</grid>
+	</div>
+
+</zk>
+
+
+

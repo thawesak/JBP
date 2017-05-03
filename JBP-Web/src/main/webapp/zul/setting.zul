@@ -1,0 +1,49 @@
+<?page title="${c:l('system.title')}" contentType="text/html;charset=UTF-8"?>
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/layout/layout.zul"?>
+<?link rel="shortcut icon" href="../images/favicon.ico" ?>
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<zk>
+
+	<label self="@define(pageInfo)">ตั้งค่า</label>
+
+	<div apply="org.zkoss.bind.BindComposer" self="@define(content)" width="1200px"
+		viewModel="@id('vm') @init('co.th.tobeone.beyond.web.vm.SettingVM')">
+
+
+		<tabbox id="tb" orient="left">
+			<tabs id="tabs" width="220px">
+				<tab id="A" label="ข้อมูลส่วนตัว" />
+				<tab id="B" label="ข้อมูลสายงาน" />
+				<tab id="C" label="ข้อมูลโทรศัพท์" />
+				<tab id="D" label="ข้อมูลบัญชีธนาคาร " />
+				<tab id="E" label="แก้ไขรหัสผ่าน" />
+				<tab id="F" label="ตั้งค่าความปลอดภัย" />
+			</tabs>
+			<tabpanels width="950px" height="100%">
+				<tabpanel>
+					<include src="profile.zul"></include>
+				</tabpanel>
+				<tabpanel>
+					<include src="profile_upline.zul"></include>
+				</tabpanel>
+				<tabpanel>
+					<include src="profile_tel.zul"></include>
+				</tabpanel>
+				<tabpanel>
+					<include src="profile_account.zul"></include>
+				</tabpanel>
+				<tabpanel>
+					<include src="profile_change_password.zul"></include>
+				</tabpanel>
+				<tabpanel>
+					<include src="profile_security.zul"></include>
+				</tabpanel>
+			</tabpanels>
+		</tabbox>
+
+	</div>
+
+</zk>
+
+
+

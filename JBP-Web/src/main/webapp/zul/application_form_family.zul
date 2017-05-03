@@ -1,0 +1,127 @@
+<?page title="${c:l('system.title')}" contentType="text/html;charset=UTF-8"?>
+<?link rel="shortcut icon" href="../images/favicon.ico" ?>
+<zk>
+<div width="100%" height="400px">
+	<grid width="100%" style="border:1px;padding-left:20px;padding-right:20px;" sclass="">
+		<rows>
+			<row>
+				<cell align="left">
+					<grid width="100%" style="border:0px;">
+						<rows>
+							<row>
+								<cell align="left">
+									<label value="${c:l('applicationform.father.name')} : "></label>
+									<textbox value="@bind(vm.applicationFormM.fatherName)" width="140px" />
+								</cell>
+								<cell align="left">
+									<label value="${c:l('age')} : "></label>
+									<textbox value="@bind(vm.applicationFormM.fatherAge)" width="50px" />
+									<label value=" ${c:l('years.old')}"></label>
+								</cell>
+								<cell align="left">
+									<label value="${c:l('applicationform.career')} : "></label>
+									<textbox value="@bind(vm.applicationFormM.fatherCareer)" width="140px" />
+								</cell>
+							</row>
+						</rows>
+					</grid>
+				</cell>
+			</row>
+			<row>
+				<cell align="left">
+					<grid width="100%" style="border:0px;">
+						<rows>
+							<row>
+								<cell align="left">
+									<label value="${c:l('applicationform.mother.name')} : "></label>
+									<textbox value="@bind(vm.applicationFormM.motherName)" width="140px" />
+								</cell>
+								<cell align="left">
+									<label value="${c:l('age')} : "></label>
+									<textbox value="@bind(vm.applicationFormM.motherAge)" width="50px" />
+									<label value=" ${c:l('years.old')}"></label>
+								</cell>
+								<cell align="left">
+									<label value="${c:l('applicationform.career')} : "></label>
+									<textbox value="@bind(vm.applicationFormM.motherCareer)" width="140px" />
+								</cell>
+							</row>
+						</rows>
+					</grid>
+				</cell>
+			</row>
+			<row>
+				<cell align="left">
+					<grid width="100%" style="border:0px;">
+						<rows>
+							<row>
+								<cell align="left">
+									<label value="${c:l('applicationform.spouse.name')} : "></label>
+									<textbox value="@bind(vm.applicationFormM.spouseName)" width="140px" />
+								</cell>
+								<cell align="left">
+									<label value="${c:l('office')} : "></label>
+									<textbox value="@bind(vm.applicationFormM.spouseOffice)" width="140px" />
+								</cell>
+								<cell align="left">
+									<label value="${c:l('role')} : "></label>
+									<textbox value="@bind(vm.applicationFormM.spouseCareer)" width="140px" />
+								</cell>
+							</row>
+						</rows>
+					</grid>
+				</cell>
+			</row>
+			<row>
+				<cell align="left">
+					<grid width="100%" style="border:0px;">
+						<rows>
+							<row>
+								<cell align="left">
+									<label value="${c:l('applicationform.children')} : "></label>
+									<textbox value="@bind(vm.applicationFormM.children)" width="50px" />
+									<label value=" ${c:l('person')}"></label>
+								</cell>
+								<cell align="left">
+								</cell>
+							</row>
+						</rows>
+					</grid>
+				</cell>
+			</row>
+			<row>
+				<cell align="left">
+					<grid width="100%" style="border:0px;">
+						<rows>
+							<row>
+								<cell align="left">
+									<label value="${c:l('applicationform.siblings')} : "></label>
+									<textbox value="@bind(vm.applicationFormM.siblings)" width="50px" />
+									<label value=" ${c:l('person')}"></label>
+								</cell>
+								<cell align="left">
+									<label value="${c:l('applicationform.brother')} : "></label>
+									<textbox value="@bind(vm.applicationFormM.brother)" width="50px" />
+									<label value=" ${c:l('person')}"></label>
+								</cell>
+								<cell align="left">
+									<label value="${c:l('applicationform.sister')} : "></label>
+									<textbox value="@bind(vm.applicationFormM.sister)" width="50px" />
+									<label value=" ${c:l('person')}"></label>
+								</cell>
+								<cell align="left">
+									<label value="${c:l('applicationform.childNo')} : "></label>
+									<textbox value="@bind(vm.applicationFormM.childNo)" width="50px" />
+								</cell>
+							</row>
+						</rows>
+					</grid>
+				</cell>
+			</row>
+		</rows>
+	</grid>
+</div>	
+</zk>
+
+
+

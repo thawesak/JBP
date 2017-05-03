@@ -1,0 +1,194 @@
+body {
+	margin: 0;
+}
+
+.treelevel {
+	border: none;
+	border-collapse: separate;
+}
+
+.treelevel tr {
+	border: 0px solid #FFF;
+}
+
+.treelevel .treeline {
+	border: 0px solid #D6AEE5;
+}
+
+.treeline.l {
+	border-left-width: 1px;
+}
+
+.treeline.r {
+	border-right-width: 1px;
+}
+
+.treeline.t {
+	border-top-width: 1px;
+}
+
+.treeline.b {
+	border-bottom-width: 1px;
+}
+
+.treelevel .mini {
+	height: 14px;
+	padding: 5px 8px;
+	line-height: 16px;
+}
+
+.fcolumns td {
+	table-layout: fixed;
+	width: 2.17391304% !important;
+}
+
+td[id^="node-"] {
+	text-align: center;
+}
+
+i[class^="icon-"] {
+	display: inline-block;
+	width: 15px;
+	height: 15px;
+	line-height: 15px;
+	vertical-align: top;
+	margin: 2px 0 0 9;
+	background-image: url(../images/tree/user-icon.png);
+	background-repeat: no-repeat;
+}
+
+.m-btn i[class^="icon-"] {
+	margin: -1px 0 0 -3px;
+}
+
+#comment-detail .m-btn {
+	line-height: 16px;
+	border: 1px solid #ccc;
+}
+
+.icon-green {
+	background-position: 0 0;
+}
+
+.icon-red {
+	background-position: 0 -15px;
+}
+
+.icon-green-red {
+	background-position: 0 -30px;
+}
+
+.icon-red-green {
+	background-position: 0 -45px;
+}
+
+.icon-gray {
+	background-position: 0 -60px;
+}
+
+.treelevel .m-btn {
+	border: 1px solid #e5e5e5;
+	background-color: #f7f7f7;
+	background-image: none;
+}
+
+.treelevel .m-btn:hover {
+	background-color: #ececec;
+	background-image: none;
+}
+
+.treelevel .m-btn.croot {
+	font-weight: bold;
+	border: 1px solid #ccc;
+}
+
+.treelevel .m-btn.croot:hover {
+	border-color: #999;
+}
+
+.treelevel .m-btn.cnone {
+	font-style: italic;
+	border: 1px solid #ccc;
+	color: #999;
+}
+
+.treelevel .m-btn.cnone:hover {
+	border-color: #999;
+}
+
+.treelevel .m-btn.rank2 {
+	background-color: #EAEDFA;
+}
+
+.treelevel .m-btn.rank3 {
+	background-color: #FAF2EA;
+}
+
+.treelevel .m-btn.rank4 {
+	background-color: #F2EAFA;
+}
+
+table.table {
+	border-collapse: separate;
+	border: 1px solid #999;
+	color: #555;
+}
+
+.table thead th {
+	background-color: #500777;
+	color: white;
+	text-align: center;
+}
+
+.table tbody td {
+	text-align: center;
+}
+
+.table-hover tbody tr:hover>td, .table-hover tbody tr:hover>th {
+	background-color: #F3ECF7;
+}
+
+.table
+		tr i[class^="icon-"] {
+	opacity: .4;
+}
+
+input[type="search"] {
+	margin: 0;
+}
+
+.ui-bar-b {
+	border: 1px solid #b3b3b3;
+	background: #450168;
+	color: #fff;
+	font-weight: bold;
+	text-shadow: 0 1px 0 #333;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#450168),
+		to(#7A01B8));
+	background-image: -webkit-linear-gradient(#450168, #7A01B8);
+	background-image: -moz-linear-gradient(#450168, #7A01B8);
+	background-image: -ms-linear-gradient(#450168, #7A01B8);
+	background-image: -o-linear-gradient(#450168, #7A01B8);
+	background-image: linear-gradient(#450168, #7A01B8);
+}
+
+
+.treelevel a{
+	font-size: 11px;
+}
+
+.treelevel a:visited {
+	color: #64655F;
+}
+
+.treelevel a:hover {
+	color: #64655F;
+}
+
+.treelevel a:active {
+	color: #64655F;
+}
+
+.treelevel a:selected {
+	color: #64655F;
+}

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?page title="${c:l('system.title')}" contentType="text/html;charset=UTF-8"?>
+<?variable-resolver class="org.zkoss.spring.DelegatingVariableResolver"?>
+<?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c" ?>
+<?taglib uri="http://www.zkoss.org/zkspring/security" prefix="sec"?>
+<?link rel="shortcut icon" href="images/favicon.ico" ?>
+<zk xmlns:h="xhtml">
+
+	<style src="style/style.css" />
+	<style src="style/ui.css" />
+
+	<h:table border="0" cellpadding="0" cellspacing="0"
+		style="width:100%; height:100%; background-attachment: fixed; 
+			background-image: url(images/); 
+			background-repeat: no-repeat; background-position: right;"
+		bgcolor="">
+		<h:tr>
+			<h:td>
+				<div width="100%" height="100%" align="center"
+					style="padding-top:80px;">
+
+					<div width="600px" align="left"
+						style="background-color:#fff;" class="div-box-shadow-radius">
+
+						<h:table width="100%" border="0" cellspacing="0" cellpadding="0">
+							<h:tr width="100%">
+								<h:td height="65px" align="right"
+									style="padding-right:5px">
+									<!-- <image src="images/" border="0" /> -->
+								</h:td>
+							</h:tr>
+						</h:table>
+
+						<div width="600px" align="left">
+							<h:table style="border-width: 0x;"
+								width="100%" height="100%" border="0" cellspacing="0"
+								cellpadding="0">
+								<h:tr width="100%">
+									<h:td width="100%" height="100%"
+										valign="middle" align="center">
+										<groupbox width="350px"
+											closable="false" style="text-align:left;">
+											<caption
+												style="color:#626262;font-weight: bold;"
+												label="${c:l('login.to')} : ${c:l('system.title')}"
+												image="images/key.png">
+											</caption>
+											<div
+												style="padding: 10px 10px 10px 10px;">
+												<h:form id="f" name="f"
+													action="j_spring_security_check" method="POST"
+													xmlns:h="native">
+													<div width="100%"
+														align="right"
+														style="border:0px;padding-bottom:10px;padding-top:5px;color:#68A3CF">
+														<a
+															label="ภาษาไทย"
+															style="color: black;text-decoration: none;">
+															<attribute name="onClick"><![CDATA[
+																String localeValue = "th";
+																Locale prefer_locale = localeValue.length() > 2 ? 
+																        new Locale(localeValue.substring(0,2),localeValue.substring(3)) : new Locale(localeValue);
+																session.setAttribute(org.zkoss.web.Attributes.PREFERRED_LOCALE, prefer_locale);
+																execution.sendRedirect("");
+												            ]]></attribute>
+														</a>
+														<space bar="true" />
+														<a label="English" style="color: black;text-decoration: none;">
+															<attribute name="onClick"><![CDATA[
+																String localeValue = "en";
+																Locale prefer_locale = localeValue.length() > 2 ? 
+																        new Locale(localeValue.substring(0,2),localeValue.substring(3)) : new Locale(localeValue);
+																session.setAttribute(org.zkoss.web.Attributes.PREFERRED_LOCALE, prefer_locale);
+																execution.sendRedirect("");
+												            ]]></attribute>
+														</a>
+														<separator width="2px" orient="vertical"></separator>
+													</div>
+													<grid>
+														<columns>
+															<column width="80px" height="40px"></column>
+															<column height="40px"></column>
+														</columns>
+														<rows>
+															<row>
+																<cell align="right">
+																	<label value="${c:l('login.username')} :"></label>
+																</cell>
+																<textbox id="u" placeholder="${c:l('login.username')}" height="20px"
+																	width="140px" onCreate="u.focus();" value="" name="j_username" />
+															</row>
+															<row>
+																<cell align="right">
+																	<label value="${c:l('login.password')} :"></label>
+																</cell>
+																<textbox id="p" placeholder="${c:l('login.password')}" type="password"
+																	height="20px" width="140px" value="" name="j_password" />
+															</row>
+
+															<row align="right">
+																<label value=""></label>
+																<hbox>
+																	<button type="submit" label="${c:l('login.submit')}" mold="trendy" />
+																	<button type="reset" label="${c:l('login.clear')}" mold="trendy">
+																		<attribute name="onClick">
+																			error.value = "";    error2.value = ""; u.focus();
+																		</attribute>
+																	</button>
+																</hbox>
+															</row>
+														</rows>
+													</grid>
+												</h:form>
+											</div>
+											<separator width="100%" bar="false"
+												height="10px">
+											</separator>
+										</groupbox>
+							
+										<groupbox width="100%" closable="false"
+											mold="3d" contentStyle="border:0">
+											<label id="error"
+												if="${!empty sessionScope.SPRING_SECURITY_LAST_EXCEPTION}"
+												style="color:red"
+												value="${c:l('login.fail')} ${SPRING_SECURITY_LAST_EXCEPTION.message} ">
+											</label>
+											
+											<label id="error2"
+												if="${param.logout_status == 2}"
+												style="color:red"
+												value="Please login agian.">
+											</label>
+										</groupbox>
+									</h:td>
+								</h:tr>
+							</h:table>
+						</div>
+						<separator height="25px"></separator>
+						<html>
+							<div id="mFooterCopyright" class="footer">
+								Copyright © 2016 All rights reserved. 
+								<br/>
+								<b>${c:l('system.title')}</b>
+							</div>
+						</html>
+					</div>
+				</div>
+			</h:td>
+		</h:tr>
+	</h:table>
+</zk>

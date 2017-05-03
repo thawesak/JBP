@@ -1,0 +1,147 @@
+<?page title="${c:l('system.title')}" contentType="text/html;charset=UTF-8"?>
+<?link rel="shortcut icon" href="../images/favicon.ico" ?>
+<zk>
+
+
+	<div apply="org.zkoss.bind.BindComposer" width="100%" height="400px"
+		viewModel="@id('vm') @init('co.th.tobeone.beyond.web.vm.ProfileSecurityVM')">
+		<radiogroup id="transferRadio"
+			selectedItem="@bind(vm.transfer)" />
+		<radiogroup id="withdrawRadio"
+			selectedItem="@bind(vm.withdraw)" />
+		<radiogroup id="topupRadio" selectedItem="@bind(vm.topup)" />
+		<grid width="100%"
+			style="border:1px;padding-left:20px;padding-right:20px;" sclass="">
+			<rows>
+				<row spans="2">
+					<cell align="left" sclass="text-header">
+						ตั้งค่าความปลอดภัยการโอนเงิน
+					</cell>
+				</row>
+				<row spans="2">
+					<cell align="left">
+						<radio
+							label="ส่ง OTP ทุกครั้งที่ทำรายการ (แนะนำ)" value="OTP"
+							radiogroup="transferRadio" tabindex="1"
+							disabled="@load(vm.mode eq 'INFO')" />
+					</cell>
+				</row>
+				<row spans="2">
+					<cell align="left">
+						<radio label="ปิดการทำงาน" value="OFF"
+							radiogroup="transferRadio" tabindex="2"
+							disabled="@load(vm.mode eq 'INFO')" />
+					</cell>
+				</row>
+				<row spans="2">
+					<separator width="100%" bar="true" height="5px"></separator>
+				</row>
+				<row spans="2">
+					<cell align="left" sclass="text-header">
+						ตั้งค่าความปลอดภัยการถอนเงิน
+					</cell>
+				</row>
+				<row spans="2">
+					<cell align="left">
+						<radio
+							label="ส่ง OTP ทุกครั้งที่ทำรายการ (แนะนำ)" value="OTP"
+							radiogroup="withdrawRadio" tabindex="3"
+							disabled="@load(vm.mode eq 'INFO')" />
+					</cell>
+				</row>
+				<row>
+					<cell align="left">
+						<radio label="รหัสความปลอดภัย 4 หลัก"
+							value="PIN" radiogroup="withdrawRadio" tabindex="4"
+							disabled="@load(vm.mode eq 'INFO')" />
+						<separator orient="vertical" width="5px"></separator>
+						<textbox type="password" value="@bind(vm.pinWD)"
+							maxlength="4" width="80px" tabindex="5" xmlns:w="client"
+							disabled="@load(vm.mode eq 'INFO')">
+							<attribute w:name="doKeyPress_">
+								function(evt){ if
+								(!this._shallIgnore(evt, "0123456789"))
+								this.$doKeyPress_(evt); }
+							</attribute>
+						</textbox>
+					</cell>
+				</row>
+				<!-- <row spans="2">
+					<cell align="left">
+					<radio label="ปิดการทำงาน" value="OFF" radiogroup="withdrawRadio" tabindex="6"
+					disabled="@load(vm.mode eq 'INFO')" />
+					</cell>
+					</row> -->
+				<row spans="2">
+					<separator width="100%" bar="true" height="5px"></separator>
+				</row>
+				<row spans="2">
+					<cell align="left" sclass="text-header">
+						ตั้งค่าความปลอดภัยการเติมเงินมือถือ
+					</cell>
+				</row>
+				<row spans="2">
+					<cell align="left">
+						<radio
+							label="ส่ง OTP ทุกครั้งที่ทำรายการ (แนะนำ)" value="OTP"
+							radiogroup="topupRadio" tabindex="7"
+							disabled="@load(vm.mode eq 'INFO')" />
+					</cell>
+				</row>
+				<row>
+					<cell align="left">
+						<radio label="รหัสความปลอดภัย 4 หลัก"
+							value="PIN" radiogroup="topupRadio" tabindex="8"
+							disabled="@load(vm.mode eq 'INFO')" />
+						<separator orient="vertical" width="5px"></separator>
+						<textbox type="password"
+							value="@bind(vm.pinTopup)" maxlength="4" width="80px"
+							tabindex="9" xmlns:w="client"
+							disabled="@load(vm.mode eq 'INFO')">
+							<attribute w:name="doKeyPress_">
+								function(evt){ if
+								(!this._shallIgnore(evt, "0123456789"))
+								this.$doKeyPress_(evt); }
+							</attribute>
+						</textbox>
+					</cell>
+				</row>
+				<row spans="2">
+					<cell align="left">
+						<radio label="ปิดการทำงาน" value="OFF"
+							radiogroup="topupRadio" tabindex="10"
+							disabled="@load(vm.mode eq 'INFO')" />
+					</cell>
+				</row>
+			</rows>
+		</grid>
+		<div width="100%"
+			style="border:1px;padding-left:20px;padding-right:20px;color:red;"
+			sclass="">
+			<label
+				value="*การปิดระบบยืนยันรหัส OTP อาจมีความเสี่ยงด้านความปลอดภัย">
+			</label>
+		</div>
+		<!-- <separator width="100%" bar="true" height="15px"></separator> -->
+		<div width="100%" align="right"
+			style="padding-top:10px;padding-bottom:10px;padding-right:5px;">
+			<button image="../images/pencil2.png"
+				visible="@bind(vm.mode eq 'INFO')" label="Edit" autodisable="self"
+				sclass="link" onClick="@command('editClick')">
+			</button>
+			<button image="../images/tick_circle.png"
+				visible="@bind(vm.mode eq 'EDIT')" label="Save" autodisable="self"
+				sclass="link" onClick="@command('save')">
+			</button>
+			<button image="../images/cancel.png"
+				visible="@bind(vm.mode eq 'EDIT')" label="Cancel" autodisable="self"
+				sclass="link" onClick="@command('cancelClick')">
+			</button>
+		</div>
+
+	</div>
+
+</zk>
+
+
+

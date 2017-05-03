@@ -1,0 +1,182 @@
+package com.th.jbp.jpa.entity;
+
+import java.io.Serializable;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="JBP_INSURANCE_PARTS")
+public class InsurancePartsM implements Serializable{
+
+	private static final long serialVersionUID = -8139671426652308364L;
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Long insurancePartsId;
+	
+	@Column
+	private String referenceCode;
+	
+	@Column
+	private String companyName;
+	
+	@Column
+	private String description;
+	
+	@Column
+	private String remark;
+	
+	@Column
+	private String companyTel;
+	
+	@OneToMany(mappedBy="insuranceParts", fetch = FetchType.LAZY)
+	protected List<InsurancePartsItemM> partsItems = new ArrayList<InsurancePartsItemM>();
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "status", referencedColumnName = "classifierValueId", nullable = false)
+	protected ClassifierValueM status;
+	
+	@Column
+	private Timestamp createDate;
+	
+	@Column
+	private Timestamp updateDate;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "createBy", referencedColumnName = "userId", nullable = false)
+	protected UserM createBy;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "updateBy", referencedColumnName = "userId", nullable = true)
+	protected UserM updateBy;
+	
+	private transient String displayPartsWarranty;
+	
+	public InsurancePartsM(){
+		
+	}
+
+	public Long getInsurancePartsId() {
+		return insurancePartsId;
+	}
+
+	public void setInsurancePartsId(Long insurancePartsId) {
+		this.insurancePartsId = insurancePartsId;
+	}
+
+	public String getReferenceCode() {
+		return referenceCode;
+	}
+
+	public void setReferenceCode(String referenceCode) {
+		this.referenceCode = referenceCode;
+	}
+
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+	public String getCompanyTel() {
+		return companyTel;
+	}
+
+	public void setCompanyTel(String companyTel) {
+		this.companyTel = companyTel;
+	}
+
+	public List<InsurancePartsItemM> getPartsItems() {
+		return partsItems;
+	}
+
+	public void setPartsItems(List<InsurancePartsItemM> partsItems) {
+		this.partsItems = partsItems;
+	}
+
+	public ClassifierValueM getStatus() {
+		return status;
+	}
+
+	public void setStatus(ClassifierValueM status) {
+		this.status = status;
+	}
+
+	public Timestamp getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Timestamp createDate) {
+		this.createDate = createDate;
+	}
+
+	public Timestamp getUpdateDate() {
+		return updateDate;
+	}
+
+	public void setUpdateDate(Timestamp updateDate) {
+		this.updateDate = updateDate;
+	}
+
+	public UserM getCreateBy() {
+		return createBy;
+	}
+
+	public void setCreateBy(UserM createBy) {
+		this.createBy = createBy;
+	}
+
+	public UserM getUpdateBy() {
+		return updateBy;
+	}
+
+	public void setUpdateBy(UserM updateBy) {
+		this.updateBy = updateBy;
+	}
+
+	public String getDisplayPartsWarranty() {
+		String result = "";
+		if(partsItems != null && !partsItems.isEmpty()){
+			for(InsurancePartsItemM item: partsItems){
+				if(!result.isEmpty()) result = result + ", ";
+				result = result + item.getItemType().getName() + " " +item.getWarrantyYear() + " ปี";
+			}
+		}
+		return result;
+	}
+
+	public void setDisplayPartsWarranty(String displayPartsWarranty) {
+		this.displayPartsWarranty = displayPartsWarranty;
+	}
+
+}

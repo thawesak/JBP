@@ -1,0 +1,149 @@
+<?page title="${c:l('system.title')}" contentType="text/html;charset=UTF-8"?>
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/layout/layout.zul"?>
+<?link rel="shortcut icon" href="../images/favicon.ico" ?>
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<zk>
+
+	<label self="@define(pageInfo)">${c:l('menu.trailer')} - ${c:l('menu.trailer.head')}</label>
+
+	<div apply="org.zkoss.bind.BindComposer" self="@define(content)"
+		width="1200px" height="800px"
+		viewModel="@id('vm') @init('com.th.jbp.web.vm.TrailerHeadVM')">
+
+		<div width="100%" align="right"
+			style="padding-top:10px;padding-bottom:10px;padding-right:10px;">
+			<button image="../images/table_add.png" label="New"
+				autodisable="self" sclass="link" visible="@bind(vm.mode eq 'SEARCH')"
+				onClick="@command('newTrailerHead')">
+			</button>
+		</div>
+		<groupbox width="100%" closable="false"
+			visible="@bind(vm.mode eq 'SEARCH')">
+			<caption><label value="${c:l('search.data')}"></label></caption>
+			<grid width="100%" style="border:0px;">
+				<rows>
+					<row>
+						<cell width="120px" align="right">
+							<label value="${c:l('trailer.head.license.plate')}"></label>
+						</cell>
+						<cell width="10px">
+							<label value=":"></label>
+						</cell>
+						<cell align="left">
+							<textbox value="@bind(vm.licensePlate)" width="240px" />
+						</cell>
+					</row>
+				</rows>
+			</grid>
+				
+			<div width="100%" align="right" style="padding-top : 5px">
+				<button image="../images/toolbar_find.png" label="Search" autodisable="self" sclass="link"
+					onClick="@command('search')">
+				</button>
+				<button image="../images/clear.png" label="Clear" autodisable="self" sclass="link"
+					onClick="@command('clearSearch')">
+				</button>
+			</div>
+			
+			<groupbox width="100%" closable="false" mold="3d"
+				contentStyle="border:0">
+
+				<listbox model="@bind(vm.records)" width="100%"
+					emptyMessage="${c:l('applicationform.search.not.found')}">
+					<listhead>
+
+						<listheader align="center" width="45px">
+							<label sclass="text-header" value="${c:l('seq.no')}"/>
+						</listheader>
+
+						<listheader align="center">
+							<label sclass="text-header" value="${c:l('trailer.head.license.plate')}"/>
+						</listheader>
+
+						<listheader align="center">
+							<label sclass="text-header" value="${c:l('trailer.head.company.income')}"/>
+						</listheader>
+						
+						<listheader align="center">
+							<label sclass="text-header" value="${c:l('trailer.head.company.brand')}"/>
+						</listheader>
+						
+						<listheader align="center">
+							<label sclass="text-header" value="${c:l('trailer.head.driver.name')}"/>
+						</listheader>
+						
+						<listheader align="center">
+							<label sclass="text-header" value="${c:l('trailer.head.driver.tel')}"/>
+						</listheader>
+						
+						<listheader align="center">
+							<label sclass="text-header" value="${c:l('trailer.head.passport')}"/>
+						</listheader>
+						
+						<listheader align="center" width="155px">
+							<label sclass="text-header" value=""/>
+						</listheader>
+
+					</listhead>
+
+					<template name="model" var="item" status="s">
+						<listitem checkable="false">
+							<listcell label="@load((vm.activePage * vm.pageSize) + (s.index + 1))" />
+
+							<listcell style="text-align:left;">
+								<label value="@load(item.licensePlate)"></label>
+							</listcell>
+
+							<listcell style="text-align:left;">
+								<label value="@load(item.companyIncome.symbol)"></label>
+							</listcell>
+							
+							<listcell style="text-align:left;">
+								<label value="@load(item.brand)"></label>
+							</listcell>
+							
+							<listcell style="text-align:left;">
+								<label value="@load(item.driver.firstName)"></label>
+								<label value="@load(item.driver.lastName)"></label>
+							</listcell>
+							
+							<listcell style="text-align:left;">
+								<label value="@load(item.driver.mobileNo)"></label>
+							</listcell>
+							
+							<listcell style="text-align:left;">
+								<label value="มี" visible="@load(item.passport)"></label>
+								<label value="ไม่มี" visible="@load(not item.passport)"></label>
+							</listcell>
+
+							<listcell>
+								<hbox align="center">
+									<button
+										image="../images/table_edit.png" sclass="link"
+										autodisable="self" tooltiptext="แก้ไขรายการ"
+										onClick="@command('getByItem',item=item)">
+									</button>
+
+									<button sclass="link"
+										image="../images/table_delete.png" autodisable="self"
+										tooltiptext="ลบรายการ"
+										onClick="@command('delete',item=item)">
+									</button>
+								</hbox>
+							</listcell>
+						</listitem>
+					</template>
+				</listbox>
+
+
+				<paging pageSize="@bind(vm.pageSize)" id="mypaging"
+					detailed="false" mold="default" totalSize="@bind(vm.totalSize)"
+					activePage="@bind(vm.activePage)" width="100%" />
+
+			</groupbox>
+
+		</groupbox>
+		
+	</div>
+
+</zk>

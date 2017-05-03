@@ -1,0 +1,202 @@
+/*
+    Document   : base.css
+    Created on : 1 Nov 2012, 10:04:00
+    Author     : NIPIT
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* Syntax recommendation http://www.w3.org/TR/REC-CSS2/ */
+
+body
+{
+	width: 100%;
+	margin: 0 auto;
+	font: 12px/16px Arial;
+	color: #6f594c;
+	background-color: #EEEEED;
+}
+
+img#siimage{
+	width: 188px;
+}
+
+#bt{
+	width: 690px;
+	height: 115px;
+	float: left;
+	position: absolute;
+	margin-top: 100px; padding-left:340px;
+	/*	background: url("../images/btR.png");*/
+	background-repeat: no-repeat;
+	left: 527px;
+	top: 188px; z-index: 1000;
+}
+
+#bt span{
+	float: left; height:35px; 
+	margin-right:20px;
+}
+
+#main-nav {
+font-size:12px;
+font-weight: bold;
+float:right;
+width:102px;
+margin: 20px 15px 0 0px;
+}
+
+h1{
+	font-size: 18px;
+	font-weight: bold;
+	margin-top: 0;
+}
+
+.noscreen{ display: none; }
+
+#navbar{
+	width: 100%;
+	height: 51px;
+	margin-top:10px;
+	position: relative; 
+	background-color: #FFF;
+}
+#nav-holder{
+	width: 1140px; 
+	float:left;
+	margin: 0 0 0 0px;
+}
+#nav{
+	list-style: none outside none;
+	float: left;
+	height: 40px;
+	padding: 0;
+	margin: 0;
+	margin-left: 120px;
+}
+#nav>li{
+	list-style: none outside none;
+	float: left;
+	height: 27px;
+	line-height: 27px;
+	margin-top: 10px;
+	padding: 0 5px 10px 5px;
+}
+#nav li.divider{
+	width: 3px;
+	margin: 10px 5px 0 5px;
+	padding: 0;
+	background: url("../images/cut.jpg") transparent scroll top left no-repeat;
+}
+#nav li a{
+	padding: 0 15px;
+	color: #626260;
+	text-decoration: none;
+}
+#nav li a:hover{
+	color: #158DC9;
+	text-decoration: underline;
+}
+#nav li.active a{
+	color: #158DC9;
+	text-decoration: none;
+}
+
+/* #6f594c */
+#nav ul.subnav{
+	display: none;
+	position: absolute;
+	top: 50px; 
+    list-style: none outside none;
+    margin: 0;
+    padding: 0;
+    width: 200px;
+	z-index: 9999;
+	background-color: transparent;
+	opacity: 0.8;
+}
+
+#nav ul.subnav li{float: left; width: 200px; background-color: #158DC9; margin: 0; opacity: 0.8; text-transform: none; z-index: 7000;}
+#nav ul.subnav li a, #nav ul.subnav li a:visited
+{float: left; width: 180px; color: #fff; padding: 8px 0; padding-left: 20px; font: 12px/16px Verdana; height: 16px; text-transform: none; text-decoration: none;}
+#nav ul.subnav li:hover{background-color: #e9ebeb; opacity: 1;}
+#nav ul.subnav li:hover a, #nav ul.subnav li:hover a:visited{color: #158DC9; text-decoration: underline;}
+
+#nav li#bl:hover ul.subnav{display: block; position: absolute; float: left; z-index: 8000; top: 39px; }
+
+#wrapper{
+	width: 1140px;
+	min-height: 300px;
+	margin: 0 auto; 
+	background-color:#FFF; margin-top:40px;
+}
+
+#header{
+	width: 1140px; height:93px;
+	margin: 10px 0 0 0; 
+	border-bottom: 5px solid #158DC9;
+}
+
+#logo{
+	width: 177px;
+	height: 45px;
+	float: left;
+	background: url("../images/logo.png") transparent scroll top left no-repeat;
+	margin: 20px 0 0 120px;
+}
+
+#logo a{
+	width: 177px;
+	height: 45px;
+	float: left;
+	margin: 0 0 0 0px;
+}
+
+#icon{
+	width: 31px;
+	height: 31px;
+	float: right;
+	margin: 0 3px 0 0px;
+}
+#contact{
+	width: 239px;
+	float: right;
+	text-align: right;
+	margin-right: 120px;
+	margin-top: 15px;
+}
+
+#body-top, #body, #body-bottom{
+	width: 1140px;
+	float: left;
+}
+
+/*#body-top{
+	height: 15px;
+	background: url("../images/bg_body01.png") transparent scroll top left no-repeat;
+}*/
+#body{ 
+	background-color:#FFF;
+	min-height: 300px;
+}
+#body-bottom{
+	height: 400px; background-color:#FFF;
+	margin-bottom: 20px; text-align:center;
+}
+
+#slider{
+	width: 1140px;
+	height: 315px;
+	margin-left: 0px;
+	overflow: hidden;
+	margin-top: 0px;
+}
+
+#content{
+	float: left;
+	width: 1140px;
+	background-color: #fff;
+	min-height: 300px;
+	margin-top: 0px;
+	margin-left: 0px;
+}

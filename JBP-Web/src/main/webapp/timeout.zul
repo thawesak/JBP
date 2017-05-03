@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?page title="${c:l('system.title')}" contentType="text/html;charset=UTF-8"?>
+<?variable-resolver class="org.zkoss.spring.DelegatingVariableResolver"?>
+<?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c" ?>
+<?taglib uri="http://www.zkoss.org/zkspring/security" prefix="sec"?>
+<?link rel="shortcut icon" href="images/favicon.ico" ?>
+<zk xmlns:h="xhtml">
+
+	<style src="style/style.css" />
+	<style src="style/ui.css" />
+
+	<h:table border="0" cellpadding="0" cellspacing="0"
+		style="width:100%; height:100%; background-attachment: fixed; 
+			background-image: url(images/); 
+			background-repeat: no-repeat; background-position: right;"
+		bgcolor="">
+		<h:tr>
+			<h:td>
+				<div width="100%" height="100%" align="center"
+					style="padding-top:80px;">
+
+					<div width="600px" align="left"
+						style="background-color:#F0F0E8;" class="div-box-shadow-radius">
+
+						<div width="600px" align="left">
+
+
+							<h:table style="border-width: 0x;"
+								width="100%" height="100%" border="0" cellspacing="0"
+								cellpadding="0">
+								<h:tr width="100%">
+									<h:td width="100%" height="100%"
+										valign="middle" align="center">
+
+										<div width="100%" align="left"
+											style="border:1px;padding-top:20px;padding-left:10px;">
+											<separator width="5px"
+												orient="vertical">
+											</separator>
+											<label
+												style="color:#626262;font-weight: bold;"
+												value="Session Timeout please login again.">
+											</label>
+										</div>
+
+
+										<div
+											style="padding: 10px 10px 10px 10px;">
+
+											<h:table width="100%"
+												border="0" cellspacing="0" cellpadding="0">
+												<h:tr width="100%">
+													<h:td align="right"
+														style="">
+														<image
+															src="images/sessionexpire_icon.gif" width="100px">
+														</image>
+
+													</h:td>
+													<h:td valign="top"
+														style="padding-left:5px;padding-top:20px">
+														<label
+															style="color:red"
+															value="The page or component you request is no longer available.
+																This is normally caused by timeout, opening too many Web pages, or rebooting the server.">
+														</label>
+
+													</h:td>
+												</h:tr>
+												<h:tr width="100%">
+													<h:td align="right"
+														style="padding-right:20px" colspan="2">
+														<h:a
+															href="login.zul" style="">
+															<label
+																value=":: ${c:l('login.again')} ::">
+															</label>
+														</h:a>
+													</h:td>
+												</h:tr>
+
+											</h:table>
+
+										</div>
+										<separator width="100%"
+											bar="false" height="10px">
+										</separator>
+
+									</h:td>
+								</h:tr>
+							</h:table>
+
+						</div>
+
+						<separator height="25px"></separator>
+
+						<html>
+							<div id="mFooterCopyright" class="footer"
+								style="background-color:#626262;">
+								Copyright © 2016 All rights reserved.
+							</div>
+						</html>
+
+					</div>
+				</div>
+			</h:td>
+		</h:tr>
+	</h:table>
+</zk>

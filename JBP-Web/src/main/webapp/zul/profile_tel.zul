@@ -1,0 +1,93 @@
+<?page title="${c:l('system.title')}" contentType="text/html;charset=UTF-8"?>
+<?link rel="shortcut icon" href="../images/favicon.ico" ?>
+<zk>
+
+
+	<div apply="org.zkoss.bind.BindComposer" width="100%" height="400px"
+		viewModel="@id('vm') @init('co.th.tobeone.beyond.web.vm.ProfileMobileVM')">
+
+		<grid width="100%" style="border:1px;padding-left:20px;padding-right:20px;" sclass="">
+			<rows>
+
+				<row>
+					<cell width="180px" sclass="text-header" align="right">
+						<label value="เบอร์โทรศัพท์ที่ใช้ลงทะเบียน "></label>
+					</cell>
+					<cell width="10px">
+						<label value=":"></label>
+					</cell>
+					<cell align="left">
+						<textbox value="@load(vm.user.mobileNo) @save(vm.user.mobileNo, before={'save'})"
+							readonly="true" width="180px"
+							constraint="/[0-9]{10}/: รูปแบบหมายเลขโทรศัพท์มือถือไม่ถูกต้อง">
+						</textbox>
+					</cell>
+				</row>
+
+				<row>
+					<cell width="120px" sclass="text-header" align="right">
+						<label value="ระบบเครื่อข่ายโทรศัพท์"></label>
+					</cell>
+					<cell width="10px">
+						<label value=":"></label>
+					</cell>
+					<cell align="left">
+						<bandbox id="mobileVendor" width="180px" value="@bind(vm.user.mobileVendor.mobileVendorName)"
+							autodrop="true" readonly="@load(vm.mode eq 'INFO')" buttonVisible="@load(vm.mode ne 'INFO')">
+							<bandpopup>
+								<listbox selectedItem="@bind(vm.user.mobileVendor)" width="250px"
+									model="@bind(vm.mobileVendors)" onSelect="mobileVendor.close();">
+									<template name="model" var="item" status="s">
+										<listitem>
+											<listcell>
+												<label value="@load(item.mobileVendorCode)"></label>
+												<label value=" : "></label>
+												<label value="@load(item.mobileVendorName)"></label>
+											</listcell>
+										</listitem>
+									</template>
+								</listbox>
+							</bandpopup>
+						</bandbox>
+
+					</cell>
+				</row>
+
+				<row>
+					<cell width="120px" sclass="text-header" align="right">
+						<label value="วันที่ลงทะเบียน "></label>
+					</cell>
+					<cell width="10px">
+						<label value=":"></label>
+					</cell>
+					<cell align="left">
+						<datebox disabled="true" width="180px"
+							value="@load(vm.user.registerDate) @save(vm.user.registerDate, before={'save'})" format="dd/MM/yyyy">
+						</datebox>
+					</cell>
+				</row>
+
+
+			</rows>
+		</grid>
+		<!-- <separator width="100%" bar="true" height="15px"></separator> -->
+		<div width="100%" align="right" style="padding-top:10px;padding-bottom:10px;padding-right:5px;">
+			<button image="../images/pencil2.png" visible="@bind(vm.mode eq 'INFO')" label="Edit" autodisable="self"
+				sclass="link" onClick="@command('editClick')">
+			</button>
+			<button image="../images/tick_circle.png" visible="@bind(vm.mode eq 'EDIT')" label="Save" autodisable="self"
+				sclass="link" onClick="@command('save')">
+			</button>
+			<button image="../images/cancel.png" visible="@bind(vm.mode eq 'EDIT')" label="Cancel" autodisable="self"
+				sclass="link" onClick="@command('cancelClick')">
+			</button>
+		</div>
+
+
+
+	</div>
+
+</zk>
+
+
+

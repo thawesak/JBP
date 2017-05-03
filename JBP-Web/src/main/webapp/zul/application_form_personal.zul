@@ -1,0 +1,330 @@
+<?page title="${c:l('system.title')}" contentType="text/html;charset=UTF-8"?>
+<?link rel="shortcut icon" href="../images/favicon.ico" ?>
+<zk>
+<div width="100%" height="400px" style="overflow:scroll; overflow-x:hidden">
+	<grid width="100%" style="border:1px;padding-left:20px;padding-right:20px;" sclass="">
+		<rows>
+			<row>
+				<cell align="left">
+					<label value="${c:l('address')} : "></label>
+					<textbox value="@bind(vm.applicationFormM.address)" 
+						width="500px" rows="5">
+					</textbox>
+				</cell>
+			</row>
+			<row>
+				<cell align="left">
+					<grid width="100%" style="border:0px;">
+						<rows>
+							<row>
+								<cell align="left">
+									<label value="${c:l('tel.no')} : "></label>
+									<textbox value="@bind(vm.applicationFormM.tel)" width="140px" />
+								</cell>
+								<cell align="left">
+									<label value="${c:l('mobile.no')} : "></label>
+									<textbox value="@bind(vm.applicationFormM.mobileNo)" width="140px" />
+								</cell>
+							</row>
+						</rows>
+					</grid>
+				</cell>
+			</row>
+			<row>
+				<cell align="left" >
+					<radiogroup id="liveWith" selectedItem="@bind(vm.applicationFormM.liveWith)"/>
+					<grid width="100%" style="border:0px;">
+						<rows>
+							<row>
+								<cell align="left">
+									<radio value="1" selected="@load(vm.applicationFormM.liveWith eq '1')" radiogroup="liveWith" label="${c:l('applicationform.livewith.1')}"></radio>
+								</cell>
+								<cell align="left">
+									<radio value="2" selected="@load(vm.applicationFormM.liveWith eq '2')" radiogroup="liveWith" label="${c:l('applicationform.livewith.2')}"></radio>
+								</cell>
+								<cell align="left">
+									<radio value="3" selected="@load(vm.applicationFormM.liveWith eq '3')" radiogroup="liveWith" label="${c:l('applicationform.livewith.3')}"></radio>
+								</cell>
+								<cell align="left">
+									<radio value="4" selected="@load(vm.applicationFormM.liveWith eq '4')" radiogroup="liveWith" label="${c:l('applicationform.livewith.4')}"></radio>
+								</cell>
+							</row>
+						</rows>
+					</grid>
+				</cell>
+			</row>
+			<row>
+				<cell align="left" >
+					<grid width="100%" style="border:0px;">
+						<rows>
+							<row>
+								<cell align="left">
+									<label value="${c:l('birthday')} : "></label>
+									<datebox format="dd/MM/yyyy" value="@bind(vm.applicationFormM.birthday)" onChange="@command('onAgeChange')" locale="th_TH">
+									</datebox>
+								</cell>
+								<cell align="left">
+									<label value="${c:l('age')} : "></label>
+									<textbox value="@bind(vm.age)" width="140px" />
+									<label value=" ${c:l('years.old')}"></label>
+								</cell>
+							</row>
+						</rows>
+					</grid>
+				</cell>
+			</row>
+			<row>
+				<cell align="left" >
+					<grid width="100%" style="border:0px;">
+						<rows>
+							<row>
+								<cell align="left">
+									<label value="${c:l('race')} : "></label>
+									<textbox value="@bind(vm.applicationFormM.race)" width="140px" />
+								</cell>
+								<cell align="left">
+									<label value="${c:l('nationality')} : "></label>
+									<textbox value="@bind(vm.applicationFormM.nationality)" width="140px" />
+								</cell>
+								<cell align="left">
+									<label value="${c:l('religion')} : "></label>
+									<textbox value="@bind(vm.applicationFormM.religion)" width="140px" />
+								</cell>
+							</row>
+						</rows>
+					</grid>
+				</cell>
+			</row>
+			<row>
+				<cell align="left" >
+					<grid width="100%" style="border:0px;">
+						<rows>
+							<row>
+								<cell align="left">
+									<label value="${c:l('cardid')} : "></label>
+									<textbox value="@bind(vm.applicationFormM.cardId)" width="140px" />
+								</cell>
+								<cell align="left">
+									<label value="${c:l('cardid.expire')} : "></label>
+									<datebox format="dd/MM/yyyy" value="@bind(vm.applicationFormM.cardIdExpireDate)" locale="th_TH">
+									</datebox>
+								</cell>
+							</row>
+						</rows>
+					</grid>
+				</cell>
+			</row>
+			<row>
+				<cell align="left" >
+					<radiogroup id="socialSecurityInsurance" selectedItem="@bind(vm.applicationFormM.socialSecurityInsurance)"/>
+					<grid width="100%" style="border:0px;">
+						<rows>
+							<row>
+								<cell align="left">
+									<label value="${c:l('applicationform.socialsecurityinsurance')} : "></label>
+									<radio value="Y" selected="@load(vm.applicationFormM.socialSecurityInsurance eq 'Y')" radiogroup="socialSecurityInsurance" label="${c:l('yes')}"></radio>
+								</cell>
+								<cell align="left">
+									<radio value="N" selected="@load(vm.applicationFormM.socialSecurityInsurance eq 'N')" radiogroup="socialSecurityInsurance" label="${c:l('no')}"></radio>
+								</cell>
+								<cell align="left">
+									<label value="${c:l('applicationform.socialsecurityinsurance.remark')}"></label>
+								</cell>
+							</row>
+						</rows>
+					</grid>
+				</cell>
+			</row>
+			<row>
+				<cell align="left" >
+					<grid width="100%" style="border:0px;">
+						<rows>
+							<row>
+								<cell align="left">
+									<label value="${c:l('applicationform.socialsecurityinsurance.hospital')} : "></label>
+									<textbox value="@bind(vm.applicationFormM.socialSecurityInsuranceHospital)" width="200px" />
+								</cell>
+							</row>
+						</rows>
+					</grid>
+				</cell>
+			</row>
+			<row>
+				<cell align="left" >
+					<grid width="100%" style="border:0px;">
+						<rows>
+							<row>
+								<cell align="left">
+									<label value="${c:l('height')} : "></label>
+									<textbox value="@bind(vm.applicationFormM.height)" width="200px" />
+									<label value=" ${c:l('cm')}"></label>
+								</cell>
+								<cell align="left">
+									<label value="${c:l('weight')} : "></label>
+									<textbox value="@bind(vm.applicationFormM.weight)" width="200px" />
+									<label value=" ${c:l('kg')}"></label>
+								</cell>
+							</row>
+						</rows>
+					</grid>
+				</cell>
+			</row>
+			<row>
+				<cell align="left" >
+					<radiogroup id="militaryService" selectedItem="@bind(vm.applicationFormM.militaryService)"/>
+					<grid width="100%" style="border:0px;">
+						<rows>
+							<row>
+								<cell align="left">
+									<label value="${c:l('applicationform.militaryService')} : "></label>
+								</cell>
+								<cell align="left">
+									<radio value="1" selected="@load(vm.applicationFormM.militaryService eq '1')" radiogroup="militaryService" label="${c:l('applicationform.militaryService.1')}"></radio>
+								</cell>
+								<cell align="left">
+									<radio value="2" selected="@load(vm.applicationFormM.militaryService eq '2')" radiogroup="militaryService" label="${c:l('applicationform.militaryService.2')}"></radio>
+								</cell>
+								<cell align="left">
+									<radio value="3" selected="@load(vm.applicationFormM.militaryService eq '3')" radiogroup="militaryService" label="${c:l('applicationform.militaryService.3')}"></radio>
+								</cell>
+							</row>
+						</rows>
+					</grid>
+				</cell>
+			</row>
+			<row>
+				<cell align="left" >
+					<radiogroup id="maritalStatus" selectedItem="@bind(vm.applicationFormM.maritalStatus)"/>
+					<grid width="100%" style="border:0px;">
+						<rows>
+							<row>
+								<cell align="left">
+									<label value="${c:l('applicationform.maritalStatus')} : "></label>
+								</cell>
+								<cell align="left">
+									<radio value="1" selected="@load(vm.applicationFormM.maritalStatus eq '1')" radiogroup="maritalStatus" label="${c:l('applicationform.maritalStatus.1')}"></radio>
+								</cell>
+								<cell align="left">
+									<radio value="2" selected="@load(vm.applicationFormM.maritalStatus eq '2')" radiogroup="maritalStatus" label="${c:l('applicationform.maritalStatus.2')}"></radio>
+								</cell>
+								<cell align="left">
+									<radio value="3" selected="@load(vm.applicationFormM.maritalStatus eq '3')" radiogroup="maritalStatus" label="${c:l('applicationform.maritalStatus.3')}"></radio>
+								</cell>
+								<cell align="left">
+									<radio value="4" selected="@load(vm.applicationFormM.maritalStatus eq '4')" radiogroup="maritalStatus" label="${c:l('applicationform.maritalStatus.4')}"></radio>
+								</cell>
+							</row>
+						</rows>
+					</grid>
+				</cell>
+			</row>
+			<row>
+				<cell align="left" >
+					<radiogroup id="ableWorkUpcountry" selectedItem="@bind(vm.applicationFormM.ableWorkUpcountry)"/>
+					<grid width="100%" style="border:0px;">
+						<rows>
+							<row>
+								<cell align="left">
+									<label value="${c:l('applicationform.ableWorkUpcountry')} : "></label>
+								</cell>
+								<cell align="left">
+									<radio value="N" selected="@load(vm.applicationFormM.ableWorkUpcountry eq 'N')" radiogroup="ableWorkUpcountry" label="${c:l('applicationform.ableWorkUpcountry.no')}"></radio>
+								</cell>
+								<cell align="left">
+									<radio value="Y" selected="@load(vm.applicationFormM.ableWorkUpcountry eq 'Y')" radiogroup="ableWorkUpcountry" label="${c:l('applicationform.ableWorkUpcountry.yes')}"></radio>
+								</cell>
+							</row>
+						</rows>
+					</grid>
+				</cell>
+			</row>
+			<row>
+				<cell align="left" >
+					<grid width="100%" style="border:0px;">
+						<rows>
+							<row>
+								<cell align="left" width="60%">
+									<label value="${c:l('applicationform.refperson')} : "></label>
+									<textbox value="@bind(vm.applicationFormM.refPersonName)" width="300px" />
+								</cell>
+								<cell align="left" width="40%">
+									<label value="${c:l('applicationform.refperson.relation')} : "></label>
+									<textbox value="@bind(vm.applicationFormM.refPersonRelation)" width="100px" />
+								</cell>
+							</row>
+						</rows>
+					</grid>
+				</cell>
+			</row>
+			<row>
+				<cell align="left" >
+					<grid width="100%" style="border:0px;">
+						<rows>
+							<row>
+								<cell align="left" width="60%">
+									<label value="${c:l('applicationform.refperson.address')} : "></label>
+									<textbox value="@bind(vm.applicationFormM.refPersonAddress)" width="300px" rows="3"/>
+								</cell>
+								<cell align="left" width="40%">
+									<label value="${c:l('applicationform.refperson.tel')} : "></label>
+									<textbox value="@bind(vm.applicationFormM.refPersonTel)" width="200px" />
+								</cell>
+							</row>
+						</rows>
+					</grid>
+				</cell>
+			</row>
+			<row>
+				<cell align="left" >
+					<grid width="100%" style="border:0px;">
+						<rows>
+							<row>
+								<cell align="left" width="60%">
+									<label value="${c:l('applicationform.knowFrom')} : "></label>
+									<textbox value="@bind(vm.applicationFormM.knowFrom)" width="500px"/>
+								</cell>
+							</row>
+						</rows>
+					</grid>
+				</cell>
+			</row>
+			<row>
+				<cell align="left" >
+					<radiogroup id="seriousIll" selectedItem="@bind(vm.applicationFormM.seriousIll)"/>
+					<grid width="100%" style="border:0px;">
+						<rows>
+							<row>
+								<cell align="left">
+									<label value="${c:l('applicationform.seriousIll')} : "></label>
+								</cell>
+								<cell align="left">
+									<radio value="Y" selected="@load(vm.applicationFormM.seriousIll eq 'Y')" radiogroup="seriousIll" label="${c:l('applicationform.seriousIll.yes')}"></radio>
+									<label value="    ${c:l('applicationform.seriousIll.disease')} : "></label>
+									<textbox value="@bind(vm.applicationFormM.disease)" width="200px"/>
+								</cell>
+								<cell align="left">
+									<radio value="N" selected="@load(vm.applicationFormM.seriousIll eq 'N')" radiogroup="seriousIll" label="${c:l('applicationform.seriousIll.no')}"></radio>
+								</cell>
+							</row>
+						</rows>
+					</grid>
+				</cell>
+			</row>
+			<row>
+				<cell align="left" >
+					<grid width="100%" style="border:0px;">
+						<rows>
+							<row>
+								<cell align="left" width="60%">
+									<label value="${c:l('applicationform.refemployee')} : "></label>
+									<textbox value="@bind(vm.applicationFormM.refEmployeeName)" width="500px"/>
+								</cell>
+							</row>
+						</rows>
+					</grid>
+				</cell>
+			</row>
+		</rows>
+	</grid>
+</div>	
+</zk>

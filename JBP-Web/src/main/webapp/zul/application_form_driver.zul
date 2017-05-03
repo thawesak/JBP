@@ -1,0 +1,317 @@
+<?page title="${c:l('system.title')}" contentType="text/html;charset=UTF-8"?>
+<?link rel="shortcut icon" href="../images/favicon.ico" ?>
+<zk>
+<div width="100%" height="400px" style="overflow:scroll; overflow-x:hidden">
+	<grid width="100%" style="border:1px;padding-left:20px;padding-right:20px;" sclass="">
+		<rows>
+			<row>
+				<cell align="left">
+					<label value="${c:l('image.driver.card')} : "></label>
+					<button label="${c:l('upload')}" upload="true,maxsize=1024" tooltiptext="*** (gif, jpg, png)"
+						onUpload="@command('getUploadedImageDriverCard', media=event.media)"></button>
+				    <separator />
+				    <image content="@bind(vm.driverForm.imageDriverCard) @converter('com.th.jbp.web.utils.ImageToZkImageConverter')" 
+				    	height="120px" width="90px" 
+				    	onClick="@command('viewImageDriverCard')"/>
+				</cell>
+			</row>
+			<row>
+				<cell>
+					<label value="${c:l('image.healthcheck')} 1 : "></label>
+					<button label="${c:l('upload')}" upload="true,maxsize=1024" tooltiptext="*** (gif, jpg, png)"
+						onUpload="@command('getUploadedImageHealthCheck1', media=event.media)"></button>
+				    <separator />
+				    <image content="@bind(vm.driverForm.imageHealthCheck1) @converter('com.th.jbp.web.utils.ImageToZkImageConverter')" 
+				    	height="120px" width="90px" 
+				    	onClick="@command('viewImageHealthCheck1')"/>
+				</cell>
+				<cell>    
+				    <label value="${c:l('image.healthcheck')} 2 : "></label>
+					<button label="${c:l('upload')}" upload="true,maxsize=1024" tooltiptext="*** (gif, jpg, png)"
+						onUpload="@command('getUploadedImageHealthCheck2', media=event.media)"></button>
+				    <separator />
+				    <image content="@bind(vm.driverForm.imageHealthCheck2) @converter('com.th.jbp.web.utils.ImageToZkImageConverter')" 
+				    	height="120px" width="90px" 
+				    	onClick="@command('viewImageHealthCheck2')"/>
+				</cell>
+				<cell>
+				    <label value="${c:l('image.healthcheck')} 3 : "></label>
+					<button label="${c:l('upload')}" upload="true,maxsize=1024" tooltiptext="*** (gif, jpg, png)"
+						onUpload="@command('getUploadedImageHealthCheck3', media=event.media)"></button>
+				    <separator />
+				    <image content="@bind(vm.driverForm.imageHealthCheck3) @converter('com.th.jbp.web.utils.ImageToZkImageConverter')" 
+				    	height="120px" width="90px" 
+				    	onClick="@command('viewImageHealthCheck3')"/>
+				</cell>
+			</row>
+			<row>
+				<cell align="left">
+					<label value="${c:l('applicationform.driver.1.question')}"></label>
+				</cell>
+			</row>
+			<row>
+				<cell align="left">
+					<checkbox id="ans1_1" label="${c:l('applicationform.driver.1.answer.1')}" value="@bind(vm.driverForm.questionNo1_1)" checked="@bind(vm.driverForm.questionNo1_1)"/>
+					<checkbox id="ans1_2" label="${c:l('applicationform.driver.1.answer.2')}" value="@bind(vm.driverForm.questionNo1_2)" checked="@bind(vm.driverForm.questionNo1_2)"/>
+					<checkbox id="ans1_3" label="${c:l('applicationform.driver.1.answer.3')}" value="@bind(vm.driverForm.questionNo1_3)" checked="@bind(vm.driverForm.questionNo1_3)"/>
+					<checkbox id="ans1_4" label="${c:l('applicationform.driver.1.answer.4')}" value="@bind(vm.driverForm.questionNo1_4)" checked="@bind(vm.driverForm.questionNo1_4)"/>
+				</cell>
+			</row>
+			<row><cell><separator style="background: grey;	height: 5px;"/></cell></row>
+			<row>
+				<cell align="left">
+					<label value="${c:l('applicationform.driver.2.question')}"></label>
+				</cell>
+			</row>
+			<row>
+				<cell align="left">
+					<radiogroup id="ans2" selectedItem="@bind(vm.driverForm.questionNo2)">
+						<radio value="1" selected="@load(vm.driverForm.questionNo2 eq '1')" radiogroup="ans2" label="${c:l('applicationform.driver.2.answer.1')}">
+						</radio>
+						<radio value="2" selected="@load(vm.driverForm.questionNo2 eq '2')" radiogroup="ans2" label="${c:l('applicationform.driver.2.answer.2')}">
+						</radio>
+						<radio value="3" selected="@load(vm.driverForm.questionNo2 eq '3')" radiogroup="ans2" label="${c:l('applicationform.driver.2.answer.3')}">
+						</radio>
+					</radiogroup>
+				</cell>
+			</row>
+			<row><cell><separator style="background: grey;	height: 5px;"/></cell></row>
+			<row>
+				<cell align="left">
+					<label value="${c:l('applicationform.driver.3.question')}"></label>
+				</cell>
+			</row>
+			<row>
+				<cell align="left">
+					<radiogroup id="ans3" selectedItem="@bind(vm.driverForm.questionNo3)">
+						<radio value="1" selected="@load(vm.driverForm.questionNo3 eq '1')" radiogroup="ans3" label="${c:l('applicationform.driver.3.answer.1')}">
+						</radio>
+						<radio value="2" selected="@load(vm.driverForm.questionNo3 eq '2')" radiogroup="ans3" label="${c:l('applicationform.driver.3.answer.2')}">
+						</radio>
+						<radio value="3" selected="@load(vm.driverForm.questionNo3 eq '3')" radiogroup="ans3" label="${c:l('applicationform.driver.3.answer.3')}">
+						</radio>
+					</radiogroup>
+				</cell>
+			</row>
+			<row>
+				<cell align="left">
+					<label value="${c:l('applicationform.driver.3.1.question')}"></label>
+					<textbox value="@bind(vm.driverForm.questionNo3_1)" width="500px" />
+				</cell>
+			</row>
+			<row>
+				<cell align="left">
+					<label value="${c:l('applicationform.driver.3.2.question')}"></label>
+					<textbox value="@bind(vm.driverForm.questionNo3_2)" width="350px" rows="2"/>
+				</cell>
+			</row>
+			<row><cell><separator style="background: grey;	height: 5px;"/></cell></row>
+			<row>
+				<cell align="left">
+					<label value="${c:l('applicationform.driver.4.1.question')}"></label>
+					<textbox value="@bind(vm.driverForm.questionNo4_1)" width="140px" />
+					<label value="${c:l('applicationform.driver.4.2.question')}"></label>
+					<intbox value="@bind(vm.driverForm.questionNo4_2)" width="50px" />
+					<label value="${c:l('year')}"></label>
+				</cell>
+			</row>
+			<row><cell><separator style="background: grey;	height: 5px;"/></cell></row>
+			<row>
+				<cell align="left">
+					<label value="${c:l('applicationform.driver.5.question')}"></label>
+				</cell>
+			</row>
+			<row>
+				<cell align="left">
+					<checkbox id="ans5_1" label="${c:l('applicationform.driver.5.answer.1')}" value="@bind(vm.driverForm.questionNo5_1)" checked="@bind(vm.driverForm.questionNo5_1)"/>
+					<checkbox id="ans5_2" label="${c:l('applicationform.driver.5.answer.2')}" value="@bind(vm.driverForm.questionNo5_2)" checked="@bind(vm.driverForm.questionNo5_2)"/>
+					<checkbox id="ans5_3" label="${c:l('applicationform.driver.5.answer.3')}" value="@bind(vm.driverForm.questionNo5_3)" checked="@bind(vm.driverForm.questionNo5_3)"/>
+					<textbox value="@bind(vm.driverForm.questionNo5_3_desc)" width="140px" />
+				</cell>
+			</row>
+			<row><cell><separator style="background: grey;	height: 5px;"/></cell></row>
+			<row>
+				<cell align="left">
+					<label value="${c:l('applicationform.driver.6.question')}"></label>
+				</cell>
+			</row>
+			<row>
+				<cell align="left">
+					<radiogroup id="ans6" selectedItem="@bind(vm.driverForm.questionNo6)">
+						<radio value="1" selected="@load(vm.driverForm.questionNo6 eq '1')" radiogroup="ans6" label="${c:l('applicationform.driver.6.answer.1')}">
+						</radio>
+						<radio value="2" selected="@load(vm.driverForm.questionNo6 eq '2')" radiogroup="ans6" label="${c:l('applicationform.driver.6.answer.2')}">
+						</radio>
+					</radiogroup>
+				</cell>
+			</row>
+			<row><cell><separator style="background: grey;	height: 5px;"/></cell></row>
+			<row>
+				<cell align="left">
+					<label value="${c:l('applicationform.driver.7.question')}"></label>
+				</cell>
+			</row>
+			<row>
+				<cell align="left">
+					<radiogroup id="ans7" selectedItem="@bind(vm.driverForm.questionNo7)">
+						<radio value="1" selected="@load(vm.driverForm.questionNo7 eq '1')" radiogroup="ans7" label="${c:l('applicationform.driver.7.answer.1')}">
+						</radio>
+						<radio value="2" selected="@load(vm.driverForm.questionNo7 eq '2')" radiogroup="ans7" label="${c:l('applicationform.driver.7.answer.2')}">
+						</radio>
+					</radiogroup>
+				</cell>
+			</row>
+			<row><cell><separator style="background: grey;	height: 5px;"/></cell></row>
+			<row>
+				<cell align="left">
+					<label value="${c:l('applicationform.driver.8.question')}"></label>
+				</cell>
+			</row>
+			<row>
+				<cell align="left">
+					<radiogroup id="ans8" selectedItem="@bind(vm.driverForm.questionNo8)">
+						<radio value="1" selected="@load(vm.driverForm.questionNo8 eq '1')" radiogroup="ans8" label="${c:l('applicationform.driver.8.answer.1')}">
+						</radio>
+						<radio value="2" selected="@load(vm.driverForm.questionNo8 eq '2')" radiogroup="ans8" label="${c:l('applicationform.driver.8.answer.2')}">
+						</radio>
+					</radiogroup>
+				</cell>
+			</row>
+			<row><cell><separator style="background: grey;	height: 5px;"/></cell></row>
+			<row>
+				<cell align="left">
+					<label value="${c:l('applicationform.driver.9.question')}"></label>
+				</cell>
+			</row>
+			<row>
+				<cell align="left">
+					<radiogroup id="ans9" selectedItem="@bind(vm.driverForm.questionNo9)">
+						<radio value="1" selected="@load(vm.driverForm.questionNo9 eq '1')" radiogroup="ans9" label="${c:l('applicationform.driver.9.answer.1')}">
+						</radio>
+						<radio value="2" selected="@load(vm.driverForm.questionNo9 eq '2')" radiogroup="ans9" label="${c:l('applicationform.driver.9.answer.2')}">
+						</radio>
+					</radiogroup>
+				</cell>
+			</row>
+			<row><cell><separator style="background: grey;	height: 5px;"/></cell></row>
+			<row>
+				<cell align="left">
+					<label value="${c:l('applicationform.driver.10.question')}"></label>
+					<textbox value="@bind(vm.driverForm.questionNo10)" width="350px"/>
+				</cell>
+			</row>
+			<row><cell><separator style="background: grey;	height: 5px;"/></cell></row>
+			<row>
+				<cell align="left">
+					<label value="${c:l('applicationform.driver.11.question')}"></label>
+				</cell>
+			</row>
+			<row>
+				<cell align="left">
+					<radiogroup id="ans11" selectedItem="@bind(vm.driverForm.questionNo11)">
+						<radio value="1" selected="@load(vm.driverForm.questionNo11 eq '1')" radiogroup="ans11" label="${c:l('applicationform.driver.11.answer.1')}">
+						</radio>
+						<radio value="2" selected="@load(vm.driverForm.questionNo11 eq '2')" radiogroup="ans11" label="${c:l('applicationform.driver.11.answer.2')}">
+						</radio>
+						<textbox value="@bind(vm.driverForm.questionNo11_desc)" width="200px"/>
+					</radiogroup>
+				</cell>
+			</row>
+			<row><cell><separator style="background: grey;	height: 5px;"/></cell></row>
+			<row>
+				<cell align="left">
+					<label value="${c:l('applicationform.driver.12.question')}"></label>
+				</cell>
+			</row>
+			<row>
+				<cell align="left">
+					<radiogroup id="ans12" selectedItem="@bind(vm.driverForm.questionNo12)">
+						<radio value="1" selected="@load(vm.driverForm.questionNo12 eq '1')" radiogroup="ans12" label="${c:l('applicationform.driver.12.answer.1')}">
+						</radio>
+						<radio value="2" selected="@load(vm.driverForm.questionNo12 eq '2')" radiogroup="ans12" label="${c:l('applicationform.driver.12.answer.2')}">
+						</radio>
+					</radiogroup>
+				</cell>
+			</row>
+			<row><cell><separator style="background: grey;	height: 5px;"/></cell></row>
+			<row>
+				<cell align="left">
+					<label value="${c:l('applicationform.driver.13.question')}"></label>
+				</cell>
+			</row>
+			<row>
+				<cell align="left">
+					<radiogroup id="ans13" selectedItem="@bind(vm.driverForm.questionNo13)">
+						<radio value="1" selected="@load(vm.driverForm.questionNo13 eq '1')" radiogroup="ans13" label="${c:l('applicationform.driver.13.answer.1')}">
+						</radio>
+						<radio value="2" selected="@load(vm.driverForm.questionNo13 eq '2')" radiogroup="ans13" label="${c:l('applicationform.driver.13.answer.2')}">
+						</radio>
+					</radiogroup>
+				</cell>
+			</row>
+			<row>
+				<cell align="left">
+					<label value="${c:l('applicationform.driver.13.description')}"></label>
+				</cell>
+			</row>
+			<row>
+				<cell align="left">
+					<textbox value="@bind(vm.driverForm.questionNo13_desc)" width="400px" rows="3"></textbox>
+				</cell>
+			</row>
+			<row><cell><separator style="background: grey;	height: 5px;"/></cell></row>
+			<row>
+				<cell align="left">
+					<label value="${c:l('applicationform.driver.14.question')}"></label>
+				</cell>
+			</row>
+			<row>
+				<cell align="left">
+					<radiogroup id="ans14" selectedItem="@bind(vm.driverForm.questionNo14)">
+						<radio value="1" selected="@load(vm.driverForm.questionNo14 eq '1')" radiogroup="ans14" label="${c:l('applicationform.driver.14.answer.1')}">
+						</radio>
+						<radio value="2" selected="@load(vm.driverForm.questionNo14 eq '2')" radiogroup="ans14" label="${c:l('applicationform.driver.14.answer.2')}">
+						</radio>
+						<datebox format="dd/MM/yyyy" value="@bind(vm.driverForm.questionNo14_date)" locale="th_TH">
+						</datebox>
+					</radiogroup>
+				</cell>
+			</row>
+			<row>
+				<cell align="left">
+					<label value="${c:l('applicationform.driver.14.description')}"></label>
+					<textbox value="@bind(vm.driverForm.questionNo14_desc)" width="350px"/>
+				</cell>
+			</row>
+			<row><cell><separator style="background: grey;	height: 5px;"/></cell></row>
+			<row>
+				<cell align="left">
+					<label value="${c:l('applicationform.driver.15.question')}"></label>
+				</cell>
+			</row>
+			<row>
+				<cell align="left">
+					<radiogroup id="ans15" selectedItem="@bind(vm.driverForm.questionNo15)">
+						<radio value="1" selected="@load(vm.driverForm.questionNo15 eq '1')" radiogroup="ans15" label="${c:l('applicationform.driver.15.answer.1')}">
+						</radio>
+						<radio value="2" selected="@load(vm.driverForm.questionNo15 eq '2')" radiogroup="ans15" label="${c:l('applicationform.driver.15.answer.2')}">
+						</radio>
+					</radiogroup>
+				</cell>
+			</row>
+			<row><cell><separator style="background: grey;	height: 5px;"/></cell></row>
+			<row>
+				<cell align="left">
+					<label value="${c:l('applicationform.driver.16.question')}"></label>
+				</cell>
+			</row>
+			<row>
+				<cell align="left">
+					<textbox value="@bind(vm.driverForm.questionNo16)" width="400px" rows="3"></textbox>
+				</cell>
+			</row>
+			<row><cell><separator style="background: grey;	height: 5px;"/></cell></row>
+		</rows>
+	</grid>
+</div>	
+</zk>

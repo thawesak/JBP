@@ -1,0 +1,686 @@
+package com.th.jbp.jpa.entity;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.CascadeType;
+
+@Entity
+@Table(name="JBP_APPLICATION_FORM")
+public class ApplicationFormM implements Serializable{
+
+	private static final long serialVersionUID = -1757555147014817352L;
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Long applicationFormId;
+	
+	@Column
+	private java.sql.Date applicationDate;
+	
+	@Column(name="IMAGE_PROFILE")
+	private byte[] imageProfile;
+	
+	@Column(name="IMAGE_CARD")
+	private byte[] imageCard;
+	
+	@Column(nullable = false)
+	private String firstName;
+	
+	@Column(nullable = false)
+	private String lastName;
+	
+	@Column(nullable = false)
+	private String position;
+	
+	@Column
+	private BigDecimal salary;
+	
+	@Column(name="ADDRESS")
+	private String address;
+	
+	@Column
+	private String tel;
+	
+	@Column
+	private String mobileNo;
+	
+	@Column
+	private Integer liveWith;
+	
+	@Column
+	private java.sql.Date birthday;
+	
+	@Column
+	private String cardId;
+	
+	@Column
+	private java.sql.Date cardIdExpireDate;
+	
+	@Column
+	private String race;
+	
+	@Column
+	private String nationality;
+	
+	@Column
+	private String religion;
+	
+	@Column
+	private String socialSecurityInsurance;
+	
+	@Column
+	private String socialSecurityInsuranceHospital;
+	
+	@Column
+	private Integer height;
+	
+	@Column
+	private BigDecimal weight;
+	
+	@Column
+	private Integer militaryService;
+	
+	@Column
+	private Integer maritalStatus;
+	
+	@Column
+	private String fatherName;
+	
+	@Column
+	private Integer fatherAge;
+	
+	@Column
+	private String fatherCareer;
+	
+	@Column
+	private String motherName;
+	
+	@Column
+	private Integer motherAge;
+	
+	@Column
+	private String motherCareer;
+	
+	@Column
+	private String spouseName;
+	
+	@Column
+	private String spouseOffice;
+	
+	@Column
+	private String spouseCareer;
+	
+	@Column
+	private Integer children;
+	
+	@Column
+	private Integer siblings;
+	
+	@Column
+	private Integer brother;
+	
+	@Column
+	private Integer sister;
+	
+	@Column
+	private Integer childNo;
+	
+	@Column
+	private String ableWorkUpcountry;
+	
+	@Column
+	private String refPersonName;
+	
+	@Column
+	private String refPersonRelation;
+	
+	@Column
+	private String refPersonAddress;
+	
+	@Column
+	private String refPersonTel;
+	
+	@Column
+	private String knowFrom;
+	
+	@Column
+	private String seriousIll;
+	
+	@Column
+	private String disease;
+	
+	@Column
+	private String refEmployeeName;
+	
+	@Column
+	private String acctBankName;
+	
+	@Column
+	private String acctNo;
+	
+	@Column
+	private String applicationFormDate;
+	
+	@Column
+	private String applicationFormSatus;
+	
+	@Column
+	private Timestamp createDate;
+	
+	@Column
+	private Timestamp updateDate;
+	
+	@OneToMany(mappedBy="applicationForm", fetch = FetchType.LAZY)
+	private List<ApplicationFormEducationM> educations = new ArrayList<ApplicationFormEducationM>();
+	
+	@OneToMany(mappedBy="applicationForm", fetch = FetchType.LAZY)
+	private List<ApplicationFormWorkExpM> workExps = new ArrayList<ApplicationFormWorkExpM>();
+	
+//	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "applicationForm", cascade = CascadeType.ALL)
+	private ApplicationFormDriverM driverForm;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "status", referencedColumnName = "classifierValueId", nullable = false)
+	protected ClassifierValueM status;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "createBy", referencedColumnName = "userId", nullable = false)
+	protected UserM createBy;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "updateBy", referencedColumnName = "userId", nullable = true)
+	protected UserM updateBy;
+	
+	public ApplicationFormM(){
+		
+	}
+
+	public Long getApplicationFormId() {
+		return applicationFormId;
+	}
+
+	public void setApplicationFormId(Long applicationFormId) {
+		this.applicationFormId = applicationFormId;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getPosition() {
+		return position;
+	}
+
+	public void setPosition(String position) {
+		this.position = position;
+	}
+
+	public BigDecimal getSalary() {
+		return salary;
+	}
+
+	public void setSalary(BigDecimal salary) {
+		this.salary = salary;
+	}
+
+	public String getTel() {
+		return tel;
+	}
+
+	public void setTel(String tel) {
+		this.tel = tel;
+	}
+
+	public String getMobileNo() {
+		return mobileNo;
+	}
+
+	public void setMobileNo(String mobileNo) {
+		this.mobileNo = mobileNo;
+	}
+
+	public Integer getLiveWith() {
+		return liveWith;
+	}
+
+	public void setLiveWith(Integer liveWith) {
+		this.liveWith = liveWith;
+	}
+
+	public java.sql.Date getBirthday() {
+		return birthday;
+	}
+
+	public void setBirthday(java.sql.Date birthday) {
+		this.birthday = birthday;
+	}
+
+	public String getCardId() {
+		return cardId;
+	}
+
+	public void setCardId(String cardId) {
+		this.cardId = cardId;
+	}
+
+	public java.sql.Date getCardIdExpireDate() {
+		return cardIdExpireDate;
+	}
+
+	public void setCardIdExpireDate(java.sql.Date cardIdExpireDate) {
+		this.cardIdExpireDate = cardIdExpireDate;
+	}
+
+	public String getRace() {
+		return race;
+	}
+
+	public void setRace(String race) {
+		this.race = race;
+	}
+
+	public String getNationality() {
+		return nationality;
+	}
+
+	public void setNationality(String nationality) {
+		this.nationality = nationality;
+	}
+
+	public String getReligion() {
+		return religion;
+	}
+
+	public void setReligion(String religion) {
+		this.religion = religion;
+	}
+
+	public String getSocialSecurityInsurance() {
+		return socialSecurityInsurance;
+	}
+
+	public void setSocialSecurityInsurance(String socialSecurityInsurance) {
+		this.socialSecurityInsurance = socialSecurityInsurance;
+	}
+
+	public String getSocialSecurityInsuranceHospital() {
+		return socialSecurityInsuranceHospital;
+	}
+
+	public void setSocialSecurityInsuranceHospital(String socialSecurityInsuranceHospital) {
+		this.socialSecurityInsuranceHospital = socialSecurityInsuranceHospital;
+	}
+
+	public Integer getHeight() {
+		return height;
+	}
+
+	public void setHeight(Integer height) {
+		this.height = height;
+	}
+
+	public BigDecimal getWeight() {
+		return weight;
+	}
+
+	public void setWeight(BigDecimal weight) {
+		this.weight = weight;
+	}
+
+	public Integer getMilitaryService() {
+		return militaryService;
+	}
+
+	public void setMilitaryService(Integer militaryService) {
+		this.militaryService = militaryService;
+	}
+
+	public Integer getMaritalStatus() {
+		return maritalStatus;
+	}
+
+	public void setMaritalStatus(Integer maritalStatus) {
+		this.maritalStatus = maritalStatus;
+	}
+
+	public String getFatherName() {
+		return fatherName;
+	}
+
+	public void setFatherName(String fatherName) {
+		this.fatherName = fatherName;
+	}
+
+	public Integer getFatherAge() {
+		return fatherAge;
+	}
+
+	public void setFatherAge(Integer fatherAge) {
+		this.fatherAge = fatherAge;
+	}
+
+	public String getFatherCareer() {
+		return fatherCareer;
+	}
+
+	public void setFatherCareer(String fatherCareer) {
+		this.fatherCareer = fatherCareer;
+	}
+
+	public String getMotherName() {
+		return motherName;
+	}
+
+	public void setMotherName(String motherName) {
+		this.motherName = motherName;
+	}
+
+	public Integer getMotherAge() {
+		return motherAge;
+	}
+
+	public void setMotherAge(Integer motherAge) {
+		this.motherAge = motherAge;
+	}
+
+	public String getMotherCareer() {
+		return motherCareer;
+	}
+
+	public void setMotherCareer(String motherCareer) {
+		this.motherCareer = motherCareer;
+	}
+
+	public String getSpouseName() {
+		return spouseName;
+	}
+
+	public void setSpouseName(String spouseName) {
+		this.spouseName = spouseName;
+	}
+
+	public String getSpouseOffice() {
+		return spouseOffice;
+	}
+
+	public void setSpouseOffice(String spouseOffice) {
+		this.spouseOffice = spouseOffice;
+	}
+
+	public String getSpouseCareer() {
+		return spouseCareer;
+	}
+
+	public void setSpouseCareer(String spouseCareer) {
+		this.spouseCareer = spouseCareer;
+	}
+
+	public Integer getChildren() {
+		return children;
+	}
+
+	public void setChildren(Integer children) {
+		this.children = children;
+	}
+
+	public Integer getSiblings() {
+		return siblings;
+	}
+
+	public void setSiblings(Integer siblings) {
+		this.siblings = siblings;
+	}
+
+	public Integer getBrother() {
+		return brother;
+	}
+
+	public void setBrother(Integer brother) {
+		this.brother = brother;
+	}
+
+	public Integer getSister() {
+		return sister;
+	}
+
+	public void setSister(Integer sister) {
+		this.sister = sister;
+	}
+
+	public Integer getChildNo() {
+		return childNo;
+	}
+
+	public void setChildNo(Integer childNo) {
+		this.childNo = childNo;
+	}
+
+	public String getAbleWorkUpcountry() {
+		return ableWorkUpcountry;
+	}
+
+	public void setAbleWorkUpcountry(String ableWorkUpcountry) {
+		this.ableWorkUpcountry = ableWorkUpcountry;
+	}
+
+	public String getRefPersonName() {
+		return refPersonName;
+	}
+
+	public void setRefPersonName(String refPersonName) {
+		this.refPersonName = refPersonName;
+	}
+
+	public String getRefPersonRelation() {
+		return refPersonRelation;
+	}
+
+	public void setRefPersonRelation(String refPersonRelation) {
+		this.refPersonRelation = refPersonRelation;
+	}
+
+	public String getRefPersonAddress() {
+		return refPersonAddress;
+	}
+
+	public void setRefPersonAddress(String refPersonAddress) {
+		this.refPersonAddress = refPersonAddress;
+	}
+
+	public String getRefPersonTel() {
+		return refPersonTel;
+	}
+
+	public void setRefPersonTel(String refPersonTel) {
+		this.refPersonTel = refPersonTel;
+	}
+
+	public String getKnowFrom() {
+		return knowFrom;
+	}
+
+	public void setKnowFrom(String knowFrom) {
+		this.knowFrom = knowFrom;
+	}
+
+	public String getSeriousIll() {
+		return seriousIll;
+	}
+
+	public void setSeriousIll(String seriousIll) {
+		this.seriousIll = seriousIll;
+	}
+
+	public String getDisease() {
+		return disease;
+	}
+
+	public void setDisease(String disease) {
+		this.disease = disease;
+	}
+
+	public String getRefEmployeeName() {
+		return refEmployeeName;
+	}
+
+	public void setRefEmployeeName(String refEmployeeName) {
+		this.refEmployeeName = refEmployeeName;
+	}
+
+	public String getApplicationFormDate() {
+		return applicationFormDate;
+	}
+
+	public void setApplicationFormDate(String applicationFormDate) {
+		this.applicationFormDate = applicationFormDate;
+	}
+
+	public Timestamp getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Timestamp createDate) {
+		this.createDate = createDate;
+	}
+
+	public Timestamp getUpdateDate() {
+		return updateDate;
+	}
+
+	public void setUpdateDate(Timestamp updateDate) {
+		this.updateDate = updateDate;
+	}
+
+	public List<ApplicationFormEducationM> getEducations() {
+		return educations;
+	}
+
+	public void setEducations(List<ApplicationFormEducationM> educations) {
+		this.educations = educations;
+	}
+
+	public ApplicationFormDriverM getDriverForm() {
+		return driverForm;
+	}
+
+	public void setDriverForm(ApplicationFormDriverM driverForm) {
+		this.driverForm = driverForm;
+	}
+
+	public ClassifierValueM getStatus() {
+		return status;
+	}
+
+	public void setStatus(ClassifierValueM status) {
+		this.status = status;
+	}
+
+	public UserM getCreateBy() {
+		return createBy;
+	}
+
+	public void setCreateBy(UserM createBy) {
+		this.createBy = createBy;
+	}
+
+	public UserM getUpdateBy() {
+		return updateBy;
+	}
+
+	public void setUpdateBy(UserM updateBy) {
+		this.updateBy = updateBy;
+	}
+
+	public java.sql.Date getApplicationDate() {
+		return applicationDate;
+	}
+
+	public void setApplicationDate(java.sql.Date applicationDate) {
+		this.applicationDate = applicationDate;
+	}
+
+	public byte[] getImageProfile() {
+		return imageProfile;
+	}
+
+	public void setImageProfile(byte[] imageProfile) {
+		this.imageProfile = imageProfile;
+	}
+
+	public byte[] getImageCard() {
+		return imageCard;
+	}
+
+	public void setImageCard(byte[] imageCard) {
+		this.imageCard = imageCard;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public List<ApplicationFormWorkExpM> getWorkExps() {
+		return workExps;
+	}
+
+	public void setWorkExps(List<ApplicationFormWorkExpM> workExps) {
+		this.workExps = workExps;
+	}
+
+	public String getAcctBankName() {
+		return acctBankName;
+	}
+
+	public void setAcctBankName(String acctBankName) {
+		this.acctBankName = acctBankName;
+	}
+
+	public String getAcctNo() {
+		return acctNo;
+	}
+
+	public void setAcctNo(String acctNo) {
+		this.acctNo = acctNo;
+	}
+
+	public String getApplicationFormSatus() {
+		return applicationFormSatus;
+	}
+
+	public void setApplicationFormSatus(String applicationFormSatus) {
+		this.applicationFormSatus = applicationFormSatus;
+	}
+
+}

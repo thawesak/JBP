@@ -1,0 +1,267 @@
+<?page title="${c:l('system.title')}" contentType="text/html;charset=UTF-8"?>
+<?link rel="shortcut icon" href="../images/favicon.ico" ?>
+<zk>
+
+
+	<div apply="org.zkoss.bind.BindComposer" width="100%" height="400px"
+		viewModel="@id('vm') @init('co.th.tobeone.beyond.web.vm.ProfileVM')">
+
+		<grid width="100%" style="border:1px;padding-left:20px;padding-right:20px;" sclass="">
+			<rows>
+
+				<row>
+					<cell width="160px" sclass="text-header" align="right">
+						<label value="รหัสสมาชิก "></label>
+					</cell>
+					<cell width="10px">
+						<label value=":"></label>
+					</cell>
+					<cell align="left" width="250px">
+						<textbox value="@load(vm.user.memberId)" readonly="true" width="240px"></textbox>
+					</cell>
+
+					<cell width="160px" sclass="text-header" align="right">
+						<label value="ชื่อ-นามสกุล"></label>
+					</cell>
+					<cell width="10px">
+						<label value=":"></label>
+					</cell>
+					<cell align="left">
+						<!-- <textbox value="@load((vm.user.name).concat(' ').concat(vm.user.surname))" readonly="true"
+							width="240px">
+							</textbox> -->
+						<textbox value="@load(vm.user.name )" width="120px" readonly="true"></textbox>
+						<label value=" - "></label>
+						<textbox value="@load(vm.user.surname)" width="120px" readonly="true"></textbox>
+					</cell>
+				</row>
+
+				<row>
+					<cell width="120px" sclass="text-header" align="right">
+						<label value="เพศ "></label>
+					</cell>
+					<cell width="10px">
+						<label value=":"></label>
+					</cell>
+					<cell align="left">
+						<radiogroup id="sex" selectedItem="@bind(vm.user.sex)">
+							<radio value="M" selected="@load(vm.user.sex eq 'M')" radiogroup="sex" label="ชาย"
+								disabled="@load(vm.mode eq 'INFO')">
+							</radio>
+							<radio value="F" selected="@load(vm.user.sex eq 'F')" radiogroup="sex" label="หญิง"
+								disabled="@load(vm.mode eq 'INFO')">
+							</radio>
+						</radiogroup>
+
+					</cell>
+
+					<cell width="120px" sclass="text-header" align="right">
+						<label value="วัน/เดือน/ปี เกิด"></label>
+					</cell>
+					<cell width="10px">
+						<label value=":"></label>
+					</cell>
+					<cell align="left">
+						<datebox format="dd/MM/yyyy" disabled="true" value="@load(vm.user.birthDay)" readonly="true"></datebox>
+					</cell>
+				</row>
+
+				<row>
+					<cell width="120px" sclass="text-header" align="right">
+						<label value="เลขบัตรประจำตัวประชาชน"></label>
+					</cell>
+					<cell width="10px">
+						<label value=":"></label>
+					</cell>
+					<cell align="left">
+						<textbox value="@load(vm.user.cardId)" readonly="true" width="240px"></textbox>
+					</cell>
+
+					<cell colspan="3"></cell>
+				</row>
+
+				<row>
+					<cell width="120px" sclass="text-header" align="right">
+						<label value="ที่อยู่ เลขที่"></label>
+					</cell>
+					<cell width="10px">
+						<label value=":"></label>
+					</cell>
+					<cell align="left">
+						<textbox readonly="@load(vm.mode eq 'INFO')"
+							value="@load(vm.user.addrNo) @save(vm.user.addrNo, before='save')">
+						</textbox>
+					</cell>
+
+					<cell width="120px" sclass="text-header" align="right">
+						<label value="หมู่ที่"></label>
+					</cell>
+					<cell width="10px">
+						<label value=":"></label>
+					</cell>
+					<cell align="left">
+						<textbox readonly="@load(vm.mode eq 'INFO')" xmlns:w="client"
+							value="@load(vm.user.addrMoo) @save(vm.user.addrMoo, before='save')" maxlength="3">
+							<attribute w:name="doKeyPress_">
+								function(evt){ if (!this._shallIgnore(evt, "0123456789")) this.$doKeyPress_(evt); }
+							</attribute>
+							<attribute name="ctrlKeys">@c^v</attribute>
+							<attribute name="onCtrlKey"/>
+						</textbox>
+					</cell>
+				</row>
+
+				<row>
+					<cell width="120px" sclass="text-header" align="right">
+						<label value="ชื่อหมู่บ้าน"></label>
+					</cell>
+					<cell width="10px">
+						<label value=":"></label>
+					</cell>
+					<cell align="left">
+						<textbox readonly="@load(vm.mode eq 'INFO')"
+							value="@load(vm.user.addrVillage) @save(vm.user.addrVillage, before='save')">
+						</textbox>
+					</cell>
+					<cell colspan="3"></cell>
+				</row>
+
+				<row>
+					<cell width="120px" sclass="text-header" align="right">
+						<label value="ตรอก/ซอย"></label>
+					</cell>
+					<cell width="10px">
+						<label value=":"></label>
+					</cell>
+					<cell align="left">
+						<textbox readonly="@load(vm.mode eq 'INFO')"
+							value="@load(vm.user.addrSoi) @save(vm.user.addrSoi, before='save')">
+						</textbox>
+					</cell>
+					<cell width="120px" sclass="text-header" align="right">
+						<label value="ถนน"></label>
+					</cell>
+					<cell width="10px">
+						<label value=":"></label>
+					</cell>
+					<cell align="left">
+						<textbox readonly="@load(vm.mode eq 'INFO')"
+							value="@load(vm.user.addrRoad) @save(vm.user.addrRoad, before='save')">
+						</textbox>
+					</cell>
+				</row>
+
+				<row>
+					<cell width="120px" sclass="text-header" align="right">
+						<label value="ตำบล/แขวง"></label>
+					</cell>
+					<cell width="10px">
+						<label value=":"></label>
+					</cell>
+					<cell align="left">
+						<textbox readonly="@load(vm.mode eq 'INFO')"
+							value="@load(vm.user.addrTambon) @save(vm.user.addrTambon, before='save')">
+						</textbox>
+					</cell>
+
+					<cell width="120px" sclass="text-header" align="right">
+						<label value="อำเภอ/เขต"></label>
+					</cell>
+
+					<cell width="10px">
+						<label value=":"></label>
+					</cell>
+					<cell align="left">
+						<textbox readonly="@load(vm.mode eq 'INFO')"
+							value="@load(vm.user.addrAmphur) @save(vm.user.addrAmphur, before='save')">
+						</textbox>
+					</cell>
+				</row>
+
+
+				<row>
+					<cell width="120px" sclass="text-header" align="right">
+						<label value="จังหวัด"></label>
+					</cell>
+					<cell width="10px">
+						<label value=":"></label>
+					</cell>
+					<cell align="left">
+						<textbox readonly="@load(vm.mode eq 'INFO')"
+							value="@load(vm.user.addrProvince) @save(vm.user.addrProvince, before='save')">
+						</textbox>
+					</cell>
+
+					<cell width="120px" sclass="text-header" align="right">
+						<label value="รหัสไปรษณีย์"></label>
+					</cell>
+					<cell width="10px">
+						<label value=":"></label>
+					</cell>
+					<cell align="left">
+						<textbox readonly="@bind(vm.mode eq 'INFO')" maxlength="5"  xmlns:w="client"
+							value="@load(vm.user.addrPostcode) @save(vm.user.addrPostcode, before='save')">
+							<attribute w:name="doKeyPress_">
+								function(evt){ if (!this._shallIgnore(evt, "0123456789")) this.$doKeyPress_(evt); }
+							</attribute>
+						</textbox>
+					</cell>
+				</row>
+
+				<row>
+					<cell width="120px" sclass="text-header" align="right">
+						<label value="อีเมล์ "></label>
+					</cell>
+					<cell width="10px">
+						<label value=":"></label>
+					</cell>
+					<cell align="left" colspan="4">
+						<textbox readonly="@bind(vm.mode eq 'INFO')"  xmlns:w="client"
+							value="@load(vm.user.email) @save(vm.user.email, before='save')">
+							<attribute w:name="doKeyPress_">
+								function(evt){ if (!this._shallIgnore(evt, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890.@")) this.$doKeyPress_(evt); }
+							</attribute>
+						</textbox>
+						<separator orient="vertical" width="10px"></separator>
+						<label value="(กรณีที่ไม่มี email ไม่ต้องกรอกอักษรใดๆ)" visible="@bind(vm.mode eq 'EDIT')"></label>
+					</cell>
+
+					<!-- <cell colspan="3"></cell> -->
+
+				</row>
+
+				<row>
+					<cell width="120px" sclass="text-header" align="right">
+						<label value="ผู้สืบทอดทางธุรกิจ"></label>
+					</cell>
+					<cell width="10px">
+						<label value=":"></label>
+					</cell>
+					<cell align="left">
+						<textbox readonly="true" value=""></textbox>
+					</cell>
+					<cell colspan="3"></cell>
+				</row>
+
+
+
+			</rows>
+		</grid>
+		<div width="100%" align="right" style="padding-top:10px;padding-bottom:10px;padding-right:5px;">
+			<button image="../images/pencil2.png" visible="@bind(vm.mode eq 'INFO')" label="Edit" autodisable="self"
+				sclass="link" onClick="@command('editClick')">
+			</button>
+			<button image="../images/tick_circle.png" visible="@bind(vm.mode eq 'EDIT')" label="Save" autodisable="self"
+				sclass="link" onClick="@command('save')">
+			</button>
+			<button image="../images/cancel.png" visible="@bind(vm.mode eq 'EDIT')" label="Cancel" autodisable="self"
+				sclass="link" onClick="@command('cancelClick')">
+			</button>
+		</div>
+
+	</div>
+
+</zk>
+
+
+
