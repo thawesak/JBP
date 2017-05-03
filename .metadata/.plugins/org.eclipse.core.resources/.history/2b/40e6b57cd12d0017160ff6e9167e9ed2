@@ -1,0 +1,126 @@
+<?page title="${c:l('system.title')}" contentType="text/html;charset=UTF-8"?>
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/layout/layout.zul"?>
+<?link rel="shortcut icon" href="../images/favicon.ico" ?>
+<zk>
+
+	<label self="@define(pageInfo)">
+		${c:l('menu.inventory.item.remain')}
+	</label>
+
+	<div apply="org.zkoss.bind.BindComposer" self="@define(content)"
+		width="1000px" height="400px"
+		viewModel="@id('vm') @init('com.th.jbp.web.vm.InventoryRemainVM')">
+
+			<groupbox width="100%" closable="false" mold="3d"
+				contentStyle="border:0">
+
+				<listbox model="@bind(vm.records)" width="100%" 
+					emptyMessage="${c:l('inventory.search.not.found')}">
+					<listhead>
+
+						<listheader align="center" width="45px">
+							<label value="${c:l('seq.no')}" sclass="text-header"></label>
+						</listheader>
+
+						<listheader align="center" width="100px">
+							<label sclass="text-header"
+								value="${c:l('inventory.item.no')}" />
+						</listheader>
+						
+						<listheader align="center" width="100px">
+							<label sclass="text-header"
+								value="${c:l('inventory.reference.code')}" />
+						</listheader>
+
+						<listheader align="center" width="170px">
+							<label sclass="text-header"
+								value="${c:l('inventory.item.name')}" />
+						</listheader>
+
+						<listheader align="center" width="130px">
+							<label sclass="text-header" value="${c:l('inventory.item.type')}" />
+						</listheader>
+						
+						<listheader align="center" width="100px">
+							<label sclass="text-header" value="${c:l('inventory.item.price')}" />
+							<label sclass="text-header" value=" (${c:l('baht')})" />
+						</listheader>
+						
+						<listheader align="center" width="120px">
+							<label sclass="text-header" value="${c:l('inventory.item.store')}" />
+						</listheader>
+						
+						<listheader align="center" width="100px">
+							<label sclass="text-header" value="${c:l('inventory.item.status')}" />
+						</listheader>
+
+						<listheader align="center" width="110px">
+							<label value="" />
+						</listheader>
+
+					</listhead>
+
+					<template name="model" var="item" status="s">
+						<listitem checkable="false">
+							<listcell label="@load((vm.activePage * vm.pageSize) + (s.index + 1))" />
+
+							<listcell style="text-align:left;">
+								<label value="@load(item.itemNo)"></label>
+							</listcell>
+							
+							<listcell style="text-align:left;">
+								<label value="@load(item.referenceCode)"></label>
+							</listcell>
+
+							<listcell style="text-align:left;">
+								<label value="@load(item.itemName)"></label>
+							</listcell>
+
+							<listcell style="text-align:left;">
+								<label value="@load(item.itemType.name)"></label>
+							</listcell>
+							
+							<listcell style="text-align:right;">
+								<label value="@load(item.itemPrice) @converter('formatedNumber', format='###,##0.00')" ></label>
+							</listcell>
+							
+							<listcell style="text-align:left;">
+								<label value="@load(item.itemStore)"></label>
+							</listcell>
+							
+							<listcell style="text-align:center;">
+								<label value="@load(item.itemStatus.name)"></label>
+							</listcell>
+
+							<listcell>
+								<hbox>
+									<button
+										image="../images/table_edit.png" sclass="link"
+										autodisable="self" tooltiptext="แก้ไขรายการ"
+										onClick="@command('getByItem',item=item)">
+									</button>
+
+									<button sclass="link"
+										image="../images/table_delete.png" autodisable="self"
+										tooltiptext="ลบรายการ"
+										onClick="@command('delete',item=item)">
+									</button>
+								</hbox>
+							</listcell>
+						</listitem>
+					</template>
+				</listbox>
+
+				<paging pageSize="@bind(vm.pageSize)" id="mypaging" 
+					detailed="false" mold="default" totalSize="@bind(vm.totalSize)"
+					activePage="@bind(vm.activePage)" width="100%" />
+
+			</groupbox>
+
+
+	</div>
+
+</zk>
+
+
+

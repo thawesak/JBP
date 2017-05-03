@@ -1,0 +1,66 @@
+package com.th.jbp.jpa.entity;
+
+import java.io.Serializable;
+import java.sql.Timestamp;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="JBP_INVENTORY_ITEM_TYPE")
+public class InventoryItemTypeM implements Serializable{
+
+	private static final long serialVersionUID = -7604222225810051429L;
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Long inventoryItemTypeId;
+	
+	@Column
+	private String name;
+	
+	@Column
+	private String description;
+	
+	@Column
+	private String prefix;
+	
+	@Column
+	private String unit;
+	
+	@Column
+	private String remark;
+	
+	@Column
+	private int minimumOrder;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "status", referencedColumnName = "classifierValueId", nullable = false)
+	protected ClassifierValueM status;
+	
+	@Column
+	private Timestamp createDate;
+	
+	@Column
+	private Timestamp updateDate;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "createBy", referencedColumnName = "userId", nullable = false)
+	protected UserM createBy;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "updateBy", referencedColumnName = "userId", nullable = true)
+	protected UserM updateBy;
+	
+	public InventoryItemTypeM(){
+		
+	}
+
+}

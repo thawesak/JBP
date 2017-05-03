@@ -1,0 +1,32 @@
+package com.th.jbp.web.view;
+
+import java.io.Serializable;
+
+public class InventoryItemView implements Serializable{
+
+	private static final long serialVersionUID = -7522973649307049157L;
+
+	private String name;
+	
+	private int quantity;
+	
+	public InventoryItemView(){
+		
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+}

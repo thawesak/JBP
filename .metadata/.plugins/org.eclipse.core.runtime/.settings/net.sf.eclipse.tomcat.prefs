@@ -1,0 +1,13 @@
+contextsDir=C\:\\Program Files\\apache-tomcat-8.0.28\\conf\\Catalina\\localhost
+eclipse.preferences.version=1
+jvmBootClasspath=C%3A%5CProgram+Files+%28x86%29%5CJava%5Cjre1.8.0_66%5Clib%5Crt.jar;C%3A%5CProgram+Files%5Capache-tomcat-8.0.28%5Cbin%5Cbootstrap.jar;C%3A%5CProgram+Files%5Capache-tomcat-8.0.28%5Cbin%5Ctomcat-juli.jar;
+managerPassword=P@ssw0rd
+managerUrl=http\://localhost\:8080/manager
+managerUser=admin
+projectsInCp=Beyond-Mobile-Web;
+projectsInSourcePath=Beyond-Mobile-Web;beyond-rest;
+tomcatBase=C\:\\Program Files\\apache-tomcat-8.0.28
+tomcatConfigFile=C\:\\Program Files\\apache-tomcat-8.0.28\\conf\\server.xml
+tomcatDir=C\:\\Program Files\\apache-tomcat-8.0.28
+tomcatJRE=1446997043553
+tomcatVersion=tomcatV8

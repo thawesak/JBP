@@ -1,0 +1,74 @@
+package com.th.jbp.backend.service;
+
+import java.util.List;
+
+import javax.persistence.EntityManager;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.th.jbp.backend.entity.ObjectResult;
+import com.th.jbp.jpa.entity.InventoryItemOrdersM;
+import com.th.jbp.jpa.repositories.InventoryItemOrdersRepository;
+
+@Service("inventoryItemOrdersService")
+@Scope(value = "singleton", proxyMode = ScopedProxyMode.TARGET_CLASS)
+@Transactional
+public class InventoryItemOrdersService implements IInventoryItemOrdersService{
+
+	@Autowired
+	InventoryItemOrdersRepository inventoryItemOrdersRepository;
+	
+	@Autowired
+	EntityManager em;
+	
+	@Override
+	@Transactional(readOnly = true)
+	public ObjectResult<InventoryItemOrdersM> getByKey(InventoryItemOrdersM entity) {
+		ObjectResult<InventoryItemOrdersM> result = new ObjectResult<>();
+		InventoryItemOrdersM inventoryOrdersM = inventoryItemOrdersRepository.findOne(entity.getInventoryItemOrdersId());
+		if (inventoryOrdersM == null || entity == null) {
+			result = new ObjectResult<>(ObjectResult.DATA_NOT_FOUND);
+		} else {
+			result = new ObjectResult<>(ObjectResult.SUCCESS, inventoryOrdersM);
+		}
+		return result;
+	}
+
+	@Override
+	public ObjectResult<List<InventoryItemOrdersM>> lists() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ObjectResult<InventoryItemOrdersM> save(InventoryItemOrdersM entity) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ObjectResult<InventoryItemOrdersM> update(InventoryItemOrdersM entity) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ObjectResult<InventoryItemOrdersM> delete(InventoryItemOrdersM entity) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Page<InventoryItemOrdersM> lists(String lotNumber, String itemName, String itemType,
+			PageRequest pageRequest) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workingSetManager>
+<workingSet editPageId="org.eclipse.mylyn.tasks.ui.workingSet" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1448761567348_1" label="BMM Web" name="BMM Web">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/JBP-Web" type="4"/>
+</workingSet>
+<workingSet editPageId="org.eclipse.mylyn.tasks.ui.workingSet" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1448763206149_2" label="BMM Service" name="BMM Service"/>
+<workingSet aggregate="true" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1446996985726_0" label="Window Working Set" name="Aggregate for window 1446996985726">
+<workingSet IMemento.internal.id="BMM Service"/>
+<workingSet IMemento.internal.id="BMM Web"/>
+</workingSet>
+<workingSet aggregate="true" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1452621183863_5" label="Multiple Working Sets" name="Aggregate:BMM Service:BMM Web:">
+<workingSet IMemento.internal.id="BMM Service"/>
+<workingSet IMemento.internal.id="BMM Web"/>
+</workingSet>
+<mruList name="BMM Service"/>
+<mruList name="BMM Web"/>
+</workingSetManager>

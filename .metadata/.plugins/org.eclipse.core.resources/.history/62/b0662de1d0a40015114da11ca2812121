@@ -1,0 +1,108 @@
+<?page title="${c:l('system.title')}" contentType="text/html;charset=UTF-8"?>
+<!-- <?init class="org.zkoss.zk.ui.util.Composition" arg0="/layout/template.zul"?> -->
+<?link rel="shortcut icon" href="../images/favicon.ico" ?>
+<zk>
+
+
+	<div apply="org.zkoss.bind.BindComposer" width="100%" height="400px"
+		viewModel="@id('vm') @init('co.th.tobeone.beyond.web.vm.ProfileBankAccountVM')">
+
+		<grid width="100%" style="border:1px;padding-left:20px;padding-right:20px;" sclass="">
+			<rows>
+
+				<row>
+					<cell width="180px" sclass="text-header" align="right">
+						<label value="ชื่อบัญชี "></label>
+					</cell>
+					<cell width="10px">
+						<label value=":"></label>
+					</cell>
+					<cell align="left">
+						<textbox value="@bind(vm.userAccount.accountName) @saveBankAccount(vm.userAccount.accountName, before={'saveBankAccount'})"
+							disabled="@load(vm.mode eq 'INFO')" width="240px">
+						</textbox>
+					</cell>
+				</row>
+
+				<row>
+					<cell width="120px" sclass="text-header" align="right">
+						<label value="เลขที่บัญชี"></label>
+					</cell>
+					<cell width="10px">
+						<label value=":"></label>
+					</cell>
+					<cell align="left">
+						<textbox value="@bind(vm.userAccount.accountNo) @saveBankAccount(vm.userAccount.accountNo, before={'saveBankAccount'})"
+							disabled="@load(vm.mode eq 'INFO')" width="240px">
+						</textbox>
+					</cell>
+				</row>
+				<row>
+					<cell width="120px" sclass="text-header" align="right">
+						<label value="ธนาคาร"></label>
+					</cell>
+					<cell width="10px">
+						<label value=":"></label>
+					</cell>
+					<cell align="left">
+						<bandbox id="bank_bd" width="240px" value="@bind(vm.userAccount.bmmBank.bankName) @saveBankAccount(vm.userAccount.bmmBank.bankName, before={'saveBankAccount'})"
+							autodrop="true" disabled="@load(vm.mode eq 'INFO')">
+							<bandpopup>
+								<listbox selectedItem="@bind(vm.userAccount.bmmBank)" width="250px"
+									model="@bind(vm.banks)" onSelect="bank_bd.close();">
+									<template name="model" var="item" status="s">
+										<listitem>
+											<listcell>
+												<label value="@load(item.bankCode)"></label>
+												<label value=" : "></label>
+												<label value="@load(item.bankName)"></label>
+											</listcell>
+										</listitem>
+									</template>
+								</listbox>
+							</bandpopup>
+						</bandbox>
+					</cell>
+				</row>
+				<row>
+					<cell width="120px" sclass="text-header" align="right">
+						<label value="สาขา "></label>
+					</cell>
+					<cell width="10px">
+						<label value=":"></label>
+					</cell>
+					<cell align="left">
+						<textbox value="@bind(vm.userAccount.bankBranch) @saveBankAccount(vm.userAccount.bankBranch, before={'saveBankAccount'})"
+							disabled="@load(vm.mode eq 'INFO')" width="240px">
+						</textbox>
+					</cell>
+				</row>
+
+
+			</rows>
+		</grid>
+		
+	 	<separator width="100%" bar="true" height="15px"></separator>
+		
+		<div width="100%" align="right">
+			<button image="../images/table_edit.png"
+				visible="@bind(vm.mode eq 'INFO')" label="Edit" autodisable="self"
+				sclass="link" onClick="@command('editClick')">
+			</button>
+			<button image="../images/save.png"
+				visible="@bind(vm.mode eq 'EDIT')" label="Save" autodisable="self"
+				sclass="link" onClick="@command('saveBankAccount')">
+			</button>
+			<separator width="5px" orient="vertical"></separator>
+			<button image="../images/cancel.png"
+				visible="@bind(vm.mode eq 'EDIT')" label="Cancel" autodisable="self"
+				sclass="link" onClick="@command('cancelClick')">
+			</button>
+		</div> 
+
+	</div>
+
+</zk>
+
+
+

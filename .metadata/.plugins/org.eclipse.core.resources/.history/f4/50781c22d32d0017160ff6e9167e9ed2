@@ -1,0 +1,120 @@
+package com.th.jbp.web.vm;
+
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.zkoss.bind.BindContext;
+import org.zkoss.bind.BindUtils;
+import org.zkoss.bind.Converter;
+import org.zkoss.bind.annotation.BindingParam;
+import org.zkoss.bind.annotation.Command;
+import org.zkoss.bind.annotation.GlobalCommand;
+import org.zkoss.bind.annotation.Init;
+import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.util.media.Media;
+import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.select.annotation.VariableResolver;
+import org.zkoss.zk.ui.select.annotation.WireVariable;
+import org.zkoss.zk.ui.util.Clients;
+import org.zkoss.zul.ListModelList;
+import org.zkoss.zul.Messagebox;
+import org.zkoss.zul.Window;
+
+import com.th.jbp.backend.entity.ObjectResult;
+import com.th.jbp.backend.service.InventoryItemService;
+import com.th.jbp.backend.service.UserService;
+import com.th.jbp.enums.ItemStatus;
+import com.th.jbp.enums.Status;
+import com.th.jbp.jpa.entity.ClassifierValueM;
+import com.th.jbp.jpa.entity.InventoryItemM;
+import com.th.jbp.jpa.entity.InventoryItemTypeM;
+import com.th.jbp.jpa.entity.UserM;
+import com.th.jbp.jpa.repositories.ClassifierValueRepository;
+import com.th.jbp.jpa.repositories.InventoryItemRepository;
+import com.th.jbp.jpa.repositories.InventoryItemTypeRepository;
+import com.th.jbp.web.utils.SecurityUtils;
+import com.th.jbp.web.view.InventoryItemView;
+
+@VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
+public class InventoryRemainVM extends BaseVM{
+	private static final long serialVersionUID = 4335831646869945368L;
+	private static final Logger LOGGER = Logger.getLogger(InventoryRemainVM.class);
+	
+	@WireVariable
+	InventoryItemService inventoryItemService;
+		
+	private ListModelList<InventoryItemView> records = null;
+	
+	private int pageSize = 10;
+	private int activePage = 0;
+	private int totalSize = 0;
+
+	@Init
+	public void init() {
+		this.records = new ListModelList<>();
+		setMode(MODE.SEARCH.name());
+		clearValues();
+		loadItems();
+	}
+	
+	private void clearValues(){
+		this.activePage = 0;
+		this.totalSize = 0;
+		this.records = new ListModelList<>();
+	}
+	
+	private void loadItems() {
+		LOGGER.info("loadItems--> activePage : " + this.activePage);
+		PageRequest pageRequest = new PageRequest(activePage, pageSize);
+		itemType = type != null && type.getName() != null ? type.getName() : null;
+		Page<InventoryItemM> page = inventoryItemService.lists(itemNo, itemName, itemType, pageRequest);
+		this.totalSize = Integer.parseInt(String.valueOf(page.getTotalElements()));
+		this.records.clear();
+		this.records.addAll(page.getContent());
+	}
+
+	public ListModelList<InventoryItemView> getRecords() {
+		return records;
+	}
+
+	public void setRecords(ListModelList<InventoryItemView> records) {
+		this.records = records;
+	}
+
+	public int getPageSize() {
+		return pageSize;
+	}
+
+	public void setPageSize(int pageSize) {
+		this.pageSize = pageSize;
+	}
+
+	public int getActivePage() {
+		return activePage;
+	}
+
+	@NotifyChange("records")
+	public void setActivePage(int activePage) {
+		this.activePage = activePage;
+		this.totalSize = 0;
+		this.records = new ListModelList<>();
+		loadItems();
+	}
+
+	public int getTotalSize() {
+		return totalSize;
+	}
+
+	public void setTotalSize(int totalSize) {
+		this.totalSize = totalSize;
+	}
+
+	
+}

@@ -1,0 +1,124 @@
+package com.th.jbp.jpa.entity;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="JBP_INVENTORY_ITEM_ORDER")
+public class InventoryItemOrderM implements Serializable{
+	
+	private static final long serialVersionUID = -2171961015177208592L;
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Long inventoryItemOrderId;
+	
+	@Column
+	private String referenceCode;
+	
+	@Column
+	private String itemNo;
+	
+	@Column
+	private String itemName;
+	
+	@Column
+	private String itemDescription;
+	
+	@Column
+	private String itemBrand;
+	
+	@Column
+	private String itemModel;
+	
+	@Column
+	private java.sql.Date itemDate;
+	
+	@Column
+	private java.sql.Date itemExpiryDate;
+	
+	@Column
+	private BigDecimal itemPrice;
+	
+	@Column
+	private String itemUnit;
+	
+	@Column
+	private String itemStore;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "itemType", referencedColumnName = "inventoryItemTypeId", nullable = false)
+	protected InventoryItemTypeM itemType;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "itemStatus", referencedColumnName = "classifierValueId", nullable = false)
+	protected ClassifierValueM itemStatus;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "status", referencedColumnName = "classifierValueId", nullable = false)
+	protected ClassifierValueM status;
+	
+	@Column
+	private String lotNumber;
+	
+	@Column
+	private byte[] image;
+	
+	@Column
+	private byte[] image2;
+	
+	@Column
+	private byte[] image3;
+	
+	@Column
+	private Timestamp createDate;
+	
+	@Column
+	private Timestamp updateDate;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "createBy", referencedColumnName = "userId", nullable = false)
+	protected UserM createBy;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "updateBy", referencedColumnName = "userId", nullable = true)
+	protected UserM updateBy;
+	
+	public InventoryItemOrderM(){
+		
+	}
+	
+	public InventoryItemOrderM(InventoryItemM another){
+		this.referenceCode = another.referenceCode;
+		this.itemNo = another.itemNo;
+		this.itemName = another.itemName;
+		this.itemDescription = another.itemDescription;
+		this.itemBrand = another.itemBrand;
+		this.itemModel = another.itemModel;
+		this.itemDate = another.itemDate;
+		this.itemExpiryDate = another.itemExpiryDate;
+		this.itemPrice = another.itemPrice;
+		this.itemUnit = another.itemUnit;
+		this.itemStore = another.itemStore;
+		this.itemType = another.itemType;
+		this.itemStatus = another.itemStatus;
+		this.status = another.status;
+		this.image = another.image;
+		this.createDate = another.createDate;
+		this.updateDate = another.updateDate;
+		this.createBy = another.createBy;
+		this.updateBy = another.updateBy;
+	}
+
+}

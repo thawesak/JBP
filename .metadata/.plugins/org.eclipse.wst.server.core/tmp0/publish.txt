@@ -1,0 +1,5 @@
+#Tomcat publish data
+#Wed May 03 12:10:56 ICT 2017
+org.eclipse.jst.jee.server\:/binary\:C\:\\Users\\thawesak.a\\.m2\\repository\\org\\zkoss\\zk\\zk\\8.0.1.1\\zk-8.0.1.1.jar=C\:\\Program Files\\apache-tomcat-8.0.28\\wtpwebapps\\JBP-Web\\WEB-INF\\lib\\zk-8.0.1.1.jar
+org.eclipse.jst.jee.server\:JBP-Web=C\:\\Program Files\\apache-tomcat-8.0.28\\wtpwebapps\\JBP-Web
+org.eclipse.jst.jee.server\:/binary\:C\:\\Users\\thawesak.a\\.m2\\repository\\org\\springframework\\spring-web\\4.1.0.RELEASE\\spring-web-4.1.0.RELEASE.jar=C\:\\Program Files\\apache-tomcat-8.0.28\\wtpwebapps\\JBP-Web\\WEB-INF\\lib\\spring-web-4.1.0.RELEASE.jar

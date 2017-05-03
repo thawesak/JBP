@@ -1,0 +1,35 @@
+package com.th.jbp.jpa.repositories;
+
+import java.util.List;
+
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
+import com.th.jbp.jpa.entity.InventoryItemTypeM;
+
+@Repository("inventoryItemTypeRepository")
+@Scope(value = "singleton", proxyMode = ScopedProxyMode.TARGET_CLASS)
+public interface InventoryItemTypeRepository extends JpaRepository<InventoryItemTypeM, Long>{
+	
+	@Query("SELECT b FROM InventoryItemTypeM b WHERE b.status.name != 'DELETED' order by b.name")
+	Page<InventoryItemTypeM> findAll(Pageable pageable);
+	
+	@Query("SELECT b FROM InventoryItemTypeM b WHERE b.status.name != 'DELETED' order by b.name")
+	List<InventoryItemTypeM> findAllActive();
+	
+	@Query("SELECT b FROM InventoryItemTypeM b WHERE upper(b.name) like upper(:name) and b.status.name != 'DELETED' order by b.name")
+	Page<InventoryItemTypeM> findByName(@Param("name") String name, Pageable pageable);
+	
+	@Query("SELECT b FROM InventoryItemTypeM b WHERE upper(b.prefix) like upper(:prefix) and b.status.name != 'DELETED' order by b.name")
+	Page<InventoryItemTypeM> findByPrefix(@Param("prefix") String prefix, Pageable pageable);
+	
+	@Query("SELECT b FROM InventoryItemTypeM b WHERE upper(b.name) like upper(:name) and upper(b.prefix) like upper(:prefix) and b.status.name != 'DELETED' order by b.name")
+	Page<InventoryItemTypeM> findByNameAndPrefix(@Param("name") String name, @Param("prefix") String prefix, Pageable pageable);
+	
+}

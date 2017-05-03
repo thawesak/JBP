@@ -1,0 +1,152 @@
+<?page title="${c:l('system.title')}" contentType="text/html;charset=UTF-8"?>
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/layout/layout1.zul"?>
+<?link rel="shortcut icon" href="../images/favicon.ico" ?>
+<zk xmlns:h="xhtml">
+	<div self="@define(pageInfo)">
+		${c:l('menu.report')} 
+		<image src="../images/br_next.png" width="8px"></image> 
+		${c:l('menu.report.ewallet')}
+	</div>
+	<div apply="org.zkoss.bind.BindComposer" width="100%"
+		self="@define(content)"
+		viewModel="@id('vm') @init('co.th.tobeone.beyond.web.vm.ReportWalletVM')">
+		<div width="800px"
+			style="padding-top:0px;padding-bottom:10px;">
+			<grid>
+				<rows>
+					<row>
+						<cell width="80px" sclass="text-header"
+							align="left">
+							<label value="วันที่"></label>
+						</cell>
+						<cell width="10px">
+							<label value=":"></label>
+						</cell>
+						<cell align="left">
+							<datebox width="120px" readonly="true"
+								value="@load(vm.dateFrom) @save(vm.dateFrom, before={'search'})"
+								format="dd/MM/yyyy">
+							</datebox>
+							<label value=" ถึง  "></label>
+							<datebox readonly="true" width="120px"
+								value="@load(vm.dateTo) @save(vm.dateTo, before={'search'})"
+								format="dd/MM/yyyy">
+							</datebox>
+						</cell>
+					</row>
+					<row>
+						<cell width="80px" sclass="text-header"
+							align="left">
+							<label value="ประเภท"></label>
+						</cell>
+						<cell width="10px">
+							<label value=":"></label>
+						</cell>
+						<cell align="left">
+							<bandbox id="cbtype" readonly="true"
+								width="180px" value="@bind(vm.type.name)" autodrop="true">
+								<bandpopup>
+									<listbox
+										selectedItem="@bind(vm.type)" width="180px"
+										model="@bind(vm.types)" onSelect="cbtype.close();">
+										<template name="model"
+											var="item" status="s">
+											<listitem>
+												<listcell>
+													<label
+														value="@load(item.name)" />
+												</listcell>
+											</listitem>
+										</template>
+									</listbox>
+								</bandpopup>
+							</bandbox>
+						</cell>
+					</row>
+				</rows>
+			</grid>
+		</div>
+
+		<div align="right" width="800px"
+			style="padding-top:10px;padding-bottom:10px;">
+			<button type="button" image="../images/find.png"
+				onClick="@command('search')" label="${c:l('button.search')}">
+			</button>
+			<button type="button" image="../images/clear.png"
+				onClick="@command('clear')" label="${c:l('button.clear')}">
+			</button>
+		</div>
+
+		<div width="1000px">
+
+			<listbox model="@bind(vm.records)" width="800px"
+				emptyMessage="No items match your search" mold="paging"
+				pageSize="30">
+
+				<listhead>
+					<listheader align="center" width="45px">
+						<label value="${c:l('sequence.number')}" sclass="text-header"></label>
+					</listheader>
+					<listheader align="center" width="135px">
+						<label value="${c:l('date')}" sclass="text-header"></label>
+					</listheader>
+					<listheader align="center">
+						<label value="รายการ" sclass="text-header"></label>
+					</listheader>
+					<listheader align="center" width="160px">
+						<label value="รับ" sclass="text-header"></label>
+					</listheader>
+					<listheader align="center" width="160px">
+						<label value="จ่าย" sclass="text-header"></label>
+					</listheader>
+					<listheader align="center" width="160px">
+						<label value="คงเหลือ" sclass="text-header"></label>
+					</listheader>
+				</listhead>
+
+				<template name="model" var="item" status="s">
+					<listitem checkable="false">
+						<listcell label="@load(s.index + 1)" />
+						<listcell style="text-align:center;">
+							<label
+								value="@load(item.date) @converter('formatedDate',format='dd/MM/yyyy HH:mm:ss')">
+							</label>
+						</listcell>
+
+						<listcell style="text-align:left;">
+							<label value="@load(item.type)"></label>
+							<label value="@load(item.type2)"></label>
+						</listcell>
+
+						<listcell style="text-align:right;">
+
+							<label visible="@load(not empty item.type)"
+								value="@load(item.amount) @converter('formatedNumber',format='#,##0.00')">
+							</label>
+						</listcell>
+
+						<listcell style="text-align:right;">
+
+							<label visible="@load(not empty item.type2)"
+								value="@load(item.amount) @converter('formatedNumber',format='#,##0.00')">
+							</label>
+						</listcell>
+						<listcell style="text-align:right;">
+							<label
+								value="@load(item.outstanding) @converter('formatedNumber',format='#,##0.00')">
+							</label>
+						</listcell>
+					</listitem>
+				</template>
+			</listbox>
+
+			<div align="right" width="800px"
+				style="padding-top:10px;padding-bottom:10px;">
+				<button type="button" image="../images/excel.png"
+					onClick="@command('downloadReport')"
+					disabled="@bind(empty vm.records)" label="${c:l('button.download')}">
+				</button>
+			</div>
+		</div>
+	</div>
+</zk>

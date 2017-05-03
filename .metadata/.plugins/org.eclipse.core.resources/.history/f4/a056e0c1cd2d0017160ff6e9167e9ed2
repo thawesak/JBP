@@ -1,0 +1,472 @@
+package com.th.jbp.web.vm;
+
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.zkoss.bind.BindContext;
+import org.zkoss.bind.BindUtils;
+import org.zkoss.bind.Converter;
+import org.zkoss.bind.annotation.BindingParam;
+import org.zkoss.bind.annotation.Command;
+import org.zkoss.bind.annotation.GlobalCommand;
+import org.zkoss.bind.annotation.Init;
+import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.select.annotation.VariableResolver;
+import org.zkoss.zk.ui.select.annotation.WireVariable;
+import org.zkoss.zk.ui.util.Clients;
+import org.zkoss.zul.ListModelList;
+import org.zkoss.zul.Messagebox;
+
+import com.th.jbp.backend.entity.ObjectResult;
+import com.th.jbp.backend.service.InsurancePartsService;
+import com.th.jbp.backend.service.UserService;
+import com.th.jbp.enums.Status;
+import com.th.jbp.jpa.entity.ClassifierValueM;
+import com.th.jbp.jpa.entity.InsurancePartsItemM;
+import com.th.jbp.jpa.entity.InsurancePartsM;
+import com.th.jbp.jpa.entity.InventoryItemTypeM;
+import com.th.jbp.jpa.entity.UserM;
+import com.th.jbp.jpa.repositories.ClassifierValueRepository;
+import com.th.jbp.jpa.repositories.InsurancePartsRepository;
+import com.th.jbp.jpa.repositories.InventoryItemTypeRepository;
+import com.th.jbp.web.utils.SecurityUtils;
+import com.th.jbp.web.view.PartsItemWarrantyView;
+
+@VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
+public class InsurancePartsVM extends BaseVM{
+
+	private static final long serialVersionUID = 462344361003086155L;
+	private static final Logger LOGGER = Logger.getLogger(InsurancePartsVM.class);
+	
+	@WireVariable
+	InsurancePartsService insurancePartsService;
+	
+	@WireVariable
+	InsurancePartsRepository insurancePartsRepository;
+	
+	@WireVariable
+	ClassifierValueRepository classifierValueRepository;
+	
+	@WireVariable
+	InventoryItemTypeRepository inventoryItemTypeRepository;
+	
+	@WireVariable
+	UserService userService;
+	
+	private String companyName;
+	private String referenceCode;
+	
+	private ListModelList<InsurancePartsM> records = null;
+	private List<InventoryItemTypeM> partsItems = null;
+	private List<PartsItemWarrantyView> parts = new ArrayList<PartsItemWarrantyView>();
+	private InsurancePartsM insurancePartsM;
+	private InventoryItemTypeM partsItem;
+	private int pageSize = 10;
+	private int activePage = 0;
+	private int totalSize = 0;
+	
+	@Init
+	public void init() {
+		this.records = new ListModelList<>();
+		this.partsItems = new ListModelList<>(classifierValueRepository.findAllItemType());
+		setMode(MODE.SEARCH.name());
+		clearValues();
+		loadItems();
+	}
+	
+	public InsurancePartsVM(){
+		
+	}
+	
+	@Command
+	@NotifyChange({ "records", "totalSize", "activePage", "pageSize", "mode", "companyName", "referenceCode" })
+	public void search() {
+		LOGGER.info("excute method search");
+		setMode(MODE.SEARCH.name());
+		clearValues();
+		loadItems();
+	}
+	
+	@Command
+	@NotifyChange({ "records", "totalSize", "activePage", "pageSize", "mode", "companyName", "referenceCode", "insurancePartsM" })
+	public void clearSearch() {
+		LOGGER.info("excute method clearSearch");
+		setMode(MODE.SEARCH.name());
+		setInsurancePartsM(new InsurancePartsM());
+		companyName = null;
+		referenceCode = null;
+		clearValues();
+	}
+	
+	@Command
+	@NotifyChange({ "records", "insurancePartsM", "mode", "parts" })
+	public void getByItem(@BindingParam("item") InsurancePartsM insurancePartsM) {
+		LOGGER.info("excute method getByItem");
+		setMode(MODE.EDIT.name());
+		this.insurancePartsM = insurancePartsService.getByKey(insurancePartsM).getObject();
+		List<InsurancePartsItemM> list = insurancePartsService.findPartsItemByInsurancePartsId(this.insurancePartsM.getInsurancePartsId()).getObject();
+		this.parts = new ArrayList<PartsItemWarrantyView>();
+		if(list != null && !list.isEmpty()){
+			for(InsurancePartsItemM item : list){
+				this.parts.add(item.getPartsItemWarrantyView());
+			}
+		}
+	}
+	
+	@Command
+	@NotifyChange({ "records", "insurancePartsM" })
+	public void delete(@BindingParam("item") final InsurancePartsM entity) {
+		LOGGER.info("excute method delete");
+		String message = getMessage(MESSAGE_CONFIRM_DELETE);
+		execute(new MethodOperation() {
+			@Override
+			public void execute() {
+				Clients.showBusy("Waiting for server...");
+				entity.setUpdateBy(SecurityUtils.getWebUserDetails());
+				try{
+					ObjectResult<InsurancePartsM> objectResult = insurancePartsService.delete(entity);
+					if (objectResult.getCode() == ObjectResult.SUCCESS) {
+						LOGGER.info("delete success load items again.");
+						loadItems();
+					}
+				}catch(Exception e){
+					LOGGER.error(e.toString(), e);
+					showError("Error", getMessage("message.error.operation.fail", "Delete", e.getMessage()));
+				}finally{
+					Clients.clearBusy();
+				}
+				BindUtils.postGlobalCommand(null, null, "refreshView", null);
+			}
+		}, LOGGER, message);
+	}
+	
+	@Command
+	@NotifyChange({ "insurancePartsM", "mode", "parts" })
+	public void addNewItem() {
+		LOGGER.info("excute method addNewItem");
+		setMode(MODE.ADD.name());
+		this.insurancePartsM = new InsurancePartsM();
+		this.parts = new ArrayList<PartsItemWarrantyView>();
+	}
+	
+	@Command
+	public void save() {
+		LOGGER.info("excute method save");
+		LOGGER.info("MODE : " + getMode());
+		String sb = StringUtils.trimToEmpty(validate());
+		if (StringUtils.isNotEmpty(sb)) {
+			Clients.clearBusy();
+			showValidate(sb);
+			return;
+		}
+		final boolean isModeAdd = MODE.ADD.name().equals(getMode());
+		String message = getMessage(MODE.ADD.name().equals(getMode()) ? MESSAGE_CONFIRM_SAVE : MESSAGE_CONFIRM_UPDATE);
+		final String operation = isModeAdd ? getMessage("save") : getMessage("update");
+		execute(new MethodOperation() {
+			@Override
+			public void execute() {
+
+				Clients.showBusy("Waiting for server...");
+				InsurancePartsM model = getInsurancePartsM();
+				LOGGER.info(model);
+
+				Date date = new Date();
+				if (isModeAdd) {
+					ClassifierValueM status = classifierValueRepository.findOne(Status.ACTIVE.getId());
+					model.setStatus(status);
+				}
+
+				List<InsurancePartsItemM> partsItems = new ArrayList<InsurancePartsItemM>();
+				for(PartsItemWarrantyView partsView : parts){
+					if(StringUtils.isNotEmpty(partsView.getPartsItemName())){
+						InsurancePartsItemM insurancePartsItemM = new InsurancePartsItemM();
+						List<ClassifierValueM> classifierValues = classifierValueRepository.findItemTypeByName(partsView.getPartsItemName().trim());
+						if(classifierValues != null && !classifierValues.isEmpty()){
+							insurancePartsItemM.setItemType(classifierValues.get(0));
+						}
+						insurancePartsItemM.setWarrantyYear(partsView.getWarrantyYear());
+						partsItems.add(insurancePartsItemM);
+					}
+				}
+				model.setPartsItems(partsItems);
+				
+				if(isModeAdd){
+					model.setCreateBy(SecurityUtils.getWebUserDetails());
+					model.setCreateDate(new Timestamp(date.getTime()));
+				}else{
+					model.setUpdateBy(SecurityUtils.getWebUserDetails());
+					model.setUpdateDate(new Timestamp(date.getTime()));
+				}
+				try {
+					LOGGER.info(model);
+					if (isModeAdd) {
+						insurancePartsService.save(model);
+					} else {
+						insurancePartsService.update(model);
+					}
+					showInformation(getMessage("message.operation.success", operation));
+					setInsurancePartsM(new InsurancePartsM());
+					setMode(MODE.SEARCH.name());
+					setActivePage(0);
+					loadItems();
+				} catch (Exception e) {
+					LOGGER.error(e.toString(), e);
+					showError("Error", getMessage("message.error.operation.fail", operation, e.getMessage()));
+				} finally {
+					Clients.clearBusy();
+				}
+				BindUtils.postGlobalCommand(null, null, "refreshView", null);
+			}
+		}, LOGGER, message);
+
+	}
+	
+	@Command
+	@NotifyChange({ "records", "insurancePartsM", "mode", "activePage" })
+	public void cancel() {
+		LOGGER.info("excute method cancel");
+		setMode(MODE.SEARCH.name());
+		this.insurancePartsM = null;
+		this.activePage = 0;
+	}
+	
+	@Command
+	@NotifyChange({ "parts" })
+	public void addLineParts(){
+		if(this.parts == null){
+			this.parts = new ArrayList<PartsItemWarrantyView>(); 
+		}
+		
+		if(this.parts != null){
+			this.parts.add(new PartsItemWarrantyView());
+		}else{
+			 Messagebox.show(getMessage("insurance.1.addline.error"), "Error", Messagebox.OK, Messagebox.ERROR);
+		}
+	}
+	
+	@GlobalCommand
+	@NotifyChange({ "records", "insurancePartsM", "activePage", "totalSize", "pageSize", "mode", "companyName", "referenceCode" })
+	public void refreshView() {
+		LOGGER.info("excute method refreshView");
+	}
+	
+	private static Map<Long, UserM> CACHE_USERS = new HashMap<>();
+	
+	@SuppressWarnings("rawtypes")
+	public Converter getMemberConverter() {
+		return new Converter() {
+			public Object coerceToUi(Object user, Component component, BindContext ctx) {
+				if (user == null) {
+					return "N/A";
+				}
+				Long userId = ((UserM) user).getUserId();
+				UserM userM = CACHE_USERS.get(userId);
+				if (userM == null) {
+					userM = new UserM();
+					userM.setUserId(userId);
+					ObjectResult<UserM> rs = userService.getByKey(userM);
+					if (rs.getCode() == ObjectResult.SUCCESS) {
+						userM = rs.getObject();
+						if (userM == null) {
+							return "N/A";
+						}
+						CACHE_USERS.put(userId, userM);
+					}
+				}
+				return String.format("%s %s", userM.getFirstName(), userM.getLastName());
+			}
+
+			public Object coerceToBean(Object val, Component component, BindContext ctx) {
+				return null;
+			}
+		};
+	}
+	
+	private void loadItems() {
+		LOGGER.info("loadItems--> activePage : " + this.activePage);
+		PageRequest pageRequest = new PageRequest(activePage, pageSize);
+		Page<InsurancePartsM> page = insurancePartsService.lists(companyName, referenceCode, pageRequest);
+		this.totalSize = Integer.parseInt(String.valueOf(page.getTotalElements()));
+		this.records.clear();
+		this.records.addAll(page.getContent());
+	}
+	
+	private void clearValues(){
+		this.activePage = 0;
+		this.totalSize = 0;
+		this.records = new ListModelList<InsurancePartsM>();
+		this.parts = new ArrayList<PartsItemWarrantyView>();
+	}
+	
+	private String validate() {
+		StringBuilder sb = new StringBuilder();
+		final boolean isModeAdd = MODE.ADD.name().equals(getMode());
+		int i = 1;
+		if (StringUtils.isEmpty(this.insurancePartsM.getCompanyName())) {
+			sb.append(i++ + "." + getMessage("insurance.1.company.name.required"));
+			sb.append(NEW_LINE);
+		}
+		if (StringUtils.isEmpty(this.insurancePartsM.getReferenceCode())) {
+			sb.append(i++ + "." + getMessage("insurance.1.reference.code.required"));
+			sb.append(NEW_LINE);
+		}else{
+			InsurancePartsM obj = insurancePartsRepository.findOneByReferenceCode(this.insurancePartsM.getReferenceCode());
+			if(isModeAdd){
+				if(obj != null){
+					sb.append(i++ + "." + getMessage("insurance.1.reference.code.duplicate"));
+					sb.append(NEW_LINE);
+				}
+			}else{
+				if(obj != null && !obj.getInsurancePartsId().equals(this.insurancePartsM.getInsurancePartsId()) 
+						&& obj.getReferenceCode().equals(this.insurancePartsM.getReferenceCode())){
+					sb.append(i++ + "." + getMessage("insurance.1.reference.code.duplicate"));
+					sb.append(NEW_LINE);
+				}
+			}
+		}
+		if (StringUtils.isEmpty(this.insurancePartsM.getDescription())) {
+			sb.append(i++ + "." + getMessage("insurance.1.description.required"));
+			sb.append(NEW_LINE);
+		}
+		if (this.parts != null && this.parts.size() > 1) {
+			Set<String> partsItemMap = new HashSet<String>();
+			for(PartsItemWarrantyView item: parts){
+				if(!partsItemMap.contains(item.getPartsItemName())){
+					partsItemMap.add(item.getPartsItemName());
+				}else{
+					sb.append(i++ + "." + getMessage("insurance.1.parts.duplicate"));
+					sb.append(NEW_LINE);
+					break;
+				}
+			}
+		}
+		if(this.parts != null && !this.parts.isEmpty()){
+			for(PartsItemWarrantyView partsView : parts){
+				InsurancePartsItemM insurancePartsItemM = new InsurancePartsItemM();
+				if(StringUtils.isNotEmpty(partsView.getPartsItemName())){
+					List<ClassifierValueM> classifierValues = classifierValueRepository.findItemTypeByName(partsView.getPartsItemName().trim());
+					if(classifierValues != null && !classifierValues.isEmpty()){
+						insurancePartsItemM.setItemType(classifierValues.get(0));
+					}else{
+						sb.append(i++ + "." + getMessage("insurance.1.parts.not.found", partsView.getPartsItemName()));
+						sb.append(NEW_LINE);
+					}
+					insurancePartsItemM.setWarrantyYear(partsView.getWarrantyYear());
+				}
+			}
+		}
+
+		return sb.toString();
+	}
+
+	public InsurancePartsService getInsurancePartsService() {
+		return insurancePartsService;
+	}
+
+	public void setInsurancePartsService(InsurancePartsService insurancePartsService) {
+		this.insurancePartsService = insurancePartsService;
+	}
+
+	public ClassifierValueRepository getClassifierValueRepository() {
+		return classifierValueRepository;
+	}
+
+	public void setClassifierValueRepository(ClassifierValueRepository classifierValueRepository) {
+		this.classifierValueRepository = classifierValueRepository;
+	}
+
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+
+	public String getReferenceCode() {
+		return referenceCode;
+	}
+
+	public void setReferenceCode(String referenceCode) {
+		this.referenceCode = referenceCode;
+	}
+
+	public ListModelList<InsurancePartsM> getRecords() {
+		return records;
+	}
+
+	public void setRecords(ListModelList<InsurancePartsM> records) {
+		this.records = records;
+	}
+
+	public InsurancePartsM getInsurancePartsM() {
+		return insurancePartsM;
+	}
+
+	public void setInsurancePartsM(InsurancePartsM insurancePartsM) {
+		this.insurancePartsM = insurancePartsM;
+	}
+
+	public int getPageSize() {
+		return pageSize;
+	}
+
+	public void setPageSize(int pageSize) {
+		this.pageSize = pageSize;
+	}
+
+	public int getActivePage() {
+		return activePage;
+	}
+
+	@NotifyChange("records")
+	public void setActivePage(int activePage) {
+		this.activePage = activePage;
+		this.totalSize = 0;
+		this.records = new ListModelList<>();
+		loadItems();
+	}
+
+	public int getTotalSize() {
+		return totalSize;
+	}
+
+	public void setTotalSize(int totalSize) {
+		this.totalSize = totalSize;
+	}
+
+	public ListModelList<InventoryItemTypeM> getPartsItems() {
+		return new ListModelList<InventoryItemTypeM>(partsItems, true);
+	}
+
+	public void setPartsItems(ListModelList<InventoryItemTypeM> partsItems) {
+		this.partsItems = partsItems;
+	}
+
+	public List<PartsItemWarrantyView> getParts() {
+		return parts;
+	}
+
+	public void setParts(List<PartsItemWarrantyView> parts) {
+		this.parts = parts;
+	}
+
+	public InventoryItemTypeM getPartsItem() {
+		return partsItem;
+	}
+
+	public void setPartsItem(InventoryItemTypeM partsItem) {
+		this.partsItem = partsItem;
+	}
+}

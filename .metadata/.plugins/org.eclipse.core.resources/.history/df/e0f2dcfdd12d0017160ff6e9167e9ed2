@@ -1,0 +1,9 @@
+package com.th.jbp.web.view;
+
+import java.io.Serializable;
+
+public class InventoryItemView implements Serializable{
+
+	private static final long serialVersionUID = -7522973649307049157L;
+
+}

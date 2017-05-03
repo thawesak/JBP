@@ -1,0 +1,297 @@
+package com.th.jbp.jpa.entity;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="JBP_INVENTORY_ITEM")
+public class InventoryItemM implements Serializable{
+
+	private static final long serialVersionUID = -228530040707382227L;
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Long inventoryItemId;
+	
+	@Column
+	private String referenceCode;
+	
+	@Column
+	private String itemNo;
+	
+	@Column
+	private String itemName;
+	
+	@Column
+	private String itemDescription;
+	
+	@Column
+	private String itemBrand;
+	
+	@Column
+	private String itemModel;
+	
+	@Column
+	private java.sql.Date itemDate;
+	
+	@Column
+	private java.sql.Date itemExpiryDate;
+	
+	@Column
+	private BigDecimal itemPrice;
+	
+	@Column
+	private String itemUnit;
+	
+	@Column
+	private String itemStore;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "itemType", referencedColumnName = "inventoryItemTypeId", nullable = false)
+	protected InventoryItemTypeM itemType;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "itemStatus", referencedColumnName = "classifierValueId", nullable = false)
+	protected ClassifierValueM itemStatus;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "status", referencedColumnName = "classifierValueId", nullable = false)
+	protected ClassifierValueM status;
+	
+	@Column
+	private byte[] image;
+	
+	@Column
+	private byte[] image2;
+	
+	@Column
+	private byte[] image3;
+	
+	@Column
+	private Timestamp createDate;
+	
+	@Column
+	private Timestamp updateDate;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "createBy", referencedColumnName = "userId", nullable = false)
+	protected UserM createBy;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "updateBy", referencedColumnName = "userId", nullable = true)
+	protected UserM updateBy;
+	
+	public InventoryItemM(){
+		
+	}
+	
+	public InventoryItemM(InventoryItemM another){
+		this.referenceCode = another.referenceCode;
+		this.itemNo = another.itemNo;
+		this.itemName = another.itemName;
+		this.itemDescription = another.itemDescription;
+		this.itemBrand = another.itemBrand;
+		this.itemModel = another.itemModel;
+		this.itemDate = another.itemDate;
+		this.itemExpiryDate = another.itemExpiryDate;
+		this.itemPrice = another.itemPrice;
+		this.itemUnit = another.itemUnit;
+		this.itemStore = another.itemStore;
+		this.itemType = another.itemType;
+		this.itemStatus = another.itemStatus;
+		this.status = another.status;
+		this.image = another.image;
+		this.createDate = another.createDate;
+		this.updateDate = another.updateDate;
+		this.createBy = another.createBy;
+		this.updateBy = another.updateBy;
+	}
+
+	public Long getInventoryItemId() {
+		return inventoryItemId;
+	}
+
+	public void setInventoryItemId(Long inventoryItemId) {
+		this.inventoryItemId = inventoryItemId;
+	}
+
+	public String getItemNo() {
+		return itemNo;
+	}
+
+	public void setItemNo(String itemNo) {
+		this.itemNo = itemNo;
+	}
+
+	public String getItemName() {
+		return itemName;
+	}
+
+	public void setItemName(String itemName) {
+		this.itemName = itemName;
+	}
+
+	public String getItemDescription() {
+		return itemDescription;
+	}
+
+	public void setItemDescription(String itemDescription) {
+		this.itemDescription = itemDescription;
+	}
+
+	public String getItemBrand() {
+		return itemBrand;
+	}
+
+	public void setItemBrand(String itemBrand) {
+		this.itemBrand = itemBrand;
+	}
+
+	public java.sql.Date getItemDate() {
+		return itemDate;
+	}
+
+	public void setItemDate(java.sql.Date itemDate) {
+		this.itemDate = itemDate;
+	}
+
+	public java.sql.Date getItemExpiryDate() {
+		return itemExpiryDate;
+	}
+
+	public void setItemExpiryDate(java.sql.Date itemExpiryDate) {
+		this.itemExpiryDate = itemExpiryDate;
+	}
+
+	public BigDecimal getItemPrice() {
+		return itemPrice;
+	}
+
+	public void setItemPrice(BigDecimal itemPrice) {
+		this.itemPrice = itemPrice;
+	}
+
+	public InventoryItemTypeM getItemType() {
+		return itemType;
+	}
+
+	public void setItemType(InventoryItemTypeM itemType) {
+		this.itemType = itemType;
+	}
+
+	public ClassifierValueM getItemStatus() {
+		return itemStatus;
+	}
+
+	public void setItemStatus(ClassifierValueM itemStatus) {
+		this.itemStatus = itemStatus;
+	}
+
+	public ClassifierValueM getStatus() {
+		return status;
+	}
+
+	public void setStatus(ClassifierValueM status) {
+		this.status = status;
+	}
+
+	public Timestamp getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Timestamp createDate) {
+		this.createDate = createDate;
+	}
+
+	public Timestamp getUpdateDate() {
+		return updateDate;
+	}
+
+	public void setUpdateDate(Timestamp updateDate) {
+		this.updateDate = updateDate;
+	}
+
+	public UserM getCreateBy() {
+		return createBy;
+	}
+
+	public void setCreateBy(UserM createBy) {
+		this.createBy = createBy;
+	}
+
+	public UserM getUpdateBy() {
+		return updateBy;
+	}
+
+	public void setUpdateBy(UserM updateBy) {
+		this.updateBy = updateBy;
+	}
+
+	public String getItemModel() {
+		return itemModel;
+	}
+
+	public void setItemModel(String itemModel) {
+		this.itemModel = itemModel;
+	}
+
+	public byte[] getImage() {
+		return image;
+	}
+
+	public void setImage(byte[] image) {
+		this.image = image;
+	}
+
+	public byte[] getImage2() {
+		return image2;
+	}
+
+	public void setImage2(byte[] image2) {
+		this.image2 = image2;
+	}
+
+	public byte[] getImage3() {
+		return image3;
+	}
+
+	public void setImage3(byte[] image3) {
+		this.image3 = image3;
+	}
+
+	public String getReferenceCode() {
+		return referenceCode;
+	}
+
+	public void setReferenceCode(String referenceCode) {
+		this.referenceCode = referenceCode;
+	}
+
+	public String getItemUnit() {
+		return itemUnit;
+	}
+
+	public void setItemUnit(String itemUnit) {
+		this.itemUnit = itemUnit;
+	}
+
+	public String getItemStore() {
+		return itemStore;
+	}
+
+	public void setItemStore(String itemStore) {
+		this.itemStore = itemStore;
+	}
+
+}

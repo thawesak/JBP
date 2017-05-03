@@ -1,0 +1,18 @@
+#handlers = java.util.logging.FileHandler, java.util.logging.ConsoleHandler
+
+handlers = java.util.logging.FileHandler
+java.util.logging.ConsoleHandler.level = INFO
+java.util.logging.ConsoleHandler.formatter = java.util.logging.SimpleFormatter
+ 
+java.util.logging.FileHandler.formatter = java.util.logging.SimpleFormatter
+#java.util.logging.FileHandler.pattern = E:/JBP/log/zk-web-loging.log
+java.util.logging.FileHandler.pattern = D:/logs/zk-web-loging.log
+java.util.logging.FileHandler.level = INFO
+ 
+org.zkoss.zk.ui.impl.UiEngineImpl = INFO
+org.zkoss.bind = INFO
+org.zkoss.util = INFO
+org.zkoss.ui = INFO
+org.zkoss.bind.impl.BinderImpl = INFO
+
+com.th.jbp = DEBUG

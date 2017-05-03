@@ -1,0 +1,1 @@
+0:0:0:0:0:0:0:1 - - [07/Dec/2015:14:19:49 +0700] "GET /beyond-web/zkau?dtid=z_c70&cmd_0=rmDesktop&opt_0=i HTTP/1.1" 200 9

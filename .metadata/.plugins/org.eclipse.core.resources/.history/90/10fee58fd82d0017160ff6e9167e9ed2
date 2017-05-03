@@ -1,0 +1,89 @@
+package com.th.jbp.web.vm;
+
+import java.util.List;
+
+import org.apache.log4j.Logger;
+import org.zkoss.bind.annotation.Init;
+import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.zk.ui.select.annotation.VariableResolver;
+import org.zkoss.zk.ui.select.annotation.WireVariable;
+import org.zkoss.zul.ListModelList;
+
+import com.th.jbp.backend.entity.ObjectResult;
+import com.th.jbp.backend.service.InventoryItemService;
+import com.th.jbp.web.view.InventoryItemView;
+
+@VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
+public class InventoryRemainVM extends BaseVM{
+	private static final long serialVersionUID = 4335831646869945368L;
+	private static final Logger LOGGER = Logger.getLogger(InventoryRemainVM.class);
+	
+	@WireVariable
+	InventoryItemService inventoryItemService;
+		
+	private ListModelList<InventoryItemView> records = null;
+	
+	private int pageSize = 10;
+	private int activePage = 0;
+	private int totalSize = 0;
+
+	@Init
+	public void init() {
+		this.records = new ListModelList<>();
+		setMode(MODE.SEARCH.name());
+		clearValues();
+		loadItems();
+	}
+	
+	private void clearValues(){
+		this.activePage = 0;
+		this.totalSize = 0;
+		this.records = new ListModelList<>();
+	}
+	
+	private void loadItems() {
+		LOGGER.info("loadItems--> activePage : " + this.activePage);
+		ObjectResult<List<InventoryItemView>> remains = inventoryItemService.remainItems();
+		this.totalSize = remains.getObject().size();
+		this.records.clear();
+		this.records.addAll(remains.getObject());
+	}
+
+	public ListModelList<InventoryItemView> getRecords() {
+		return records;
+	}
+
+	public void setRecords(ListModelList<InventoryItemView> records) {
+		this.records = records;
+	}
+
+	public int getPageSize() {
+		return pageSize;
+	}
+
+	public void setPageSize(int pageSize) {
+		this.pageSize = pageSize;
+	}
+
+	public int getActivePage() {
+		return activePage;
+	}
+
+	@NotifyChange("records")
+	public void setActivePage(int activePage) {
+		this.activePage = activePage;
+		this.totalSize = 0;
+		this.records = new ListModelList<>();
+		loadItems();
+	}
+
+	public int getTotalSize() {
+		return totalSize;
+	}
+
+	public void setTotalSize(int totalSize) {
+		this.totalSize = totalSize;
+	}
+
+	
+}

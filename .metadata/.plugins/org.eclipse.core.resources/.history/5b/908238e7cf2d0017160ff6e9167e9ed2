@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?page title="JBP" contentType="text/html;charset=UTF-8"?>
+<?taglib uri="http://www.zkoss.org/zkspring/security" prefix="sec"?>
+<?variable-resolver class="org.zkoss.spring.DelegatingVariableResolver"?>
+<?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c" ?>
+<?link rel="shortcut icon" href="../images/favicon.ico" ?>
+<zk xmlns="http://www.zkoss.org/2005/zul" xmlns:h="xhtml">
+	<style src="../style/style.css" />
+	<style src="../style/message.css" />
+	<script type="text/javascript" src="../js/init.js"></script>
+	<script type="text/javascript" src="../js/validations.js"></script>
+	<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+	<script
+		src="http://igorescobar.github.io/jQuery-Mask-Plugin/js/jquery.mask.min.js">
+	</script>
+	<script type="text/javascript">
+		var jq2 = jQuery.noConflict();
+	</script>
+
+	<div id="home">
+		<div id="header">
+			
+			<h:table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<h:tr>
+					<h:td width="50%">
+						<div width="100%" align="left"
+							style="padding-left:10px;padding-top:10px;">
+							<image src="../images/logo.png" height="70px"></image>
+						</div>
+					</h:td>
+					<h:td width="50%">
+						<div width="100%" align="right"
+							style="border:0px;padding-bottom:10px;padding-top:5px;color:#68A3CF">
+							<a label="ภาษาไทย" style="color: black;text-decoration: none;">
+								<attribute name="onClick"><![CDATA[
+									String localeValue = "th";
+									Locale prefer_locale = localeValue.length() > 2 ? 
+									        new Locale(localeValue.substring(0,2),localeValue.substring(3)) : new Locale(localeValue);
+									session.setAttribute(org.zkoss.web.Attributes.PREFERRED_LOCALE, prefer_locale);
+									execution.sendRedirect("");
+					            ]]></attribute>
+							</a>
+							<space bar="true" />
+							<a label="English" style="color: black;text-decoration: none;">
+								<attribute name="onClick"><![CDATA[
+									String localeValue = "en";
+									Locale prefer_locale = localeValue.length() > 2 ? 
+									        new Locale(localeValue.substring(0,2),localeValue.substring(3)) : new Locale(localeValue);
+									session.setAttribute(org.zkoss.web.Attributes.PREFERRED_LOCALE, prefer_locale);
+									execution.sendRedirect("");
+					            ]]></attribute>
+							</a>
+						</div>
+					</h:td>
+				</h:tr>
+			</h:table>
+			<h:table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<h:tr style="background-color:#2091CB;" >
+					<h:td width="50%">
+						<div width="100%" align="left"
+							style="background-color:#2091CB;padding-left:10px;padding-top:5px;"
+							height="30px">
+							<image src="../images/user_info.png"></image>
+							<label
+								value="${pageContext.request.userPrincipal.principal.user.username} : ${pageContext.request.userPrincipal.principal.user.firstName} ${pageContext.request.userPrincipal.principal.user.lastName}"
+								style="color:#fff;font-size:13px;">
+							</label>
+						</div>
+					</h:td>
+					<h:td width="50%" align="right" style="padding-right:10px">
+						<div width="100%" align="right"
+							style="background-color:#2091CB;padding-left:10px;padding-top:5px;"
+							height="30px">
+							
+						</div>
+					</h:td>
+				</h:tr>
+			</h:table>
+
+			<menubar id="menubar" width="100%">
+				<zk if="${sec:isAnyGranted('MD, SENIOR_MANAGER, MANAGER, SENIOR_OFFICER, OFFICER_HEAD_OFFICE, OFFICER_BANGSAI, TECHNICIAN, DRIVER')}">
+					<menuitem label="${c:l('menu.home')}" href="../zul/home.zul"
+						image="../images/home_w.png" />
+					<menuseparator></menuseparator>
+				</zk>
+			
+				<zk if="${sec:isAnyGranted('MD, SENIOR_MANAGER, MANAGER, SENIOR_OFFICER, OFFICER_HEAD_OFFICE, OFFICER_BANGSAI, TECHNICIAN, DRIVER')}">
+					<menuitem label="${c:l('menu.applicationform')}"
+						href="../zul/application_form_home.zul"
+						image="../images/sign-up-icon.png" />
+					<menuseparator></menuseparator>
+				</zk>				
+
+				<zk if="${sec:isAnyGranted('MD, SENIOR_MANAGER, MANAGER, SENIOR_OFFICER')}">
+					<menu label="${c:l('menu.usermanagement')}"
+						image="../images/user_group.png">
+						<menupopup>
+							<menuitem label="${c:l('menu.usermanagement.maintain')}"
+								href="../zul/user_management.zul"
+								image="../images/key.png" />
+							<menuitem label="${c:l('menu.usermanagement.resetpassword')}"
+								href="../zul/reset_password.zul"
+								image="../images/key.png" />
+						</menupopup>
+					</menu>
+					<menuseparator></menuseparator>
+				</zk>
+				
+				<zk if="${sec:isAnyGranted('MD, SENIOR_MANAGER, MANAGER, SENIOR_OFFICER')}">
+					<menu label="${c:l('menu.insurance')}"
+						image="../images/insurance_icon.png">
+						<menupopup>
+							<menuitem label="${c:l('menu.insurance.1')}"
+								href="../zul/insurance_1.zul"
+								image="../images/insurance_icon.png" />
+							<menuitem label="${c:l('menu.insurance.2')}"
+								href="../zul/insurance_2.zul"
+								image="../images/insurance_icon.png" />
+						</menupopup>
+					</menu>
+					<menuseparator></menuseparator>
+				</zk>
+				
+<!-- 				<zk if="${sec:isAnyGranted('MD, SENIOR_MANAGER, MANAGER, SENIOR_OFFICER')}"> -->
+<!-- 					<menu label="${c:l('menu.trailer')}" -->
+<!-- 						image="../images/trailer_icon.png"> -->
+<!-- 						<menupopup> -->
+<!-- 							<menuitem label="${c:l('menu.trailer.head')}" -->
+<!-- 								href="../zul/trailer_head_home.zul" -->
+<!-- 								image="../images/trailer_head_icon.png" /> -->
+<!-- 							<menuitem label="${c:l('menu.trailer.tail')}" -->
+<!-- 								href="../zul/trailer_tail_home.zul" -->
+<!-- 								image="../images/trailer_tail_icon.png" /> -->
+<!-- 						</menupopup> -->
+<!-- 					</menu> -->
+<!-- 					<menuseparator></menuseparator> -->
+<!-- 				</zk> -->
+				
+				<zk if="${sec:isAnyGranted('MD, SENIOR_MANAGER, MANAGER, SENIOR_OFFICER, OFFICER_HEAD_OFFICE, OFFICER_BANGSAI, TECHNICIAN, DRIVER')}">
+					<menu label="${c:l('menu.inventory')}"
+						image="../images/shopcart.png">
+						<menupopup>
+							<menuitem label="${c:l('menu.inventory.item.type')}"
+								href="../zul/inventory_item_type_home.zul"
+								image="../images/shopcart.png" />
+							<menuitem label="${c:l('menu.inventory.item')}"
+								href="../zul/inventory_home.zul"
+								image="../images/shopcart.png" />
+						</menupopup>
+					</menu>
+					<menuseparator></menuseparator>
+				</zk>
+
+				<zk if="${sec:isAnyGranted('MD, SENIOR_MANAGER')}">
+					<menuitem label="${c:l('menu.systemsetting')}"
+						href="../zul/system_setting.zul"
+						image="../images/application_view_list.png" />
+					<menuseparator></menuseparator>
+				</zk>
+				
+				<menuitem label="${c:l('menu.change.password')}"
+					href="../zul/change_password.zul"
+					image="../images/key.png" />
+				<menuseparator></menuseparator>
+				
+				<menuitem label="${c:l('menu.logout')}" href="../logout"
+					image="../images/logout.png" />
+			</menubar>
+
+		</div>
+		<div id="pageInfo"
+			style="padding:5px 8px 5px 8px;background-color:#F9F9F9">
+			<hbox>
+				<image src="../images/br_next.png" width="8px"></image>
+				<div self="@{insert(pageInfo)}"></div>
+			</hbox>
+		</div>
+		<div id="content" self="@{insert(content)}"
+			style="padding-left:20px;padding-top:20px;">
+		</div>
+
+		<!-- <div id="footer" style="padding-top:10px;">
+			<toolbar mold="panel" align="center">
+			<toolbarbutton label="Home" />
+			<toolbarbutton label="Sitemap" />
+			<toolbarbutton label="Terms" />
+			<toolbarbutton label="About us" />
+			<toolbarbutton label="Contract us" />
+			<separator orient="vertical" bar="false" />
+			</toolbar>
+			</div> -->
+	</div>
+</zk>

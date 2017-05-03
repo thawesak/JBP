@@ -1,0 +1,451 @@
+package com.th.jbp.web.vm;
+
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.zkoss.bind.BindContext;
+import org.zkoss.bind.BindUtils;
+import org.zkoss.bind.Converter;
+import org.zkoss.bind.annotation.BindingParam;
+import org.zkoss.bind.annotation.Command;
+import org.zkoss.bind.annotation.GlobalCommand;
+import org.zkoss.bind.annotation.Init;
+import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.util.media.Media;
+import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.select.annotation.VariableResolver;
+import org.zkoss.zk.ui.select.annotation.WireVariable;
+import org.zkoss.zk.ui.util.Clients;
+import org.zkoss.zul.ListModelList;
+import org.zkoss.zul.Messagebox;
+import org.zkoss.zul.Window;
+
+import com.th.jbp.backend.entity.ObjectResult;
+import com.th.jbp.backend.service.InventoryItemService;
+import com.th.jbp.backend.service.UserService;
+import com.th.jbp.enums.ItemStatus;
+import com.th.jbp.enums.Status;
+import com.th.jbp.jpa.entity.ClassifierValueM;
+import com.th.jbp.jpa.entity.InventoryItemM;
+import com.th.jbp.jpa.entity.InventoryItemTypeM;
+import com.th.jbp.jpa.entity.UserM;
+import com.th.jbp.jpa.repositories.ClassifierValueRepository;
+import com.th.jbp.jpa.repositories.InventoryItemRepository;
+import com.th.jbp.jpa.repositories.InventoryItemTypeRepository;
+import com.th.jbp.web.utils.SecurityUtils;
+
+@VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
+public class InventoryVM extends BaseVM{
+	private static final long serialVersionUID = 6960701581079188193L;
+	private static final Logger LOGGER = Logger.getLogger(InventoryVM.class);
+	
+	@WireVariable
+	InventoryItemRepository inventoryItemRepository;
+	
+	@WireVariable
+	InventoryItemService inventoryItemService;
+	
+	@WireVariable
+	ClassifierValueRepository classifierValueRepository;
+	
+	@WireVariable
+	InventoryItemTypeRepository inventoryItemTypeRepository;
+	
+	@WireVariable
+	UserService userService;
+	
+	private String itemNo = null;
+	private String itemName = null;
+	private String itemType = null;
+	private InventoryItemTypeM type;
+	
+	private ListModelList<InventoryItemM> records = null;
+	private ListModelList<InventoryItemTypeM> itemTypes = null;
+	private InventoryItemM inventoryItemM;
+	private InventoryItemTypeM type2;
+	private int pageSize = 10;
+	private int activePage = 0;
+	private int totalSize = 0;
+	private int itemQuantity = 1;
+
+	@Init
+	public void init() {
+		this.records = new ListModelList<>();
+		this.itemTypes = new ListModelList<>(inventoryItemTypeRepository.findAll());
+		this.itemTypes.add(0, new ClassifierValueM());
+		setMode(MODE.SEARCH.name());
+		clearValues();
+		loadItems();
+	}
+	
+	private void clearValues(){
+		this.activePage = 0;
+		this.totalSize = 0;
+		this.records = new ListModelList<>();
+	}
+	
+	private void loadItems() {
+		LOGGER.info("loadItems--> activePage : " + this.activePage);
+		PageRequest pageRequest = new PageRequest(activePage, pageSize);
+		itemType = type != null && type.getName() != null ? type.getName() : null;
+		Page<InventoryItemM> page = inventoryItemService.lists(itemNo, itemName, itemType, pageRequest);
+		this.totalSize = Integer.parseInt(String.valueOf(page.getTotalElements()));
+		this.records.clear();
+		this.records.addAll(page.getContent());
+	}
+	
+	@Command
+	@NotifyChange({ "records", "totalSize", "activePage", "pageSize", "mode", "itemNo", "itemName", "itemType" })
+	public void search() {
+		LOGGER.info("excute method search");
+		setMode(MODE.SEARCH.name());
+		clearValues();
+		loadItems();
+	}
+	
+	@Command
+	@NotifyChange({ "records", "totalSize", "activePage", "pageSize", "mode", "itemNo", "itemName", "itemType", "type", "inventoryItemM" })
+	public void clearSearch() {
+		LOGGER.info("excute method clearSearch");
+		setMode(MODE.SEARCH.name());
+		setInventoryItemM(new InventoryItemM());
+		setType(new ClassifierValueM());
+		itemNo = null;
+		itemName = null;
+		itemType = null;
+		clearValues();
+	}
+	
+	@Command
+	@NotifyChange({ "inventoryItemM" })
+	public void getUploadedImage(@BindingParam("media") Media media){
+		if(media == null)
+			return;
+			
+        if (media instanceof org.zkoss.image.Image) {
+        	inventoryItemM.setImage(media.getByteData());
+        } else {
+            Messagebox.show(getMessage("upload.type.invalid"), "Error", Messagebox.OK, Messagebox.ERROR);
+        }
+		
+	}
+	
+	@Command
+	@NotifyChange({ "inventoryItemM" })
+	public void viewImage() {
+		LOGGER.debug("excute method viewImage");
+		Map<String, Object> arg = new HashMap<String, Object>();
+		arg.put("media", inventoryItemM.getImage());
+		Window window = (Window) Executions.createComponents(
+				"/zul/view_image.zul", null, arg);
+		window.doModal();
+	}
+	
+	private static Map<Long, UserM> CACHE_USERS = new HashMap<>();
+	
+	@SuppressWarnings("rawtypes")
+	public Converter getMemberConverter() {
+		return new Converter() {
+			public Object coerceToUi(Object user, Component component, BindContext ctx) {
+				if (user == null) {
+					return "N/A";
+				}
+				Long userId = ((UserM) user).getUserId();
+				UserM userM = CACHE_USERS.get(userId);
+				if (userM == null) {
+					userM = new UserM();
+					userM.setUserId(userId);
+					ObjectResult<UserM> rs = userService.getByKey(userM);
+					if (rs.getCode() == ObjectResult.SUCCESS) {
+						userM = rs.getObject();
+						if (userM == null) {
+							return "N/A";
+						}
+						CACHE_USERS.put(userId, userM);
+					}
+				}
+				return String.format("%s %s", userM.getFirstName(), userM.getLastName());
+			}
+
+			public Object coerceToBean(Object val, Component component, BindContext ctx) {
+				return null;
+			}
+		};
+	}
+	
+	@Command
+	@NotifyChange({ "inventoryItemM", "mode", "type2", "itemQuantity" })
+	public void addNewItem() {
+		LOGGER.info("excute method addNewItem");
+		setMode(MODE.ADD.name());
+		this.inventoryItemM = new InventoryItemM();
+		this.type2 = null;
+		this.itemQuantity = 1;
+	}
+	
+	@Command
+	public void save() {
+		LOGGER.info("excute method save");
+		LOGGER.info("MODE : " + getMode() + ", itemQuantity : "+itemQuantity);
+		String sb = StringUtils.trimToEmpty(validate());
+		if (StringUtils.isNotEmpty(sb)) {
+			Clients.clearBusy();
+			showValidate(sb);
+			return;
+		}
+		final boolean isModeAdd = MODE.ADD.name().equals(getMode());
+		String message = getMessage(MODE.ADD.name().equals(getMode()) ? MESSAGE_CONFIRM_SAVE : MESSAGE_CONFIRM_UPDATE);
+		final String operation = isModeAdd ? getMessage("save") : getMessage("update");
+		execute(new MethodOperation() {
+			@Override
+			public void execute() {
+
+				Clients.showBusy("Waiting for server...");
+				InventoryItemM model = getInventoryItemM();
+
+				Date date = new Date();
+				if (isModeAdd) {
+					ClassifierValueM status = classifierValueRepository.findOne(Status.ACTIVE.getId());
+					model.setStatus(status);
+					
+					ClassifierValueM itemStatus = classifierValueRepository.findOne(ItemStatus.STOCK_NEW.getId());
+					model.setItemStatus(itemStatus);
+				}
+				model.setItemType(type2);
+				if(isModeAdd){
+					model.setCreateBy(SecurityUtils.getWebUserDetails());
+					model.setCreateDate(new Timestamp(date.getTime()));
+				}else{
+					model.setUpdateBy(SecurityUtils.getWebUserDetails());
+					model.setUpdateDate(new Timestamp(date.getTime()));
+				}
+				try {
+					LOGGER.info("itemQuantity = "+itemQuantity);
+					if (isModeAdd) {
+						inventoryItemService.saveItem(model, getItemQuantity());
+					} else {
+						inventoryItemService.update(model);
+					}
+					showInformation(getMessage("message.operation.success", operation));
+					setInventoryItemM(new InventoryItemM());
+					setMode(MODE.SEARCH.name());
+					setActivePage(0);
+					loadItems();
+				} catch (Exception e) {
+					LOGGER.error(e.toString(), e);
+					showError("Error", getMessage("message.error.operation.fail", operation, e.getMessage()));
+				} finally {
+					Clients.clearBusy();
+				}
+				BindUtils.postGlobalCommand(null, null, "refreshView", null);
+			}
+		}, LOGGER, message);
+
+	}
+	
+	@Command
+	@NotifyChange({ "records", "inventoryItemM", "mode", "activePage", "type2" })
+	public void cancel() {
+		LOGGER.info("excute method cancel");
+		setMode(MODE.SEARCH.name());
+		this.inventoryItemM = null;
+		this.activePage = 0;
+		this.type2 = null;
+	}
+	
+	private String validate() {
+		StringBuilder sb = new StringBuilder();
+		final boolean isModeAdd = MODE.ADD.name().equals(getMode());
+		final boolean isModeEdit = MODE.EDIT.name().equals(getMode());
+		int i = 1;
+		if(isModeAdd){
+			if (StringUtils.isNotEmpty(this.inventoryItemM.getItemNo())) {
+				InventoryItemM duplicateItem = inventoryItemRepository.findOneByItemNo(this.inventoryItemM.getItemNo());
+				if(duplicateItem != null){
+					sb.append(i++ + "." + getMessage("inventory.item.no.duplicate"));
+					sb.append(NEW_LINE);
+				}
+			}
+			if (StringUtils.isEmpty(this.inventoryItemM.getItemName())) {
+				sb.append(i++ + "." + getMessage("inventory.item.name.required"));
+				sb.append(NEW_LINE);
+			}
+			if (this.type2 == null || StringUtils.isEmpty(this.type2.getName())) {
+				sb.append(i++ + "." + getMessage("inventory.item.type.required"));
+				sb.append(NEW_LINE);
+			}
+			if(this.itemQuantity < 1){
+				sb.append(i++ + "." + getMessage("inventory.item.quantity.required"));
+				sb.append(NEW_LINE);
+			}
+			
+		}else if(isModeEdit){
+			if (StringUtils.isNotEmpty(this.inventoryItemM.getItemNo())) {
+				InventoryItemM oldItem = inventoryItemRepository.findOne(this.inventoryItemM.getInventoryItemId());
+				if(!oldItem.getItemNo().equalsIgnoreCase(this.inventoryItemM.getItemNo())){
+					InventoryItemM duplicateItem = inventoryItemRepository.findOneByItemNo(this.inventoryItemM.getItemNo());
+					if(duplicateItem != null){
+						sb.append(i++ + "." + getMessage("inventory.item.no.duplicate"));
+						sb.append(NEW_LINE);
+					}
+				}
+			}else{
+				sb.append(i++ + "." + getMessage("inventory.item.no.required"));
+				sb.append(NEW_LINE);
+			}
+		}
+
+		return sb.toString();
+	}
+	
+	@Command
+	@NotifyChange({ "records", "inventoryItemM", "mode", "type2" })
+	public void getByItem(@BindingParam("item") InventoryItemM inventoryItemM) {
+		LOGGER.info("excute method getByItem");
+		setMode(MODE.EDIT.name());
+		this.inventoryItemM = inventoryItemService.getByKey(inventoryItemM).getObject();
+		ClassifierValueM resultType = classifierValueRepository.findOne(inventoryItemM.getItemType().getClassifierValueId());
+		type2 = resultType;
+		LOGGER.info("type2 : " + this.type2);
+	}
+	
+	@Command
+	@NotifyChange({ "records", "inventoryItemM", "type2" })
+	public void delete(@BindingParam("item") final InventoryItemM inventoryItemM) {
+		LOGGER.info("excute method delete");
+		String message = getMessage(MESSAGE_CONFIRM_DELETE);
+		execute(new MethodOperation() {
+			@Override
+			public void execute() {
+				Clients.showBusy("Waiting for server...");
+				inventoryItemM.setUpdateBy(SecurityUtils.getWebUserDetails());
+				try{
+					ObjectResult<InventoryItemM> objectResult = inventoryItemService.delete(inventoryItemM);
+					if (objectResult.getCode() == ObjectResult.SUCCESS) {
+						LOGGER.info("delete sussess load items again.");
+						loadItems();
+					}
+				}catch(Exception e){
+					LOGGER.error(e.toString(), e);
+					showError("Error", getMessage("message.error.operation.fail", "Delete", e.getMessage()));
+				}finally{
+					Clients.clearBusy();
+				}
+				BindUtils.postGlobalCommand(null, null, "refreshView", null);
+			}
+		}, LOGGER, message);
+	}
+	
+	@GlobalCommand
+	@NotifyChange({ "records", "inventoryItemM", "activePage", "totalSize", "pageSize", "mode", "type2" })
+	public void refreshView() {
+		LOGGER.info("excute method refreshView");
+	}
+
+	public String getItemNo() {
+		return itemNo;
+	}
+
+	public void setItemNo(String itemNo) {
+		this.itemNo = itemNo;
+	}
+
+	public String getItemName() {
+		return itemName;
+	}
+
+	public void setItemName(String itemName) {
+		this.itemName = itemName;
+	}
+
+	public String getItemType() {
+		return itemType;
+	}
+
+	public void setItemType(String itemType) {
+		this.itemType = itemType;
+	}
+
+	public ListModelList<InventoryItemM> getRecords() {
+		return records;
+	}
+
+	public void setRecords(ListModelList<InventoryItemM> records) {
+		this.records = records;
+	}
+
+	public ListModelList<ClassifierValueM> getItemTypes() {
+		return itemTypes;
+	}
+
+	public void setItemTypes(ListModelList<ClassifierValueM> itemTypes) {
+		this.itemTypes = itemTypes;
+	}
+
+	public InventoryItemM getInventoryItemM() {
+		return inventoryItemM;
+	}
+
+	public void setInventoryItemM(InventoryItemM inventoryItemM) {
+		this.inventoryItemM = inventoryItemM;
+	}
+
+	public int getPageSize() {
+		return pageSize;
+	}
+
+	public void setPageSize(int pageSize) {
+		this.pageSize = pageSize;
+	}
+
+	public int getActivePage() {
+		return activePage;
+	}
+
+	@NotifyChange("records")
+	public void setActivePage(int activePage) {
+		this.activePage = activePage;
+		this.totalSize = 0;
+		this.records = new ListModelList<>();
+		loadItems();
+	}
+
+	public int getTotalSize() {
+		return totalSize;
+	}
+
+	public void setTotalSize(int totalSize) {
+		this.totalSize = totalSize;
+	}
+
+	public ClassifierValueM getType() {
+		return type;
+	}
+
+	public void setType(ClassifierValueM type) {
+		this.type = type;
+	}
+
+	public ClassifierValueM getType2() {
+		return type2;
+	}
+
+	public void setType2(ClassifierValueM type2) {
+		this.type2 = type2;
+	}
+
+	public int getItemQuantity() {
+		return itemQuantity;
+	}
+
+	public void setItemQuantity(int itemQuantity) {
+		this.itemQuantity = itemQuantity;
+	}
+}

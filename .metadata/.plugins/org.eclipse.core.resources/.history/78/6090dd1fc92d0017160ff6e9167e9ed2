@@ -1,0 +1,468 @@
+﻿﻿﻿message.system.error=เกิดข้อผิดพลาด  กรุณาติดต่อผู้ดูแลระบบ
+system.title=JBP Web System V 0.1.3
+
+login.to=เข้าสู่ระบบ
+login.username=ชื่อผู้ใช้งาน
+login.password=รหัสผ่าน
+login.submit=เข้าสู่ระบบ
+login.clear=ล้างข้อมูล
+
+login.fail=ไม่สามารถเข้าสู่ระบบได้ เนื่องจาก
+login.again=เข้าสู่ระบบอีกครั้ง
+
+confirm.password=ยืนยันรหัสผ่าน
+username.not.found=ไม่พบชื่อผู้ใช้งานนี้ในระบบ
+username.require=กรุณาระบุชื่อผู้ใช้งาน
+password.require=กรุณาระบุรหัสผ่าน
+confirmpassword.require=กรุณาระบุยืนยันรหัสผ่าน
+password.mismatch=การยืนยันรหัสผ่านไม่ถูกต้อง
+newpassword.invalid=รหัสผ่านใหม่ต้องไม่ซ้ำกับรหัสผ่านเดิม
+password.size.invalid=รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร
+
+username.duplicate=มีชื่อผู้ใช้งานนี้ในระบบแล้ว
+firstname.require=กรุณาระบุชื่อพนักงาน
+lastname.require=กรุณาระบุนามสกุลพนักงาน
+role.require=กรุณาระบุตำแหน่งพนักงาน
+company.require=กรุณาระบุชื่อบริษัท
+cardid.require=กรุณาระบุเลขบัตรประชาชน
+cardid.invalid=เลขบัตรประชาชนไม่ถูกต้อง
+drivercardid.invalid=เลขใบขับขี่ไม่ถูกต้อง
+
+menu.home=แดชบอร์ด
+menu.applicationform=ข้อมูลใบสมัคร
+menu.userprofile=ข้อมูลส่วนตัว
+menu.usermanagement=ข้อมูลพนักงาน
+menu.usermanagement.maintain=เพิ่ม/แก้ไขข้อมูลพนักงาน
+menu.usermanagement.maintain.driver=แก้ไขข้อมูลพนักงานขับรถ
+menu.usermanagement.resetpassword=รีเซตรหัสผ่าน
+menu.systemsetting=ตั้งค่าระบบ
+menu.report=รายงาน
+menu.inventory=ข้อมูลสต็อกสินค้า
+menu.inventory.item=สต็อกสินค้า
+menu.inventory.item.type=ประเภทสินค้า
+menu.insurance=ข้อมูลประกัน
+menu.insurance.1=การรับประกันอะไหล่
+menu.insurance.2=ประกันภัย
+menu.trailer=รถเทรลเลอร์
+menu.trailer.head=หัว
+menu.trailer.tail=หาง
+menu.change.password=เปลี่ยนรหัสผ่าน
+menu.logout=ออกจากระบบ
+
+input.required=กรุณาระบุข้อความที่มีเครื่องหมาย * ให้ครบถ้วน
+
+seq.no=ลำดับ
+user.fullname=ชื่อ-นามสกุล
+email=อีเมล
+create.by=ผู้สร้าง
+create.date=วันที่สร้าง
+update.by=ผู้แก้ไข
+update.date=วันที่แก้ไข
+role=ตำแหน่ง
+company=บริษัท
+mobile.no=เบอร์มือถือ
+employee.profile=ข้อมูลพนักงาน
+employee.profile.add=เพิ่มข้อมูลพนักงาน
+employee.profile.edit=แก้ไขข้อมูลพนักงาน
+save=บันทึก
+update=แก้ไข
+add=เพิ่ม
+edit=แก้ไข
+cancel=ยกเลิก
+salary=เงินเดือน
+baht=บาท
+cardid=เลขบัตรประชาชน
+drivercardid=เลขใบขับขี่
+cardid.expire=บัตรหมดอายุ
+address=ที่อยู่
+address.no=บ้านเลขที่
+address.moo=หมู่
+address.road=ถนน
+address.tumbon=ตำบล/แขวง
+address.amphur=อำเภอ/เขต
+address.province=จังหวัด
+address.postcode=รหัสไปรษณีย์
+birthday=วัน/เดือน/ปีเกิด
+image.profile=รูปถ่าย
+image.cardid=สำเนาบัตรประชาชน
+image.driver.card=ใบขับขี่
+image.healthcheck=ใบตรวจสุขภาพ
+upload=อัพโหลด
+upload.type.invalid=กรุณาอัพโหลดไฟล์รูปภาพเท่านั้น
+start.date=วันที่เริ่มงาน
+tel.no=เบอร์บ้าน
+branch=สาขา
+email.invalid=Email ไม่ถูกต้อง
+view.upload.image=แสดงรายการที่อัพโหลด
+sex=เพศ
+sex.male=ชาย
+sex.female=หญิง
+age=อายุ
+years.old=ปี
+race=เชื้อชาติ
+nationality=สัญชาติ
+religion=ศาสนา
+yes=มี
+no=ไม่มี
+height=ส่วนสูง
+weight=น้ำหนัก
+cm=ซม.
+kg=กก.
+office=สถานที่ทำงาน
+person=คน
+add.line=เพิ่มบรรทัด
+search.data=ค้นหาข้อมูล
+
+changepassword.old.password=รหัสผ่านเดิม
+changepassword.new.password=รหัสผ่านใหม่
+changepassword.confirm.new.password=ยืนยันรหัสผ่านใหม่
+changepassword.save=เปลี่ยนรหัสผ่าน
+changepassword.old.password.required=กรุณาระบุรหัสผ่านเดิม
+changepassword.new.password.required=กรุณาระบุรหัสผ่านใหม่
+changepassword.confirm.new.password.required=กรุณาระบุยืนยันรหัสผ่านใหม่
+changepassword.old.password.invalid=ระบุรหัสผ่านเดิมไม่ถูกต้อง
+
+applicationform.education.addline.error=ไม่สามารถเพิ่มข้อมูลการศึกษาได้
+applicationform.add=เพิ่มข้อมูลใบสมัครงาน
+applicationform.edit=แก้ไขข้อมูลใบสมัครงาน
+applicationform.profile=ข้อมูลส่่วนตัว
+applicationform.family=ประวัติครอบครัว
+applicationform.education=การศึกษา
+applicationform.work=ประวัติการทำงาน
+applicationform.driver=ข้อมูลผู้สมัครงานขับรถ
+applicationform.date=วันที่สมัครงาน
+applicationform.livewith.1=อาศัยกับครอบครัว
+applicationform.livewith.2=บ้านตัวเอง
+applicationform.livewith.3=บ้านเช่า
+applicationform.livewith.4=หอพัก
+applicationform.socialsecurityinsurance=บัตรประกันสังคม
+applicationform.socialsecurityinsurance.remark=(ประกันสังคมจะดำเนินการให้หลังเริ่มงาน 2 เดือน)
+applicationform.socialsecurityinsurance.hospital=ชื่อสถานพยาบาลที่ต้องการยื่นประกันสังคม
+applicationform.militaryService=ภาวะทางทหาร
+applicationform.militaryService.1=ได้รับการยกเว้น
+applicationform.militaryService.2=ปลดเป็นทหารกองหนุน
+applicationform.militaryService.3=ยังไม่ได้รับการเกณฑ์
+applicationform.maritalStatus=สถานภาพ
+applicationform.maritalStatus.1=โสด
+applicationform.maritalStatus.2=แต่งงาน
+applicationform.maritalStatus.3=หม้าย
+applicationform.maritalStatus.4=แยกกัน
+applicationform.father.name=บิดา ชื่อ-สกุล
+applicationform.mother.name=มารดา ชื่อ-สกุล
+applicationform.career=อาชีพ
+applicationform.spouse.name=ชื่อภรรยา/สามี
+applicationform.children=มีบุตร
+applicationform.siblings=มีพี่น้อง(รวมผู้สมัคร)
+applicationform.brother=ชาย
+applicationform.sister=หญิง
+applicationform.childNo=เป็นบุตรคนที่
+applicationform.ableWorkUpcountry=สามารถไปทำงานต่างจังหวัด
+applicationform.ableWorkUpcountry.yes=ได้
+applicationform.ableWorkUpcountry.no=ไม่ได้
+applicationform.refperson=กรณีฉุกเฉินบุคคลที่ติดต่อได้ ชื่อ-นามสกุล
+applicationform.refperson.relation=เกี่ยวข้องกับผู้สมัคร
+applicationform.refperson.address=ที่อยู่
+applicationform.refperson.tel=เบอร์โทร
+applicationform.knowFrom=ทราบข่าวการรับสมัครจาก (ระบุชื่อเพื่อนที่แนะนำในกรณีที่มี)
+applicationform.seriousIll=ท่านเคยป่วยหนักและเป็นโรคติดต่อร้ายแรงมาก่อนหรือไม่
+applicationform.seriousIll.yes=เคย
+applicationform.seriousIll.no=ไม่เคย
+applicationform.seriousIll.disease=ชื่อโรค
+applicationform.refemployee=ชื่อญาติ/เพื่อน ที่ทำงานอยู่ในบริษัท ซึ่งท่านรู้จักดี
+applicationform.education.level=ระดับการศึกษา
+applicationform.education.institution=สถาบันการศึกษา
+applicationform.education.major=สาขาวิชา
+applicationform.education.from=ตั้งแค่
+applicationform.education.to=ถึง
+applicationform.workexp.company=สถานที่ทำงาน
+applicationform.workexp.startdate=วันที่เริ่ม
+applicationform.workexp.enddate=วันที่สิ้นสุด
+applicationform.workexp.position=ตำแหน่ง
+applicationform.workexp.jobdescription=ลักษณะงาน
+applicationform.workexp.salary=ค่าจ้าง
+applicationform.workexp.reasonresign=เหตุที่ออก
+applicationform.workexp.tel=เบอร์โทร
+applicationform.driver.1.question=1. ประเภทรถที่ต้องการจะยื่นเรื่องในการสมัครงาน
+applicationform.driver.1.answer.1=รถเทรลเลอร์หางพื้นเรียบ
+applicationform.driver.1.answer.2=รถเทรลเลอร์คู้ผ้าใบ
+applicationform.driver.1.answer.3=รถเทรลเลอร์รถเทรลเลอร์หางโครง
+applicationform.driver.1.answer.4=รถ 6 ล้อ
+applicationform.driver.2.question=2. ความถนัดหรือความต้องการของประเภทงาน
+applicationform.driver.2.answer.1=ถนัดประเภททางสั้น
+applicationform.driver.2.answer.2=ถนัดประเภททางยาว
+applicationform.driver.2.answer.3=ถนัดทั้งสองประเภท
+applicationform.driver.3.question=3. ประเภทรถที่สามารถขับขี่หรือที่ต้องการยื่นใบสมัคร
+applicationform.driver.3.answer.1=รถก๊าซ
+applicationform.driver.3.answer.2=รถน้ำมัน
+applicationform.driver.3.answer.3=ทุกประเภท
+applicationform.driver.3.1.question=3.1 สนใจวิ่งงานประเภทใด
+applicationform.driver.3.2.question=3.2 ท่านเคยวิ่งงานประเภทใดมาบ้าง กรุณาระบุอย่างระเอียด
+applicationform.driver.4.1.question=4. ประสบการณ์การขับรถเทรลเลอร์ประเภทหาง
+applicationform.driver.4.2.question=จำนวน
+year=ปี
+applicationform.driver.5.question=5. ใบขับขี่ถูกต้องตามประเภทขนส่ง
+applicationform.driver.5.answer.1=ประเภท ท.3
+applicationform.driver.5.answer.2=ประเภท ท.4 
+applicationform.driver.5.answer.3=ประเภทอื่นๆ ระบุ
+applicationform.driver.6.question=6. สามารถคลุมผ้าใบได้ไหม
+applicationform.driver.6.answer.1=ได้
+applicationform.driver.6.answer.2=ไม่ได้
+applicationform.driver.7.question=7. พนักงานขับรถดื่มสุราไหม
+applicationform.driver.7.answer.1=ดิ่ม
+applicationform.driver.7.answer.2=ไม่ดิ่ม
+applicationform.driver.8.question=8. สามารถยินยอมให้ตรวจสารเสพติดได้ตลอดเวลา (สุ่มตรวจ)
+applicationform.driver.8.answer.1=ยินยอม
+applicationform.driver.8.answer.2=ไม่ยินยอม
+applicationform.driver.9.question=9. สามารถวิ่งช่วยงานเทศกาลได้ (ปีใหม่และสงกรานต์) เนื่องจากงานของลูกค้าไม่ได้หยุดช่วงเทศกาล
+applicationform.driver.9.answer.1=สามารถอยู่ช่วยวิ่งเทศกาลได้
+applicationform.driver.9.answer.2=ไม่ยอมรับและไม่สามารถอยู่ช่วยวิ่งเทศกาลได้
+applicationform.driver.10.question=10. ระบุสาเหตุที่ท่านลาออกจากบริษัทก่อนหน้านี้
+applicationform.driver.11.question=11. ท่านเคยมีประวัติอาชญากรรม หรือ คดีติดตัวมาก่อนไหม และ ยินดีให้ดำเนินการตรวจสอบประวัติ
+applicationform.driver.11.answer.1=ไม่เคยมี
+applicationform.driver.11.answer.2=เคยมี ระบุ
+applicationform.driver.12.question=12. ท่านมีความรู้และสามารถดูแลรักษารถเบื้องต้นได้ไหม
+applicationform.driver.12.answer.1=สามารถ
+applicationform.driver.12.answer.2=ไม่สามารถ
+applicationform.driver.13.question=13. ท่านมีความรู้และสามารถ ในการแก้ไขปัญหารถเสียและรถซ่อมเบื้องต้น หากเกิดปัญหารถเสียกลางทางระหว่างการขนส่งไหม
+applicationform.driver.13.answer.1=สามารถ
+applicationform.driver.13.answer.2=ไม่สามารถ
+applicationform.driver.13.description=กรุณาระบุความสามารถในการแก้ปัญหาและซ่อมเบื้องต้น ว่ามีอะไรบ้าง อย่างระเอียด
+applicationform.driver.14.question=14. ท่านพร้อมที่จะให้บริษัทนัดฝึกงานเมื่อใด
+applicationform.driver.14.answer.1=ทันที
+applicationform.driver.14.answer.2=อื่นๆ ระบุวันที่
+applicationform.driver.14.description=ชื่อพขร.ที่ฝึกงานให้กับท่าน
+applicationform.driver.15.question=15. ท่านได้อ่านกฎระเบียบทุกข้อของบริษัท และ ยินดียอมรับทุกข้อ รวมถึงกฎอื่นๆที่ทางบริษัทจะประกาศใช้ต่อไปทุกข้อ
+applicationform.driver.15.answer.1=ยอมรับ
+applicationform.driver.15.answer.2=ไม่ยอมรับ
+applicationform.driver.16.question=16. ท่านมีรายละเอียดอื่นๆ ที่จะแนะนำประวัติและคุณสมบัติของท่านเพิ่มเติมจากคำถามไหม กรุณาระบุ
+applicationform.firstname.required=กรุณาระบุชื่อ
+applicationform.lastname.required=กรุณาระบุนามสกุล
+applicationform.position.required=กรุณาระบุตำแหน่ง
+applicationform.account.bank.name=ธนาคาร
+applicationform.account.no=เลขที่บัญชี
+
+inventory.reference.code=Reference code
+inventory.item.no=Item no.
+inventory.item.name=ชื่อ
+inventory.item.type=ประเภท
+inventory.item.status=สถานะ
+inventory.item.add=เพิ่มข้อมูลคลังสินค้า
+inventory.item.edit=แก้ไขข้อมูลคลังสินค้า
+inventory.item.image=รูปภาพ
+inventory.item.description=รายละเอียด
+inventory.item.brand=ยี่ห้อ
+inventory.item.model=รุ่น
+inventory.item.date=วันที่ซื้อ
+inventory.item.store=ร้านที่ซื้อ
+inventory.item.expiryDate=วันหมดอายุ
+inventory.item.price=ราคา
+inventory.item.quantity=จำนวนสินค้า
+inventory.item.unit=หน่่วย
+inventory.item.no.required=กรุณาระบุ Item no.
+inventory.item.name.required=กรุณาระบุชื่อ
+inventory.item.type.required=กรุณาระบุประเภท
+inventory.item.quantity.required=กรุณาระบุจำนวนสินค้า
+inventory.item.no.duplicate=มี item no. นี้อยู่แล้วในระบบ
+
+inventory.item.type.name=ชื่อประเภทสินค้า
+inventory.item.type.prefix=รหัสนำหน้า
+inventory.item.type.name.require=กรุณาระบุชื่อประเภทสินค้า
+inventory.item.type.description=รายละเอียด
+inventory.item.type.unit=หน่วย
+inventory.item.type.remark1=หมายเหตุ1
+inventory.item.type.remark2=หมายเหตุ2
+inventory.item.type.minimumOrder=จำนวนการซื้อขั้นต่ำต่อครั้ง
+inventory.item.type.mode.add=เพิ่มข้อมูลประเภทสินค้า
+inventory.item.type.mode.edit=แก้ไขข้อมูลประเภทสินค้า
+
+insurance.1.tab.info=ข้อมูลการรับประกัน
+insurance.1.tab.parts=อะไหล่
+insurance.1.company.name=ศูนย์รับประกันอะไหล่
+insurance.1.reference.code=Reference code
+insurance.1.company.tel=เบอร์โทร
+insurance.1.description=รายละเอียด
+insurance.1.remark=หมายเหตุ
+insurance.1.add=เพิ่มข้อมูลการรับประกันอะไหล่
+insurance.1.update=แก้ไขข้อมูลการรับประกันอะไหล่
+insurance.1.company.name.required==กรุณาระบุศูนย์
+insurance.1.reference.code.required=กรุณาระบุ Reference code
+insurance.1.description.required=กรุณาระบุรายละเอียด
+insurance.1.addline.error=ไม่สามารถเพิ่มข้อมูลอะไหล่ได้
+insurance.1.parts=อะไหล่
+insurance.1.warranty.year=รับประกัน (ปี)
+insurance.1.parts.duplicate=ไม่สามารถระบุอะไหล่ซ้ำกันได้
+insurance.1.parts.not.found=ไม่พบอะไหล่ {0} ในระบบ
+insurance.1.reference.code.duplicate=ไม่สามารถระบุ reference code ซ้ำกันได้
+
+insurance.2.company.name=ศูนย์
+insurance.2.reference.code=Reference code
+insurance.2.type=ประเภท
+insurance.2.add=เพิ่มข้อมูลประกันภัย
+insurance.2.update=แก้ไขข้อมูลประกันภัย
+insurance.2.company.name=บริษัทประกันภัย
+insurance.2.reference.code=Reference code
+insurance.2.company.tel=เบอร์โทร
+insurance.2.description=รายละเอียด
+insurance.2.remark=หมายเหตุ
+insurance.2.level=ประกันภัยชั้น
+insurance.2.company.name.required==กรุณาระบุศูนย์
+insurance.2.reference.code.required=กรุณาระบุ Reference code
+insurance.2.description.required=กรุณาระบุรายละเอียด
+insurance.2.reference.code.duplicate=ไม่สามารถระบุ reference code ซ้ำกันได้
+
+trailer.head.license.plate=ทะเบียนรถ
+trailer.head.company.income=บริษัท (รายได้)
+trailer.head.company.brand=ยี่ห้อ
+trailer.head.driver.name=ชื่อ พขร.
+trailer.head.driver.tel=เบอร์ติดต่อ พขร.
+trailer.head.passport=Passport
+
+usermanagement.search.user.not.found=ไม่พบข้อมูลผู้ใช้งาน
+applicationform.search.not.found=ไม่พบข้อมูลใบสมัคร
+inventory.search.not.found=ไม่พบข้อมูล
+insurance.1.search.not.found=ไม่พบข้อมูล
+insurance.2.search.not.found=ไม่พบข้อมูล
+
+##COMMON
+message.cofirm=ยืนยันการทำรายการ
+message.cofirm.update=ต้องการแก้ไขข้อมูล ?
+message.cofirm.save=ต้องการบันทึกรายการ ?
+message.cofirm.delete=ต้องการลบรายการ ?
+message.cofirm.add=ต้องการเพิ่มรายการ ?
+
+message.error.delete.relationship={
+	ไม่าสารถลบรายการนี้ได้เนื่องจากมีการใช้งานอยู่. 
+}
+
+message.error.delete.fail={
+	ไม่สามารถลบรายการนี้ได้
+	Message : {0}
+}
+
+message.operation.success=ทำการ{0}รายการเรียบร้อย
+message.validate.empty={
+ 	"{0}" เป็นข้อมูลที่ต้องระบุ.
+}
+
+message.error.operation.fail={
+   เกิดข้อผิดพลาดในการทำรายการ
+   รายการที่ผิดพลาด : {1}
+}
+
+##REGISTER PAGE
+register.confirm=คุณต้องลงทะเบียนใช้งาน BMM ?
+register.success=ลงทะเบียนใช้งาน BMM เรียบร้อย.
+register.duplicate.idcard=ไม่่สามารลงทะเบียนผู้ใช้งานได้ : เนื่องจากมีการใช้งานเลขบัตรประชาชนนี้ไปแล้ว.
+register.duplicate.tel=ไม่่สามารลงทะเบียนผู้ใช้งานได้ : เนื่องจากมีการใช้งานเบอร์โทรศัพท์นี้ไปแล้ว.
+register.fail=กิดข้อผิดพลาดไม่่สามารลงทะเบียนใช้งาน BMM ได้.
+register.user.notfound=ไม่พบผู้ใช้งานที่ระบุ
+register.require.invite.name=กรุณาระบุ : รหัสสมาชิก-ผู้แนะนำ
+register.require.name=กรุณาระบุ ชื่อ-นามสกุล
+register.require.cardid=กรุณาระบุ เลขบัตรประชาชน
+register.invalid.cardid=เลขบัตรประชาชนไม่เป็นไปตามกรมการปกครองกรุณาตรงสอบอีกครั้ง
+register.invalid.birth.date=วันเ/ดือน/ปีไม่ถูกต้อง : วันเ/ดือน/ปี เกิด มากกว่าหรือเท่ากับปัจุบัน
+register.require.tel=กรุณาระบุ เบอร์โทรศัพท์
+register.invalid.tel=กรุณาระบุเบอร์โทรศัพท์เป็นตัวเลขเท่านั้น
+register.require.password=กรุณาระบุ รหัสผ่าน
+register.require.confirm.password=กรุณาระบุ ยืนยันรหัสผ่าน
+register.invalid.password.and.confirm.password=รหัสผ่านที่ระบุไม่สัมพันธ์กัน กรุณาตรวจสอบรหัสผ่านอีกครั้ง
+register.require.memberId=กรุณาระบุรหัสผู้ใช้งาน
+register.require.role=กรุณาระบุต่ำแหน่ง
+
+##DEPOSIT PAGE
+deposit.confirm=คุณต้องการแจ้งการโอนเงินเข้ากระเป๋า  ?
+deposit.confirm.success=บันทึกรายการเรียบร้อย กรุณารอการตรวจสอบจากผู้ดูแลระบบ.
+deposit.confirm.fail=เกิดข้อผิดพลาดไม่่สามารถบันทึกรายการได้.
+deposit.require.bank=กรุณาระบุ โอนเข้าบัญชีธนาคาร (บริษัท)
+deposit.require.amount=กรุณาระบุ จำนวนเงินที่เติมเข้ากระเป๋า
+deposit.require.transfer.date=กรุณาระบุ วันที่โอน
+deposit.require.transfer.time=กรุณาระบุ เวลาที่โอน
+deposit.invalid.transfer.time=เวลาที่โอนไม่เป็นตามรูปแบบที่กำหนดคือ  (ตัวอย่าง 12.30)
+deposit.require.slip=กรุณาระบุ ไฟล์สลิป
+generate.otp.fail=เกิดข้อผิดพลาดไม่่สามารถทำรายการได้ในขณะนี้.
+deposit.invalid.slip.format=ไฟล์สลิปไม่ถูกต้องกรุณาเลือกรูปแบบ (gif, jpg, png) เท่านั้น
+##TRANFER PAGE
+transfer.confirm={
+	คุณต้องการการโอนเงินจากกระเป๋าคุณให้  {0} {1} จำนวน {2} ?
+}
+transfer.success=โอนเงินเรียบร้อย กรุณารอการตรวจสอบกับผู้รับโอนอีกครั้ง.
+transfer.not.balance==ยอดเงินในกระเป๋าคุณไม่พอสำหรับการทำรายการนี้.
+transfer.member.conflict==ไม่สามารถโอนเงินให้คุณเองได้ กรุณาเลือกผู้รับเงินใหม่.
+transfer.fail==เกิดข้อผิดพลาดไม่่สามารลงบันทึกรายการได้.
+transfer.save.otp.success=บันทึกรายการเรียบร้อย
+transfer.save.otp.fail=เกิดข้อผิดพลาดไม่่สามารถบันทึกรายการได้.
+transfer.require.ref.member.id=กรุณาระบุ สมาชิกที่รับโอนเงิน
+transfer.require.amount=กรุณาระบุ จำนวนเงินที่ต้องการโอน
+transfer.invalid.otp=รหัส OTP ไม่ถูกต้องกรุณาลองใหม่อีกครั้ง
+transfer.timeout.otp=รหัส OTP ไม่สามารถใช้งานได้ แล้วกรุณาทำรายการใหม่อีกครั้ง
+
+transfer.confirm.cancel=ต้องการยกเลิกรายการโอนเงินนี้?
+transfer.cancel.success=ยกเลิกรายการโอนเงินเรียบร้อย.
+transfer.cancel.fail==เกิดข้อผิดพลาดไม่่สามารถยกเลิกรายการได้.
+transfer.sms=โอนเงินไปให้คุณ {0} จำนวน {1} บาท ด้วยรหัส OTP {2} รหัสอ้างอิงคือ {3}
+
+##MOBILE TOPUP PAGE
+mobiletopup.confirm=คุณต้องการการเติมเงินให้หมายเลข  {0} จำนวน {1} บาท?
+mobiletopup.confirm.success=เติมเงินให้หมายเลข  {0} จำนวน {1} บาทเรียบร้อย
+mobiletopup.confirm.fail=เกิดข้อผิดพลาดไม่่สามารถเติมเงินได้
+mobiletopup.confirm.cancel=ต้องการยกเลิกการเติมเงินรายการนี้?
+mobiletopup.sms=เติมเงินให้หมายเลข  {0} จำนวน {1} บาท ด้วยรหัส OTP {2} รหัสอ้างอิงคือ {3}
+mobiletopup.invalid.otp=รหัส OTP ไม่ถูกต้องกรุณาลองใหม่อีกครั้ง
+mobiletopup.timeout.otp=รหัส OTP ไม่สามารถใช้งานได้ แล้วกรุณาทำรายการใหม่อีกครั้ง
+mobiletopup.invalid.pin=รหัสส่วนตัวไม่ถูกต้องกรุณาลองใหม่อีกครั้ง
+mobiletopup.cancel.success=ยกเลิกการเติมเงินเรียบร้อย
+mobiletopup.cancel.fail=เกิดข้อผิดพลาดไม่่สามารถยกเลิกรายการได้
+
+mobiletopup.require.amount=กรุณาระบุ จำนวนเงินที่ต้องการเติมเงิน.
+mobiletopup.require.mobile=กรุณาระบุ หมายเลขที่ต้องการเติมเงิน.
+mobiletopup.require.vender=กรุณาระบุ ค่ายมือถือที่ต้องการ.
+
+buy.package.success=ซื้อ Serial Number เรียบร้อย.
+buy.package.fail=เกิดข้อผิดพลาดไม่่สามารถ ซื้อ Serial Numberได้
+buy.package.not.eq=เงินไม่พอสำหรับการซื้อ Serial Numberได้
+buy.package.confirm=คุณต้องการการซื้อ Serial Number ?
+buy.package.already=คุณทำการซื้อ Serial Number แล้วกรุณา logout ออกจากระบบ แล้ว login เข้าระบบใหม่อีกครั้ง.
+
+withdraw.confirm={
+	คุณต้องการการถอนเงินจากกระเป๋าคุณจำนวน {0} ?
+}
+withdraw.not.balance==ยอดเงินในกระเป๋าคุณไม่พอสำหรับการทำรายการนี้.
+withdraw.success=ถอนเงินเรียบร้อย กรุณาตรวจสอบบัญชีปลายทางอีกครั้ง.
+withdraw.fail==เกิดข้อผิดพลาดไม่่สามารถถอนเงินได้.
+withdraw.require.amount=กรุณาระบุ จำนวนเงินที่ต้องการนำออกจากกระเป๋า.
+withdraw.invalid.otp=รหัส OTP ไม่ถูกต้องกรุณาลองใหม่อีกครั้ง
+withdraw.timeout.otp=รหัส OTP ไม่สามารถใช้งานได้ แล้วกรุณาทำรายการใหม่อีกครั้ง
+withdraw.invalid.pin=รหัสส่วนตัวไม่ถูกต้องกรุณาลองใหม่อีกครั้ง
+withdraw.confirm.cancel=ต้องการยกเลิกรายการถอนเงินนี้?
+withdraw.cancel.success=ยกเลิกรายการถอนเงินเรียบร้อย.
+withdraw.cancel.fail==เกิดข้อผิดพลาดไม่่สามารถยกเลิกรายการได้.
+withdraw.sms=ถอนเงินจำนวน {0} บาท เข้าบัญชี {1} ด้วยรหัส OTP {2} รหัสอ้างอิงคือ {3}
+withdraw.bank.account.not.found=ไม่พบข้อมูลบัญชีธนาคาร ที่ใช้ในการถอนเงิน .
+
+user.security.withdraw.require.pin=กรุณาระบุรหัสความปลอดภัย 4 หลัก
+user.security.withdraw.invalid.pin=รหัสความปลอดภัยไม่ถูกต้อง
+user.security.topup.require.pin=กรุณาระบุรหัสความปลอดภัย 4 หลัก
+user.security.topup.invalid.pin=รหัสความปลอดภัยไม่ถูกต้อง
+user.security.confirm=คุณต้องการตั้งค่าความปลอดภัย ?
+user.security.success=ตั้งค่าความปลอดภัยเรียบร้อย
+user.security.fail==เกิดข้อผิดพลาดไม่่สามารถตั้งค่าความปลอดภัยได้
+
+user.bankaccount.confirm=คุณต้องการแก้ไขข้อมูลบัญชีธนาคาร?
+user.bankaccount.success=แก้ไขข้อมูลบัญชีธนาคารเรียบร้อย
+user.bankaccount.fail==เกิดข้อผิดพลาดไม่่สามารถแก้ไขข้อมูลบัญชีธนาคารได้
+
+#Report
+button.download=ดาวน์โหลด
+button.search=ค้นหา
+button.clear=ล้างข้อมูล
+sequence.number=ลำดับ
+bonus=โบนัส
+member=สมาชิก
+date=วันที่
+total=รวมทั้งหมด
+advice.member=แนะนำสมาชิก
+member.in.line=สมาชิกในสายงาน
+member.do.transaction=สมาชิกที่ทำรายการ
+search.not.found=ไม่พบรายการ
+year.month=ปี - เดือน
+transaction=รายการ

@@ -1,0 +1,442 @@
+<?page title="${c:l('system.title')}" contentType="text/html;charset=UTF-8"?>
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/layout/layout.zul"?>
+<?link rel="shortcut icon" href="../images/favicon.ico" ?>
+<zk>
+
+	<label self="@define(pageInfo)">
+		${c:l('menu.inventory.item.remain')}
+	</label>
+
+	<div apply="org.zkoss.bind.BindComposer" self="@define(content)"
+		width="1000px" height="400px"
+		viewModel="@id('vm') @init('com.th.jbp.web.vm.InventoryRemainVM')">
+		
+		<div width="100%" align="right"
+			style="padding-top:10px;padding-bottom:10px;padding-right:10px;">
+			<button image="../images/table_add.png" label="New"
+				autodisable="self" sclass="link" visible="@bind(vm.mode eq 'SEARCH')"
+				onClick="@command('addNewItem')">
+			</button>
+		</div>
+
+		<groupbox width="100%" closable="false"
+			visible="@bind(vm.mode eq 'SEARCH')">
+			<caption><label value="${c:l('search.data')}"></label></caption>
+			<grid width="100%" style="border:0px;">
+				<rows>
+					<row>
+						<cell width="150px" align="left">
+							<label value="${c:l('inventory.item.no')} : "></label>
+							<textbox value="@bind(vm.itemNo)" width="150px" />
+						</cell>
+						<cell width="10px">
+							<label value=""></label>
+						</cell>
+						<cell width="250px" align="left">
+							<label value="${c:l('inventory.item.name')} : "></label>
+							<textbox value="@bind(vm.itemName)" width="250px" />
+						</cell>
+						<cell width="10px">
+							<label value=""></label>
+						</cell>
+						<cell width="150px" align="left">
+							<label value="${c:l('inventory.item.type')} : "></label>
+							<bandbox id="itemtypebb" readonly="true"
+								mold="rounded" autodrop="true" width="150px"
+								value="@bind(vm.type.name)">
+								<bandpopup>
+									<listbox
+										selectedItem="@bind(vm.type)" width="200px"
+										model="@load(vm.itemTypes)" onSelect="itemtypebb.close();">
+										<template name="model"
+											var="item" status="s">
+											<listitem>
+												<listcell>
+													<label
+														value="@load(item.name)">
+													</label>
+												</listcell>
+											</listitem>
+										</template>
+									</listbox>
+								</bandpopup>
+							</bandbox>
+						</cell>
+					</row>
+				</rows>
+			</grid>
+				
+			<div width="100%" align="right" style="padding-top : 5px">
+				<button image="../images/toolbar_find.png" label="Search" autodisable="self" sclass="link"
+					onClick="@command('search')">
+				</button>
+				<button image="../images/clear.png" label="Clear" autodisable="self" sclass="link"
+					onClick="@command('clearSearch')">
+				</button>
+			</div>
+
+			<groupbox width="100%" closable="false" mold="3d"
+				contentStyle="border:0">
+
+				<listbox model="@bind(vm.records)" width="100%" 
+					emptyMessage="${c:l('inventory.search.not.found')}">
+					<listhead>
+
+						<listheader align="center" width="45px">
+							<label value="${c:l('seq.no')}" sclass="text-header"></label>
+						</listheader>
+
+						<listheader align="center" width="100px">
+							<label sclass="text-header"
+								value="${c:l('inventory.item.no')}" />
+						</listheader>
+						
+						<listheader align="center" width="100px">
+							<label sclass="text-header"
+								value="${c:l('inventory.reference.code')}" />
+						</listheader>
+
+						<listheader align="center" width="170px">
+							<label sclass="text-header"
+								value="${c:l('inventory.item.name')}" />
+						</listheader>
+
+						<listheader align="center" width="130px">
+							<label sclass="text-header" value="${c:l('inventory.item.type')}" />
+						</listheader>
+						
+						<listheader align="center" width="100px">
+							<label sclass="text-header" value="${c:l('inventory.item.price')}" />
+							<label sclass="text-header" value=" (${c:l('baht')})" />
+						</listheader>
+						
+						<listheader align="center" width="120px">
+							<label sclass="text-header" value="${c:l('inventory.item.store')}" />
+						</listheader>
+						
+						<listheader align="center" width="100px">
+							<label sclass="text-header" value="${c:l('inventory.item.status')}" />
+						</listheader>
+
+						<listheader align="center" width="110px">
+							<label value="" />
+						</listheader>
+
+					</listhead>
+
+					<template name="model" var="item" status="s">
+						<listitem checkable="false">
+							<listcell label="@load((vm.activePage * vm.pageSize) + (s.index + 1))" />
+
+							<listcell style="text-align:left;">
+								<label value="@load(item.itemNo)"></label>
+							</listcell>
+							
+							<listcell style="text-align:left;">
+								<label value="@load(item.referenceCode)"></label>
+							</listcell>
+
+							<listcell style="text-align:left;">
+								<label value="@load(item.itemName)"></label>
+							</listcell>
+
+							<listcell style="text-align:left;">
+								<label value="@load(item.itemType.name)"></label>
+							</listcell>
+							
+							<listcell style="text-align:right;">
+								<label value="@load(item.itemPrice) @converter('formatedNumber', format='###,##0.00')" ></label>
+							</listcell>
+							
+							<listcell style="text-align:left;">
+								<label value="@load(item.itemStore)"></label>
+							</listcell>
+							
+							<listcell style="text-align:center;">
+								<label value="@load(item.itemStatus.name)"></label>
+							</listcell>
+
+							<listcell>
+								<hbox>
+									<button
+										image="../images/table_edit.png" sclass="link"
+										autodisable="self" tooltiptext="แก้ไขรายการ"
+										onClick="@command('getByItem',item=item)">
+									</button>
+
+									<button sclass="link"
+										image="../images/table_delete.png" autodisable="self"
+										tooltiptext="ลบรายการ"
+										onClick="@command('delete',item=item)">
+									</button>
+								</hbox>
+							</listcell>
+						</listitem>
+					</template>
+				</listbox>
+
+				<paging pageSize="@bind(vm.pageSize)" id="mypaging" 
+					detailed="false" mold="default" totalSize="@bind(vm.totalSize)"
+					activePage="@bind(vm.activePage)" width="100%" />
+
+			</groupbox>
+
+		</groupbox>
+
+		<groupbox width="100%" closable="false"
+			visible="@bind(vm.mode eq 'ADD' or vm.mode eq 'EDIT')">
+			<caption><label value="@bind(vm.mode eq 'ADD' ? c:l('inventory.item.add') : c:l('inventory.item.edit') )"></label></caption>
+			<grid width="100%" style="border:0px;">
+				<rows>
+					<row>
+						<cell width="120px" align="right">
+							<label value="${c:l('inventory.item.image')}"></label>
+						</cell>
+						<cell width="10px">
+							<label value=":"></label>
+						</cell>
+						<cell align="left">
+							<button label="${c:l('upload')}" upload="true,maxsize=1024" tooltiptext="*** (gif, jpg, png)"
+								onUpload="@command('getUploadedImage', media=event.media)">
+							</button>
+						    <separator />
+						    <image content="@bind(vm.inventoryItemM.image) @converter('com.th.jbp.web.utils.ImageToZkImageConverter')" 
+						    	height="120px" width="90px"
+						    	onClick="@command('viewImage')"/>
+						</cell>
+					</row>
+					<row>
+						<cell width="120px" align="right">
+							<label value="${c:l('inventory.item.no')}"></label>
+						</cell>
+						<cell width="10px">
+							<label value=":"></label>
+						</cell>
+						<cell align="left">
+							<textbox value="@bind(vm.inventoryItemM.itemNo)" 
+								width="140px">
+							</textbox>
+						</cell>
+					</row>
+					<row>
+						<cell width="120px" align="right">
+							<label value="${c:l('inventory.reference.code')}"></label>
+						</cell>
+						<cell width="10px">
+							<label value=":"></label>
+						</cell>
+						<cell align="left">
+							<textbox value="@bind(vm.inventoryItemM.referenceCode)" maxlength="50"
+								width="140px">
+							</textbox>
+						</cell>
+					</row>
+					<row>
+						<cell width="120px" align="right">
+							<label value="${c:l('inventory.item.name')}"></label>
+						</cell>
+						<cell width="10px">
+							<label value=":"></label>
+						</cell>
+						<cell align="left">
+							<textbox value="@bind(vm.inventoryItemM.itemName)"
+								width="140px">
+							</textbox>
+						</cell>
+					</row>
+					<row>
+						<cell width="120px" align="right">
+							<label value="${c:l('inventory.item.type')}"></label>
+						</cell>
+						<cell width="10px">
+							<label value=":"></label>
+						</cell>
+						<cell align="left">
+							<bandbox id="typebb" readonly="true"
+								mold="rounded" autodrop="true" width="200px"
+								value="@bind(vm.type2.name)">
+								<bandpopup>
+									<listbox
+										selectedItem="@bind(vm.type2)" width="200px"
+										model="@load(vm.itemTypes)" onSelect="typebb.close();">
+										<template name="model"
+											var="item" status="s">
+											<listitem>
+												<listcell>
+													<label
+														value="@load(item.name)">
+													</label>
+												</listcell>
+											</listitem>
+										</template>
+									</listbox>
+								</bandpopup>
+							</bandbox>
+						</cell>
+					</row>
+					<row>
+						<cell width="120px" align="right">
+							<label value="${c:l('inventory.item.description')}"></label>
+						</cell>
+						<cell width="10px">
+							<label value=":"></label>
+						</cell>
+						<cell align="left">
+							<textbox value="@bind(vm.inventoryItemM.itemDescription)"
+								width="140px">
+							</textbox>
+						</cell>
+					</row>
+					<row>
+						<cell width="120px" align="right">
+							<label value="${c:l('inventory.item.brand')}"></label>
+						</cell>
+						<cell width="10px">
+							<label value=":"></label>
+						</cell>
+						<cell align="left">
+							<textbox value="@bind(vm.inventoryItemM.itemBrand)"
+								width="140px">
+							</textbox>
+						</cell>
+					</row>
+					<row>
+						<cell width="120px" align="right">
+							<label value="${c:l('inventory.item.model')}"></label>
+						</cell>
+						<cell width="10px">
+							<label value=":"></label>
+						</cell>
+						<cell align="left">
+							<textbox value="@bind(vm.inventoryItemM.itemModel)"
+								width="140px">
+							</textbox>
+						</cell>
+					</row>
+					<row>
+						<cell width="120px" align="right">
+							<label value="${c:l('inventory.item.date')}"></label>
+						</cell>
+						<cell width="10px">
+							<label value=":"></label>
+						</cell>
+						<cell align="left">
+							<datebox format="dd/MM/yyyy" value="@bind(vm.inventoryItemM.itemDate)" locale="th_TH">
+							</datebox>
+						</cell>
+					</row>
+					<row>
+						<cell width="120px" align="right">
+							<label value="${c:l('inventory.item.store')}"></label>
+						</cell>
+						<cell width="10px">
+							<label value=":"></label>
+						</cell>
+						<cell align="left">
+							<textbox value="@bind(vm.inventoryItemM.itemStore)"
+								width="140px">
+							</textbox>
+						</cell>
+					</row>
+					<row>
+						<cell width="120px" align="right">
+							<label value="${c:l('inventory.item.expiryDate')}"></label>
+						</cell>
+						<cell width="10px">
+							<label value=":"></label>
+						</cell>
+						<cell align="left">
+							<datebox format="dd/MM/yyyy" value="@bind(vm.inventoryItemM.itemExpiryDate)" locale="th_TH">
+							</datebox>
+						</cell>
+					</row>
+					<row>
+						<cell width="120px" align="right">
+							<label value="${c:l('inventory.item.price')}"></label>
+						</cell>
+						<cell width="10px">
+							<label value=":"></label>
+						</cell>
+						<cell align="left">
+							<decimalbox value="@bind(vm.inventoryItemM.itemPrice)"
+								format="#,##0.##" width="140px"/>
+							<label value=" ${c:l('baht')}"></label>
+						</cell>
+					</row>
+					<row visible="@bind(vm.mode ne 'EDIT')">
+						<cell width="120px" align="right">
+							<label value="${c:l('inventory.item.quantity')}"></label>
+						</cell>
+						<cell width="10px">
+							<label value=":"></label>
+						</cell>
+						<cell align="left">
+							<intbox value="@bind(vm.itemQuantity)"
+								width="140px" constraint="no empty"/>
+							<label value=" ${c:l('inventory.item.unit')}"></label>
+						</cell>
+					</row>
+					<row visible="@bind(vm.mode ne 'ADD')">
+						<cell width="120px" align="right">
+							<label value="${c:l('inventory.item.status')}"></label>
+						</cell>
+						<cell width="10px">
+							<label value=":"></label>
+						</cell>
+						<cell align="left">
+							<textbox readonly="true"
+								value="@bind(vm.inventoryItemM.itemStatus.name)">
+							</textbox>
+						</cell>
+					</row>
+					<row visible="@bind(vm.mode ne 'ADD')">
+						<cell width="120px" align="right">
+							<label value="${c:l('update.by')}"></label>
+						</cell>
+						<cell width="10px">
+							<label value=":"></label>
+						</cell>
+						<cell align="left">
+							<textbox readonly="true"
+								value="@bind(vm.inventoryItemM.updateBy) @converter(vm.memberConverter)">
+							</textbox>
+						</cell>
+					</row>
+					<row visible="@bind(vm.mode ne 'ADD')">
+						<cell width="120px" align="right">
+							<label value="${c:l('update.date')}"></label>
+						</cell>
+						<cell width="10px">
+							<label value=":"></label>
+						</cell>
+						<cell align="left">
+							<textbox readonly="true"
+								value="@bind(vm.inventoryItemM.updateDate) @converter('formatedDate',format='dd/MM/yyyy hh:mm:ss')">
+							</textbox>
+						</cell>
+					</row>
+				</rows>
+			</grid>
+
+			<separator width="100%" bar="true" height="15px"></separator>
+			<div width="100%" align="right">
+				<button image="../images/save.png"
+					visible="@bind(vm.mode eq 'ADD')" label="${c:l('add')}" autodisable="self"
+					sclass="link" onClick="@command('save')">
+				</button>
+				<button image="../images/save.png"
+					visible="@bind(vm.mode eq 'EDIT')" label="${c:l('edit')}" autodisable="self"
+					sclass="link" onClick="@command('save')">
+				</button>
+				<button image="../images/cancel.png" label="${c:l('cancel')}"
+					autodisable="self" sclass="link" onClick="@command('cancel')">
+				</button>
+			</div>
+		</groupbox>
+
+	</div>
+
+</zk>
+
+
+

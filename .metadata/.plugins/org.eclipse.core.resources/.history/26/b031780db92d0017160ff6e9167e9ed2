@@ -1,0 +1,94 @@
+package com.th.jbp.backend.service;
+
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.th.jbp.backend.entity.ObjectResult;
+import com.th.jbp.enums.ItemStatus;
+import com.th.jbp.enums.Status;
+import com.th.jbp.jpa.entity.ClassifierValueM;
+import com.th.jbp.jpa.entity.InventoryItemM;
+import com.th.jbp.jpa.entity.InventoryItemTypeM;
+import com.th.jbp.jpa.entity.ItemTypePrefixM;
+import com.th.jbp.jpa.entity.SystemConfigM;
+import com.th.jbp.jpa.repositories.ClassifierValueRepository;
+import com.th.jbp.jpa.repositories.InventoryItemTypeRepository;
+import com.th.jbp.jpa.repositories.ItemTypePrefixRepository;
+import com.th.jbp.jpa.repositories.SystemConfigRepository;
+
+@Service("inventoryItemTypeService")
+@Scope(value = "singleton", proxyMode = ScopedProxyMode.TARGET_CLASS)
+@Transactional
+public class InventoryItemTypeService implements IInventoryItemTypeService{
+	private static final Logger LOGGER = Logger.getLogger(InventoryItemTypeService.class);
+	
+	@Autowired
+	InventoryItemTypeRepository inventoryItemTypeRepository;
+	
+	@Autowired
+	ClassifierValueRepository classifierValueRepository;
+	
+	@Autowired
+	EntityManager em;
+
+	@Override
+	@Transactional(readOnly = true)
+	public ObjectResult<InventoryItemTypeM> getByKey(InventoryItemTypeM entity) {
+		ObjectResult<InventoryItemTypeM> result = new ObjectResult<>();
+		InventoryItemTypeM inventoryItemTypeM = inventoryItemTypeRepository.findOne(entity.getInventoryItemTypeId());
+		if (inventoryItemTypeM == null || entity == null) {
+			result = new ObjectResult<>(ObjectResult.DATA_NOT_FOUND);
+		} else {
+			result = new ObjectResult<>(ObjectResult.SUCCESS, inventoryItemTypeM);
+		}
+		return result;
+	}
+
+	@Override
+	public ObjectResult<List<InventoryItemTypeM>> lists() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ObjectResult<InventoryItemTypeM> save(InventoryItemTypeM entity) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ObjectResult<InventoryItemTypeM> update(InventoryItemTypeM entity) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ObjectResult<InventoryItemTypeM> delete(InventoryItemTypeM entity) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Page<InventoryItemTypeM> lists(String name, String prefix, PageRequest pageRequest) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
+
+}

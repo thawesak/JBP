@@ -1,0 +1,17 @@
+eclipse.preferences.version=1
+firstStartup=false
+history.comment=dXBkYXRlIG1ldGhvZCByZXF1ZXN0Q29uZmlybURlcG9zaXQ\=;UmV0dXJuIGVXYWxsZXRUcmFuc0lkIHdoZW4gdHJhbnNhY3Rpb24gaXMgc3VjY2Vzc2Z1bGx5Lg\=\=;V2l0aGRyYXcgcG9pbnRz;VG9wdXA\=;YWRkIHVzZXIgc2VjdXJpdHkgb24gTW9iaWxlIFRvcHVwIHNjcmVlbi4\=;VHJhbnNmZXIgcG9pbnRz;VXBkYXRlIEJhdGNo;QmF0Y2g\=;VXBkYXRlIHdvcmRpbmc\=;VXBkYXRlIGxheW91dA\=\=
+history.repositoryURL=aHR0cHM6Ly9qc3NvZnQuZGRucy5uZXQ6ODQzMy9zdm4vc291cmNl
+history.repositoryUser=dGhhd2VzYWsuYQ\=\=
+history.selectCheckoutUrl=aHR0cHM6Ly9qc3NvZnQuZGRucy5uZXQ6ODQzMy9zdm4vc291cmNl
+org.eclipse.team.svn.ui.panel.ListSelectionPanel.height=195
+org.eclipse.team.svn.ui.panel.ListSelectionPanel.width=470
+org.eclipse.team.svn.ui.panel.local.AddRepositoryPanel.height=109
+org.eclipse.team.svn.ui.panel.local.AddRepositoryPanel.width=470
+org.eclipse.team.svn.ui.panel.local.CommitPanel.height=406
+org.eclipse.team.svn.ui.panel.local.CommitPanel.width=600
+org.eclipse.team.svn.ui.panel.local.RevertPanel.height=253
+org.eclipse.team.svn.ui.panel.local.RevertPanel.width=600
+org.eclipse.team.svn.ui.panel.reporting.ErrorCancelPanel.height=137
+org.eclipse.team.svn.ui.panel.reporting.ErrorCancelPanel.width=640
+preference.repository.repositoryBrowser=false

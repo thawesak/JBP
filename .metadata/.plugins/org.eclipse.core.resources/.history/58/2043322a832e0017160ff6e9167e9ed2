@@ -1,0 +1,290 @@
+<?page title="${c:l('system.title')}" contentType="text/html;charset=UTF-8"?>
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/layout/layout.zul"?>
+<?link rel="shortcut icon" href="../images/favicon.ico" ?>
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<zk>
+
+	<label self="@define(pageInfo)">${c:l('menu.applicationform')}</label>
+
+	<div apply="org.zkoss.bind.BindComposer" self="@define(content)"
+		width="1200px" height="800px"
+		viewModel="@id('vm') @init('com.th.jbp.web.vm.ApplicationFormVM')">
+
+		<div width="100%" align="right"
+			style="padding-top:10px;padding-bottom:10px;padding-right:10px;">
+			<button image="../images/table_add.png" label="New"
+				autodisable="self" sclass="link" visible="@bind(vm.mode eq 'SEARCH')"
+				onClick="@command('newApplicationForm')">
+			</button>
+		</div>
+		<groupbox width="100%" closable="false"
+			visible="@bind(vm.mode eq 'SEARCH')">
+			<caption><label value="${c:l('search.data')}"></label></caption>
+			<grid width="100%" style="border:0px;">
+				<rows>
+					<row>
+						<cell width="120px" align="right">
+							<label value="${c:l('user.fullname')}"></label>
+						</cell>
+						<cell width="10px">
+							<label value=":"></label>
+						</cell>
+						<cell align="left">
+							<textbox value="@bind(vm.firstName)" width="240px" /> - <textbox value="@bind(vm.lastName)" width="240px" />
+						</cell>
+					</row>
+				</rows>
+			</grid>
+				
+			<div width="100%" align="right" style="padding-top : 5px">
+				<button image="../images/toolbar_find.png" label="Search" autodisable="self" sclass="link"
+					onClick="@command('search')">
+				</button>
+				<button image="../images/clear.png" label="Clear" autodisable="self" sclass="link"
+					onClick="@command('clearSearch')">
+				</button>
+			</div>
+			
+			<groupbox width="100%" closable="false" mold="3d"
+				contentStyle="border:0">
+
+				<listbox model="@bind(vm.records)" width="100%"
+					emptyMessage="${c:l('applicationform.search.not.found')}">
+					<listhead>
+
+						<listheader align="center" width="45px">
+							<label sclass="text-header" value="${c:l('seq.no')}"/>
+						</listheader>
+
+						<listheader align="center">
+							<label sclass="text-header" value="${c:l('user.fullname')}"/>
+						</listheader>
+
+						<listheader align="center" width="155px">
+							<label sclass="text-header" value="${c:l('role')}"/>
+						</listheader>
+						
+						<listheader align="center" width="155px">
+							<label sclass="text-header" value=""/>
+						</listheader>
+
+					</listhead>
+
+					<template name="model" var="item" status="s">
+						<listitem checkable="false">
+							<listcell label="@load((vm.activePage * vm.pageSize) + (s.index + 1))" />
+
+							<listcell style="text-align:left;">
+								<label value="@load(item.firstName)"></label>
+								<label value="@load(item.lastName)"></label>
+							</listcell>
+
+							<listcell style="text-align:left;">
+								<label value="@load(item.position)"></label>
+							</listcell>
+
+							<listcell>
+								<hbox align="center">
+									<button
+										image="../images/table_edit.png" sclass="link"
+										autodisable="self" tooltiptext="แก้ไขรายการ"
+										onClick="@command('getByItem',item=item)">
+									</button>
+
+									<button sclass="link"
+										image="../images/table_delete.png" autodisable="self"
+										tooltiptext="ลบรายการ"
+										onClick="@command('delete',item=item)">
+									</button>
+								</hbox>
+							</listcell>
+						</listitem>
+					</template>
+				</listbox>
+
+
+				<paging pageSize="@bind(vm.pageSize)" id="mypaging"
+					detailed="false" mold="default" totalSize="@bind(vm.totalSize)"
+					activePage="@bind(vm.activePage)" width="100%" />
+
+			</groupbox>
+
+		</groupbox>
+		
+		<groupbox width="100%" closable="false"
+			visible="@bind(vm.mode eq 'ADD' or vm.mode eq 'EDIT')">
+			<caption><label value="@bind(vm.mode eq 'ADD' ? c:l('applicationform.add') : c:l('applicationform.edit') )"></label></caption>
+			<grid width="100%" style="border:0px;">
+				<rows>
+					<row>
+						<cell width="25%">
+							<grid width="100%" style="border:0px;">
+								<rows>
+									<row>
+										<cell width="120px" align="right">
+											<label value="${c:l('image.profile')}"></label>
+										</cell>
+										<cell width="10px">
+											<label value=":"></label>
+										</cell>
+										<cell align="left">
+											<button label="${c:l('upload')}" upload="true,maxsize=1024" tooltiptext="*** (gif, jpg, png)"
+												onUpload="@command('getUploadedImageProfile', media=event.media)">
+											</button>
+										    <separator />
+										    <image content="@bind(vm.applicationFormM.imageProfile) @converter('com.th.jbp.web.utils.ImageToZkImageConverter')" 
+										    	height="120px" width="90px"
+										    	onClick="@command('viewImageProfile')"/>
+										</cell>
+									</row>
+								</rows>
+							</grid>
+						</cell>
+						<cell width="25%">
+							<grid width="100%" style="border:0px;">
+								<rows>
+									<row>
+										<cell width="120px" align="right">
+											<label value="${c:l('image.cardid')}"></label>
+										</cell>
+										<cell width="10px">
+											<label value=":"></label>
+										</cell>
+										<cell align="left">
+											<button label="${c:l('upload')}" upload="true,maxsize=1024" tooltiptext="*** (gif, jpg, png)"
+												onUpload="@command('getUploadedImageCard', media=event.media)"></button>
+										    <separator />
+										    <image content="@bind(vm.applicationFormM.imageCard) @converter('com.th.jbp.web.utils.ImageToZkImageConverter')" 
+										    	height="120px" width="90px" 
+										    	onClick="@command('viewImageCard')"/>
+										</cell>
+									</row>
+								</rows>
+							</grid>
+						</cell>
+						<cell width="50%">
+							<grid width="100%" style="border:0px;">
+								<rows>
+									<row>
+										<cell width="120px" align="right">
+											<label value="${c:l('applicationform.date')}"></label>
+										</cell>
+										<cell width="10px">
+											<label value=":"></label>
+										</cell>
+										<cell align="left">
+											<datebox format="dd/MM/yyyy" value="@bind(vm.applicationFormM.applicationDate)" locale="th_TH">
+											</datebox>
+										</cell>
+									</row>
+									<row>
+										<cell width="120px" align="right">
+											<label value="${c:l('user.fullname')}"></label>
+										</cell>
+										<cell width="10px">
+											<label value=":"></label>
+										</cell>
+										<cell align="left">
+											<textbox value="@bind(vm.applicationFormM.firstName)" width="140px" /> - <textbox value="@bind(vm.applicationFormM.lastName)" width="200px" />
+										</cell>
+									</row>
+									<row>
+										<cell width="120px" align="right">
+											<label value="${c:l('role')}"></label>
+										</cell>
+										<cell width="10px">
+											<label value=":"></label>
+										</cell>
+										<cell align="left">
+											<textbox value="@bind(vm.applicationFormM.position)" width="140px" />
+										</cell>
+									</row>
+									<row>
+										<cell width="120px" align="right">
+											<label value="${c:l('salary')}"></label>
+										</cell>
+										<cell width="10px">
+											<label value=":"></label>
+										</cell>
+										<cell align="left">
+											<decimalbox value="@bind(vm.applicationFormM.salary)"
+												format="#,##0.##" width="140px"/>
+											<label value=" ${c:l('baht')}"></label>
+										</cell>
+									</row>
+									<row>
+										<cell width="120px" align="right">
+											<label value="${c:l('applicationform.account.no')}"></label>
+										</cell>
+										<cell width="10px">
+											<label value=":"></label>
+										</cell>
+										<cell align="left">
+											<textbox value="@bind(vm.applicationFormM.acctNo)" width="140px"/>
+											<label value="   ${c:l('applicationform.account.bank.name')}"></label>
+											<textbox value="@bind(vm.applicationFormM.acctBankName)" width="165px"/>
+										</cell>
+									</row>
+									<row>
+										<cell width="120px" align="right">
+											<label value="${c:l('applicationform.staus')}"></label>
+										</cell>
+										<cell width="10px">
+											<label value=":"></label>
+										</cell>
+										<cell align="left">
+											<textbox value="@bind(vm.applicationFormM.applicationFormSatus)" width="350px" />
+										</cell>
+									</row>
+								</rows>
+							</grid>
+						</cell>
+					</row>	
+				</rows>
+			</grid>
+			<separator width="100%" bar="true" height="15px"></separator>
+			<tabbox id="tb" orient="left">
+				<tabs id="tabs" width="220px">
+					<tab id="tab1" label="${c:l('applicationform.profile')}"/>
+					<tab id="tab2" label="${c:l('applicationform.family')}" />
+					<tab id="tab3" label="${c:l('applicationform.education')}" />
+					<tab id="tab4" label="${c:l('applicationform.work')}" />
+					<tab id="tab5" label="${c:l('applicationform.driver')}" />
+				</tabs>
+				<tabpanels width="950px" height="100%">
+					<tabpanel>
+						<include src="application_form_personal.zul"></include>
+					</tabpanel>
+					<tabpanel>
+						<include src="application_form_family.zul"></include>
+					</tabpanel>
+					<tabpanel>
+						<include src="application_form_education.zul"></include>
+					</tabpanel>
+					<tabpanel>
+						<include src="application_form_work.zul"></include>
+					</tabpanel>
+					<tabpanel>
+						<include src="application_form_driver.zul"></include>
+					</tabpanel>
+				</tabpanels>
+			</tabbox>	
+			<separator width="100%" bar="true" height="15px"></separator>
+			<div width="100%" align="right">
+				<button image="../images/save.png"
+					visible="@bind(vm.mode eq 'ADD')" label="${c:l('add')}" autodisable="self"
+					sclass="link" onClick="@command('save')">
+				</button>
+				<button image="../images/save.png"
+					visible="@bind(vm.mode eq 'EDIT')" label="${c:l('edit')}" autodisable="self"
+					sclass="link" onClick="@command('save')">
+				</button>
+				<button image="../images/cancel.png" label="${c:l('cancel')}"
+					autodisable="self" sclass="link" onClick="@command('cancel')">
+				</button>
+			</div>
+		</groupbox>
+		
+	</div>
+
+</zk>

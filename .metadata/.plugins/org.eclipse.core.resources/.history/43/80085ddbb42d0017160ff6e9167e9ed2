@@ -1,0 +1,5 @@
+package com.th.jbp.jpa.entity;
+
+public class InventoryTypeItemM {
+
+}

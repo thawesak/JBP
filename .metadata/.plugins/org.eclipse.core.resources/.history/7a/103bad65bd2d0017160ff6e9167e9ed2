@@ -1,0 +1,458 @@
+package com.th.jbp.web.vm;
+
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.zkoss.bind.BindUtils;
+import org.zkoss.bind.annotation.BindingParam;
+import org.zkoss.bind.annotation.Command;
+import org.zkoss.bind.annotation.GlobalCommand;
+import org.zkoss.bind.annotation.Init;
+import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.util.media.Media;
+import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.select.annotation.VariableResolver;
+import org.zkoss.zk.ui.select.annotation.WireVariable;
+import org.zkoss.zk.ui.util.Clients;
+import org.zkoss.zul.ListModelList;
+import org.zkoss.zul.Messagebox;
+import org.zkoss.zul.Window;
+
+import com.th.jbp.backend.entity.ObjectResult;
+import com.th.jbp.backend.service.InventoryItemTypeService;
+import com.th.jbp.enums.Status;
+import com.th.jbp.enums.SystemConfigKey;
+import com.th.jbp.jpa.entity.ClassifierValueM;
+import com.th.jbp.jpa.entity.CompanyM;
+import com.th.jbp.jpa.entity.InventoryItemTypeM;
+import com.th.jbp.jpa.entity.RoleM;
+import com.th.jbp.jpa.entity.SystemConfigM;
+import com.th.jbp.jpa.entity.UserM;
+import com.th.jbp.jpa.repositories.ClassifierValueRepository;
+import com.th.jbp.jpa.repositories.InventoryItemTypeRepository;
+import com.th.jbp.web.utils.SecurityUtils;
+
+@VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
+public class InventoryItemTypeVM extends BaseVM{
+	private static final long serialVersionUID = 1657797313011803652L;
+	private static final Logger LOGGER = Logger.getLogger(InventoryItemTypeVM.class);
+	
+	@WireVariable
+	InventoryItemTypeRepository itemTypeRepository;
+	
+	@WireVariable
+	ClassifierValueRepository classifierValueRepository;
+	
+	@WireVariable
+	InventoryItemTypeService itemTypeService;
+	
+	private String name = null;
+	private String prefix = null;
+	
+	private ListModelList<InventoryItemTypeM> records = null;
+	private InventoryItemTypeM inventoryItemTypeM;
+	private int pageSize = 10;
+	private int activePage = 0;
+	private int totalSize = 0;
+	
+	@Init
+	public void init() {
+		this.records = new ListModelList<>();
+		setMode(MODE.SEARCH.name());
+		clearValues();
+		loadItems();
+	}
+	
+	@Command
+	@NotifyChange({ "records", "totalSize", "activePage", "pageSize", "mode", "name", "prefix" })
+	public void search() {
+		LOGGER.info("excute method search");
+		setMode(MODE.SEARCH.name());
+		clearValues();
+		loadItems();
+	}
+	
+	@Command
+	@NotifyChange({ "records", "totalSize", "activePage", "pageSize", "mode", "name", "prefix", "inventoryItemTypeM" })
+	public void clearSearch() {
+		LOGGER.info("excute method clearSearch");
+		setMode(MODE.SEARCH.name());
+		setInventoryItemTypeM(new InventoryItemTypeM());
+		name = null;
+		prefix = null;
+		clearValues();
+	}
+	
+	private void clearValues(){
+		this.activePage = 0;
+		this.totalSize = 0;
+		this.records = new ListModelList<>();
+	}
+
+	@GlobalCommand
+	@NotifyChange({ "records", "inventoryItemTypeM", "activePage", "totalSize", "pageSize", "mode" })
+	public void refreshView() {
+		LOGGER.info("excute method refreshView");
+	}
+	
+	private void loadItems() {
+		LOGGER.info("loadItems--> activePage : " + this.activePage);
+		PageRequest pageRequest = new PageRequest(activePage, pageSize);
+		Page<InventoryItemTypeM> page = itemTypeService.lists(name, prefix, pageRequest);
+		this.totalSize = Integer.parseInt(String.valueOf(page.getTotalElements()));
+		this.records.clear();
+		this.records.addAll(page.getContent());
+	}
+	
+	@Command
+	@NotifyChange({ "records", "inventoryItemTypeM", "mode" })
+	public void getByItem(@BindingParam("item") InventoryItemTypeM inventoryItemTypeM) {
+		LOGGER.info("excute method getByItem");
+		setMode(MODE.EDIT.name());
+		this.inventoryItemTypeM = itemTypeService.getByKey(inventoryItemTypeM).getObject();
+	}
+
+	@Command
+	@NotifyChange({ "records", "inventoryItemTypeM", "mode", "activePage" })
+	public void cancel() {
+		LOGGER.info("excute method cancel");
+		setMode(MODE.SEARCH.name());
+		this.inventoryItemTypeM = null;
+		this.activePage = 0;
+	}
+
+	@Command
+	@NotifyChange({ "records", "inventoryItemTypeM" })
+	public void delete(@BindingParam("item") final InventoryItemTypeM inventoryItemTypeM) {
+		LOGGER.info("excute method delete");
+		String message = getMessage(MESSAGE_CONFIRM_DELETE);
+		execute(new MethodOperation() {
+			@Override
+			public void execute() {
+				Clients.showBusy("Waiting for server...");
+				inventoryItemTypeM.setUpdateBy(SecurityUtils.getWebUserDetails());
+				try{
+					ObjectResult<InventoryItemTypeM> objectResult = itemTypeService.delete(inventoryItemTypeM);
+					if (objectResult.getCode() == ObjectResult.SUCCESS) {
+						LOGGER.info("delete success load items again.");
+						loadItems();
+					}
+				}catch(Exception e){
+					LOGGER.error(e.toString(), e);
+					showError("Error", getMessage("message.error.operation.fail", "Delete", e.getMessage()));
+				}finally{
+					Clients.clearBusy();
+				}
+				BindUtils.postGlobalCommand(null, null, "refreshView", null);
+			}
+		}, LOGGER, message);
+	}
+	
+	@Command
+	@NotifyChange({ "userM", "mode", "role", "company", "branch", "confirmPassword", "tmpUsername" })
+	public void addNewItem() {
+		LOGGER.info("excute method addNewItem");
+		setMode(MODE.ADD.name());
+		this.userM = new UserM();
+		this.role = null;
+		this.company = null;
+		this.branch = null;
+		this.confirmPassword = null;
+		this.tmpUsername = null;
+	}
+	
+	@Command
+	public void save() {
+		LOGGER.info("excute method save");
+		LOGGER.info("MODE : " + getMode());
+		String sb = StringUtils.trimToEmpty(validate());
+		if (StringUtils.isNotEmpty(sb)) {
+			Clients.clearBusy();
+			showValidate(sb);
+			return;
+		}
+		final boolean isModeAdd = MODE.ADD.name().equals(getMode());
+		String message = getMessage(MODE.ADD.name().equals(getMode()) ? MESSAGE_CONFIRM_SAVE : MESSAGE_CONFIRM_UPDATE);
+		final String operation = isModeAdd ? getMessage("save") : getMessage("update");
+		execute(new MethodOperation() {
+			@Override
+			public void execute() {
+
+				Clients.showBusy("Waiting for server...");
+				UserM model = getUserM();
+				LOGGER.info(model);
+
+				Date date = new Date();
+				String password = model.getPassword();
+				if (isModeAdd) {
+					if(StringUtils.isNotEmpty(password)){
+						model.setPassword(SecurityUtils.generatePassword(password, true));
+					}else{
+						SystemConfigM systemConfigM = systemConfigRepository.findByKey(SystemConfigKey.DEFAULT_PASSWORD.toString());
+						password = systemConfigM.getSystemValue();
+						model.setPassword(SecurityUtils.generatePassword(password, true));
+					}
+					ClassifierValueM status = classifierValueRepository.findOne(Status.ACTIVE.getId());
+					model.setStatus(status);
+				}
+				Set<RoleM> roles = new HashSet<>();
+				roles.add(role);
+				model.setRoles(roles);
+				model.setCompany(company);
+				model.setBranch(branch);
+				if(isModeAdd){
+					model.setCreateBy(SecurityUtils.getWebUserDetails());
+					model.setCreateDate(new Timestamp(date.getTime()));
+				}else{
+					model.setUpdateBy(SecurityUtils.getWebUserDetails());
+					model.setUpdateDate(new Timestamp(date.getTime()));
+				}
+				try {
+					LOGGER.info(model);
+					if (isModeAdd) {
+						userService.save(model);
+					} else {
+						userService.update(model);
+					}
+					showInformation(getMessage("message.operation.success", operation));
+					setUserM(new UserM());
+					setMode(MODE.SEARCH.name());
+					setActivePage(0);
+					loadItems();
+				} catch (Exception e) {
+					LOGGER.error(e.toString(), e);
+					showError("Error", getMessage("message.error.operation.fail", operation, e.getMessage()));
+					model.setPassword(password);
+				} finally {
+					Clients.clearBusy();
+				}
+				BindUtils.postGlobalCommand(null, null, "refreshView", null);
+			}
+		}, LOGGER, message);
+
+	}
+	
+	@Command
+	@NotifyChange({ "userM", "imageProfile" })
+	public void getUploadedImageProfile(@BindingParam("media") Media media){
+		if(media == null)
+			return;
+			
+        if (media instanceof org.zkoss.image.Image) {
+        	userM.setImageProfile(media.getByteData());
+        } else {
+            Messagebox.show(getMessage("upload.type.invalid"), "Error", Messagebox.OK, Messagebox.ERROR);
+        }
+		
+	}
+	
+	@Command
+	@NotifyChange({ "userM", "imageCard" })
+	public void getUploadedImageCard(@BindingParam("media") Media media){
+		if(media == null)
+			return;
+			
+        if (media instanceof org.zkoss.image.Image) {
+        	userM.setImageCard(media.getByteData());
+        } else {
+            Messagebox.show(getMessage("upload.type.invalid"), "Error", Messagebox.OK, Messagebox.ERROR);
+        }
+		
+	}
+	
+	@Command
+	@NotifyChange({ "userM" })
+	public void viewImageProfile() {
+		LOGGER.debug("excute method viewImageProfile");
+		Map<String, Object> arg = new HashMap<String, Object>();
+		arg.put("media", userM.getImageProfile());
+		Window window = (Window) Executions.createComponents(
+				"/zul/view_image.zul", null, arg);
+		window.doModal();
+	}
+	
+	@Command
+	@NotifyChange({ "userM" })
+	public void viewImageCard() {
+		LOGGER.debug("excute method viewImageCard");
+		Map<String, Object> arg = new HashMap<String, Object>();
+		arg.put("media", userM.getImageCard());
+		Window window = (Window) Executions.createComponents(
+				"/zul/view_image.zul", null, arg);
+		window.doModal();
+	}
+	
+	private String validate() {
+		StringBuilder sb = new StringBuilder();
+		final boolean isModeAdd = MODE.ADD.name().equals(getMode());
+		int i = 1;
+		if(isModeAdd){
+//			if (StringUtils.isEmpty(this.userM.getUsername())) {
+//				sb.append(i++ + "." + getMessage("username.require"));
+//				sb.append(NEW_LINE);
+//			}else{
+//				UserM duplicateUser = userRepository.findByUsername(this.userM.getUsername());
+//				if(duplicateUser != null){
+//					sb.append(i++ + "." + getMessage("username.duplicate"));
+//					sb.append(NEW_LINE);
+//				}
+//			}
+//			if (StringUtils.isEmpty(this.userM.getPassword())) {
+//				sb.append(i++ + "." + getMessage("password.require"));
+//				sb.append(NEW_LINE);
+//			}
+//			if (StringUtils.isEmpty(this.confirmPassword)) {
+//				sb.append(i++ + "." + getMessage("confirmpassword.require"));
+//				sb.append(NEW_LINE);
+//			}
+			if (StringUtils.isNotEmpty(this.userM.getUsername()) && StringUtils.isEmpty(this.userM.getPassword()) && StringUtils.isNotEmpty(this.confirmPassword)) {
+				sb.append(i++ + "." + getMessage("password.require"));
+				sb.append(NEW_LINE);
+			}
+			if (StringUtils.isNotEmpty(this.userM.getUsername()) && StringUtils.isNotEmpty(this.userM.getPassword()) && StringUtils.isEmpty(this.confirmPassword)) {
+				sb.append(i++ + "." + getMessage("confirmpassword.require"));
+				sb.append(NEW_LINE);
+			}
+			if (StringUtils.isNotEmpty(this.userM.getUsername()) && StringUtils.isNotEmpty(this.userM.getPassword()) && StringUtils.isNotEmpty(this.confirmPassword)) {
+				if(!this.userM.getPassword().equals(this.confirmPassword)){
+					sb.append(i++ + "." + getMessage("password.mismatch"));
+					sb.append(NEW_LINE);
+				}
+			}
+			if(StringUtils.isNotEmpty(this.userM.getUsername()) && StringUtils.isNotEmpty(this.userM.getPassword()) && this.userM.getPassword().length() < 6){
+				sb.append(i++ + "." + getMessage("password.size.invalid"));
+				sb.append(NEW_LINE);
+			}
+		}
+		
+		if(StringUtils.isNotEmpty(this.userM.getUsername())){
+			UserM duplicateUser = userRepository.findByUsername(this.userM.getUsername());
+			if(duplicateUser != null && !this.userM.getUsername().equals(tmpUsername)){
+				sb.append(i++ + "." + getMessage("username.duplicate"));
+				sb.append(NEW_LINE);
+			}
+		}
+		
+		if (StringUtils.isEmpty(this.userM.getFirstName())) {
+			sb.append(i++ + "." + getMessage("firstname.require"));
+			sb.append(NEW_LINE);
+		}
+		if (StringUtils.isEmpty(this.userM.getLastName())) {
+			sb.append(i++ + "." + getMessage("lastname.require"));
+			sb.append(NEW_LINE);
+		}
+		if (this.role == null || this.role.getRoleId() == null || this.role.getRoleId() == 0L) {
+			sb.append(i++ + "." + getMessage("role.require"));
+			sb.append(NEW_LINE);
+		}
+		if (this.company == null || this.company.getCompanyId() == null || this.company.getCompanyId() == 0L) {
+			sb.append(i++ + "." + getMessage("company.require"));
+			sb.append(NEW_LINE);
+		}
+		if (StringUtils.isEmpty(this.userM.getCardId())) {
+			sb.append(i++ + "." + getMessage("cardid.require"));
+			sb.append(NEW_LINE);
+		}
+		if (StringUtils.isNotEmpty(this.userM.getCardId()) && this.userM.getCardId().trim().length() != 13) {
+			sb.append(i++ + "." + getMessage("cardid.invalid"));
+			sb.append(NEW_LINE);
+		}
+		if (StringUtils.isNotEmpty(this.userM.getDriverCardId()) && this.userM.getDriverCardId().trim().length() < 8) {
+			sb.append(i++ + "." + getMessage("drivercardid.invalid"));
+			sb.append(NEW_LINE);
+		}
+
+		return sb.toString();
+	}
+
+	public InventoryItemTypeRepository getItemTypeRepository() {
+		return itemTypeRepository;
+	}
+
+	public void setItemTypeRepository(InventoryItemTypeRepository itemTypeRepository) {
+		this.itemTypeRepository = itemTypeRepository;
+	}
+
+	public ClassifierValueRepository getClassifierValueRepository() {
+		return classifierValueRepository;
+	}
+
+	public void setClassifierValueRepository(ClassifierValueRepository classifierValueRepository) {
+		this.classifierValueRepository = classifierValueRepository;
+	}
+
+	public InventoryItemTypeService getItemTypeService() {
+		return itemTypeService;
+	}
+
+	public void setItemTypeService(InventoryItemTypeService itemTypeService) {
+		this.itemTypeService = itemTypeService;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getPrefix() {
+		return prefix;
+	}
+
+	public void setPrefix(String prefix) {
+		this.prefix = prefix;
+	}
+
+	public ListModelList<InventoryItemTypeM> getRecords() {
+		return records;
+	}
+
+	public void setRecords(ListModelList<InventoryItemTypeM> records) {
+		this.records = records;
+	}
+
+	public InventoryItemTypeM getInventoryItemTypeM() {
+		return inventoryItemTypeM;
+	}
+
+	public void setInventoryItemTypeM(InventoryItemTypeM inventoryItemTypeM) {
+		this.inventoryItemTypeM = inventoryItemTypeM;
+	}
+
+	public int getPageSize() {
+		return pageSize;
+	}
+
+	public void setPageSize(int pageSize) {
+		this.pageSize = pageSize;
+	}
+
+	public int getActivePage() {
+		return activePage;
+	}
+
+	public void setActivePage(int activePage) {
+		this.activePage = activePage;
+	}
+
+	public int getTotalSize() {
+		return totalSize;
+	}
+
+	public void setTotalSize(int totalSize) {
+		this.totalSize = totalSize;
+	}
+
+	
+
+}
